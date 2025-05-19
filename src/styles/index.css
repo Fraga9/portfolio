@@ -1,0 +1,36 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Space+Grotesk:wght@300..700&display=swap');
+
+@import "tailwindcss";
+
+
+@theme {
+  /* Paleta de colores personalizada */
+  --color-maroon-flush-50: #fdf3f3;
+  --color-maroon-flush-100: #fce7e8;
+  --color-maroon-flush-200: #f8d3d5;
+  --color-maroon-flush-300: #f3aeb4;
+  --color-maroon-flush-400: #eb818b;
+  --color-maroon-flush-500: #df5466;
+  --color-maroon-flush-600: #ca344e;
+  --color-maroon-flush-700: #bb2a47;
+  --color-maroon-flush-800: #8e233b;
+  --color-maroon-flush-900: #7a2138;
+  --color-maroon-flush-950: #440d1b;
+
+
+
+  --font-poppins: 'Poppins';
+  --font-jakarta: 'Plus Jakarta Sans';
+}
+
+
+@layer base {
+    html {
+        font-family: var(--font-jakarta);
+    }
+}
+
+
+
+
