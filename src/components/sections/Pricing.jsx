@@ -1,168 +1,117 @@
-"use client"
-
-import { useState } from "react"
 import Container from "../layout/Container"
-import PricingCard from "../ui/PricingCard"
+import Card from "../ui/card"
 
-function Pricing({ id }) {
-  const [isAnnual, setIsAnnual] = useState(true)
-
-  const plans = [
-    {
-      name: "Free",
-      price: { monthly: 0, annual: 0 },
-      description: "Para proyectos personales y experimentación",
-      features: [
-        "Componentes básicos",
-        "Documentación completa",
-        "Soporte comunitario",
-        "1 proyecto",
-        "Exportación limitada",
-      ],
-      cta: "Comenzar gratis",
-      color: "#00c8ff", // Azul
-      accent: "#d0ff00", // Amarillo/lima
-      position: "left",
-      highlight: false,
-      tag: null,
-    },
-    {
-      name: "Pro",
-      price: { monthly: 12, annual: 96 },
-      description: "Para diseñadores y desarrolladores",
-      features: [
-        "Todos los componentes",
-        "Actualizaciones prioritarias",
-        "Soporte por email",
-        "Proyectos ilimitados",
-        "Exportación a cualquier formato",
-        "Personalización avanzada",
-      ],
-      cta: "Elegir Pro",
-      color: "#d0ff00", // Amarillo/lima
-      accent: "#ff5500", // Naranja
-      position: "right",
-      highlight: true,
-      tag: "Popular",
-    },
-    {
-      name: "Teams",
-      price: { monthly: 49, annual: 468 },
-      description: "Para equipos y agencias",
-      features: [
-        "Todo en Pro",
-        "Panel de administración",
-        "Soporte prioritario 24/7",
-        "Colaboración en tiempo real",
-        "Controles de acceso",
-        "Onboarding personalizado",
-      ],
-      cta: "Contactar ventas",
-      color: "#ff5500", // Naranja
-      accent: "#00c8ff", // Azul
-      position: "left",
-      highlight: false,
-      tag: null,
-    },
-  ]
-
+function Projects({ id }) {
   return (
-    <section id={id} className="py-24 bg-black relative overflow-hidden">
-      {/* Efectos de fondo */}
-      <div className="absolute inset-0 bg-gradient-to-b from-black via-black to-blue-950/30 z-0" />
-
-      {/* Círculos decorativos */}
-      <div className="absolute top-1/4 left-1/4 w-64 h-64 rounded-full bg-blue-500/10 blur-3xl" />
-      <div className="absolute bottom-1/4 right-1/4 w-96 h-96 rounded-full bg-lime-500/10 blur-3xl" />
-
-      <Container className="relative z-10">
-        {/* Encabezado */}
+    <section id={id} className="py-20 md:py-32 bg-gradient-to-b from-black/90 to-[#050024] relative">
+      <Container className="px-4 sm:px-6 lg:px-8">
         <div className="max-w-3xl mx-auto text-center mb-16">
-          <div className="inline-flex items-center justify-center px-4 py-1.5 bg-white/10 backdrop-blur-md rounded-full mb-4 border border-white/10">
-            <span className="text-white text-sm font-medium">Precios</span>
-          </div>
-
-          <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
-            Precios <span className="text-[#d0ff00]">transparentes</span>
+          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-6">
+            Mis <span className="text-blue-400">Proyectos</span>
           </h2>
-
-          <p className="text-xl text-gray-400 mb-8">
-            Elige el plan que se ajuste a tus necesidades. Sin cargos sorpresa.
-          </p>
-
-          {/* Switch para cambiar entre mensual y anual */}
-          <div className="inline-flex p-1.5 bg-white/10 backdrop-blur-md rounded-full border border-white/10">
-            <button
-              onClick={() => setIsAnnual(false)}
-              className={`px-6 py-2.5 text-sm font-medium rounded-full transition-all ${
-                !isAnnual ? "bg-[#d0ff00] text-black shadow-lg shadow-[#d0ff00]/20" : "text-white hover:bg-white/10"
-              }`}
-            >
-              Mensual
-            </button>
-            <button
-              onClick={() => setIsAnnual(true)}
-              className={`px-6 py-2.5 text-sm font-medium rounded-full transition-all ${
-                isAnnual ? "bg-[#d0ff00] text-black shadow-lg shadow-[#d0ff00]/20" : "text-white hover:bg-white/10"
-              }`}
-            >
-              Anual <span className="text-xs opacity-90">(20% dto.)</span>
-            </button>
-          </div>
+          <p className="text-gray-300 text-lg">Soluciones innovadoras que he desarrollado</p>
         </div>
 
-        {/* Tarjetas de precio */}
-        <div className="space-y-12 md:space-y-16">
-          {plans.map((plan, idx) => (
-            <PricingCard
-              key={idx}
-              name={plan.name}
-              price={isAnnual ? (plan.price.annual / 12).toFixed(2) : plan.price.monthly}
-              annualPrice={plan.price.annual}
-              isAnnual={isAnnual}
-              description={plan.description}
-              features={plan.features}
-              cta={plan.cta}
-              color={plan.color}
-              accent={plan.accent}
-              position={plan.position}
-              highlight={plan.highlight}
-              tag={plan.tag}
-            />
+        <div className="space-y-8 max-w-4xl mx-auto">
+          {projects.map((project, index) => (
+            <Card key={index} variant="experience" className="p-6 md:p-8">
+              <div className="flex flex-col md:flex-row md:items-start justify-between mb-4">
+                <div className="flex-1">
+                  <h3 className="text-xl font-bold text-white">{project.title}</h3>
+                  <div className="flex flex-wrap gap-2 mt-2">
+                    {project.technologies.map((tech, techIndex) => (
+                      <span key={techIndex} className="text-xs bg-blue-900/30 text-blue-300 px-2 py-1 rounded-full">
+                        {tech}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+                {project.link && (
+                  <a
+                    href={project.link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="mt-2 md:mt-0 inline-flex items-center text-[#d0ff00] hover:text-[#e0ff40] transition-colors text-sm"
+                  >
+                    <span>{project.linkText}</span>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="h-4 w-4 ml-1"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
+                      />
+                    </svg>
+                  </a>
+                )}
+              </div>
+              <ul className="space-y-3 text-gray-300">
+                {project.achievements.map((achievement, achievementIndex) => (
+                  <li key={achievementIndex} className="flex items-start">
+                    <span className="text-[#d0ff00] mr-2 mt-1">•</span>
+                    <span>{achievement}</span>
+                  </li>
+                ))}
+              </ul>
+
+              {project.image && (
+                <div className="mt-6 rounded-lg overflow-hidden border border-white/10">
+                  <img
+                    src={project.image || "/placeholder.svg"}
+                    alt={project.title}
+                    className="w-full h-auto object-cover"
+                  />
+                </div>
+              )}
+            </Card>
           ))}
         </div>
-
-        {/* Preguntas frecuentes resumidas */}
-        <div className="mt-24 text-center">
-          <h3 className="text-xl font-semibold text-white mb-4">¿Tienes preguntas?</h3>
-
-          <p className="text-gray-400 mb-8">
-            Consulta nuestras{" "}
-            <a href="#" className="text-[#d0ff00] hover:underline font-medium">
-              preguntas frecuentes
-            </a>{" "}
-            o{" "}
-            <a href="#" className="text-[#d0ff00] hover:underline font-medium">
-              contáctanos
-            </a>
-          </p>
-
-          {/* Nota sobre garantía */}
-          <div className="inline-flex items-center bg-white/10 backdrop-blur-md text-white px-6 py-3 rounded-full border border-white/10">
-            <svg className="w-5 h-5 mr-3 text-[#d0ff00]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"
-              />
-            </svg>
-            <span className="text-sm font-medium">Garantía de devolución de 30 días, sin preguntas</span>
-          </div>
-        </div>
       </Container>
+
+      {/* Efecto de luz de fondo */}
+      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[70%] h-[200px] bg-purple-500/10 blur-[100px] rounded-full"></div>
     </section>
   )
 }
 
-export default Pricing
+const projects = [
+  {
+    title: "SmartColonia: Comprehensive Neighborhood Management Platform",
+    technologies: ["FastAPI", "React Native", "Amazon S3", "Supabase"],
+    achievements: [
+      "Desarrollé una aplicación SaaS con tres niveles de usuario (Guardia de Seguridad, Residente, Administrador) actualmente en fase beta con 200 usuarios, proyectando 1,000 usuarios en seis meses.",
+      "Implementé módulos de control de acceso, sistema de pagos integrado, anuncios comunitarios y herramientas de encuestas para mejorar la gestión del vecindario.",
+    ],
+    image: "/placeholder.svg?height=300&width=600",
+  },
+  {
+    title: "Olli App",
+    technologies: ["JavaScript", "React", "Python", "TensorFlow", "Django", "SQLite"],
+    link: "https://github.com/santiagosauma/OLLI-APP",
+    linkText: "GitHub",
+    achievements: [
+      "Desarrollé una plataforma web basada en React para predecir el consumo de electricidad con un 90% de precisión utilizando un modelo personalizado de TensorFlow y Python.",
+      "Predije el consumo de electricidad para prevenir cortes de energía espontáneos debido a cálculos erróneos, ayudando a evitar dichos cortes.",
+    ],
+    image: "/placeholder.svg?height=300&width=600",
+  },
+  {
+    title: "Acervo Bibliográfico Digital LABNL: Full Stack Developer",
+    technologies: ["React", "Axios", "Google Sheets"],
+    link: "https://labnlacervo.web.app",
+    linkText: "Sitio Web",
+    achievements: [
+      "Creé un sitio web para la colección bibliográfica del Laboratorio Ciudadano de Nuevo León utilizando React y Google Sheets. Diseñé el sitio para centralizar información sobre libros disponibles.",
+      "Ayudé a aproximadamente 20,000 personas mensualmente a encontrar libros de interés en la colección bibliográfica digital, recibiendo 19,900 visitantes en junio de 2024.",
+    ],
+    image: "/placeholder.svg?height=300&width=600",
+  },
+]
+
+export default Projects

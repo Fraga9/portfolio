@@ -2,41 +2,70 @@
 
 import { useState } from "react"
 
-function FeatureCard({ title, description, icon, color, position, index }) {
+function FeatureCard({ 
+  title, 
+  description, 
+  icon, 
+  color = "#6366f1", // Color predeterminado
+  position = "right", // Posición predeterminada 
+  index = 1,
+  onExplore = () => {}, // Función por defecto para el botón
+  iconAlt = "", // Texto alternativo para accesibilidad
+}) {
   const [isHovered, setIsHovered] = useState(false)
-
+  const isLeftPosition = position === "left"
+  
+  // Generar colores automáticos para sombras y superposiciones basados en el color principal
+  const backgroundColor = color
+  const textColor = "black" // Se podría calcular dinámicamente según la luminosidad del color
+  
   return (
     <div
-      className="rounded-3xl overflow-hidden bg-zinc-800/50 backdrop-blur-sm border border-white/5 transition-all duration-300 hover:shadow-lg"
+      className="rounded-3xl overflow-hidden bg-zinc-800/50 backdrop-blur-sm border border-white/5 transition-all duration-300 hover:shadow-lg group"
       style={{
         boxShadow: isHovered ? `0 10px 30px ${color}20` : "none",
       }}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
+      role="article"
+      aria-labelledby={`feature-title-${index}`}
     >
       <div className="grid grid-cols-1 md:grid-cols-2">
         {/* Sección de color con información */}
         <div
-          className={`p-8 md:p-10 ${position === "left" ? "md:order-1" : "md:order-2"}`}
-          style={{ backgroundColor: color }}
+          className={`p-8 md:p-10 ${isLeftPosition ? "md:order-1" : "md:order-2"} transition-all duration-300`}
+          style={{ backgroundColor }}
         >
           <div className="h-full flex flex-col justify-between">
             <div>
-              <div className="inline-flex items-center justify-center px-3 py-1 bg-black/20 backdrop-blur-sm rounded-full mb-4">
+              <div 
+                className="inline-flex items-center justify-center px-3 py-1 bg-black/20 backdrop-blur-sm rounded-full mb-4 transition-transform duration-300 group-hover:scale-105"
+                aria-hidden="true"
+              >
                 <span className="text-black text-xs font-bold">FEATURE {index}</span>
               </div>
-              <h3 className="text-2xl md:text-3xl font-bold mb-3 text-black">{title}</h3>
+              <h3 
+                id={`feature-title-${index}`}
+                className="text-2xl md:text-3xl font-bold mb-3 text-black"
+              >
+                {title}
+              </h3>
               <p className="text-black/80 font-medium">{description}</p>
             </div>
 
             <div className="mt-6">
-              <button className="inline-flex items-center px-5 py-2 bg-black text-white rounded-full text-sm font-medium transition-transform hover:translate-x-1">
+              <button 
+                className="inline-flex items-center px-5 py-2 bg-black text-white rounded-full text-sm font-medium transition-all duration-300 hover:translate-x-1 hover:shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black"
+                onClick={onExplore}
+                aria-label={`Explorar ${title}`}
+              >
                 explorar
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  className="h-4 w-4 ml-1"
+                  className="h-4 w-4 ml-1 transition-transform duration-300 group-hover:translate-x-1"
                   viewBox="0 0 20 20"
                   fill="currentColor"
+                  aria-hidden="true"
                 >
                   <path
                     fillRule="evenodd"
@@ -51,27 +80,54 @@ function FeatureCard({ title, description, icon, color, position, index }) {
 
         {/* Sección de imagen/icono */}
         <div
-          className={`bg-zinc-100 p-8 md:p-0 flex items-center justify-center ${position === "left" ? "md:order-2" : "md:order-1"}`}
+          className={`bg-zinc-100 p-8 md:p-0 flex items-center justify-center transition-all duration-300 ${isLeftPosition ? "md:order-2" : "md:order-1"}`}
         >
-          <div className="relative w-full h-full min-h-[300px] flex items-center justify-center">
-            {/* Icono grande */}
-            <div className="text-[120px] md:text-[180px] opacity-90">{icon}</div>
+          <div className="relative w-full h-full min-h-[300px] flex items-center justify-center overflow-hidden">
+            {/* Icono grande con animación suave */}
+            <div 
+              className="text-[120px] md:text-[180px] opacity-90 transition-all duration-500 transform group-hover:scale-110"
+              aria-hidden="true"
+            >
+              {icon}
+            </div>
 
-            {/* Círculo de acento */}
+            {/* Elemento decorativo con el mismo icono más pequeño */}
             <div
-              className="absolute w-16 h-16 rounded-full flex items-center justify-center"
+              className="absolute w-16 h-16 rounded-full flex items-center justify-center transition-all duration-500 group-hover:scale-125"
               style={{
                 backgroundColor: color,
-                top: position === "left" ? "20%" : "70%",
-                left: position === "left" ? "70%" : "20%",
+                top: isLeftPosition ? "20%" : "70%",
+                left: isLeftPosition ? "70%" : "20%",
                 transform: "translate(-50%, -50%)",
               }}
+              aria-hidden="true"
             >
               <span className="text-3xl">{icon}</span>
             </div>
+            
+            {/* Elemento de ayuda para la accesibilidad si el icono es importante */}
+            {iconAlt && <span className="sr-only">{iconAlt}</span>}
           </div>
         </div>
       </div>
+    </div>
+  )
+}
+
+// Ejemplo de uso del componente
+export const FeatureCardExample = () => {
+  return (
+    <div className="space-y-8 max-w-6xl mx-auto p-4">
+      <FeatureCard
+        title="Análisis Inteligente"
+        description="Nuestros algoritmos analizan tus datos en tiempo real para ofrecerte insights valiosos."
+        icon="📊"
+        color="#4f46e5"
+        position="right"
+        index={1}
+        iconAlt="Gráfico de análisis"
+        onExplore={() => console.log("Explorar análisis")}
+      />
     </div>
   )
 }

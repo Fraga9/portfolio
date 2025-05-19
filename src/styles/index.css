@@ -28,8 +28,10 @@
 @layer base {
     html {
         font-family: var(--font-jakarta);
+        scroll-behavior: smooth;
     }
 }
+
 
 
 

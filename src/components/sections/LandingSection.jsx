@@ -2,25 +2,62 @@
 
 import { useState, useEffect } from "react"
 import Container from "../layout/Container"
-
+import Header from "./Header"
 
 function LandingSection() {
   const [scrollPos, setScrollPos] = useState(0)
+  const [activeSection, setActiveSection] = useState("home")
 
   useEffect(() => {
     const handleScroll = () => {
       setScrollPos(window.scrollY)
+
+      // Detectar qué sección está visible actualmente
+      const sections = document.querySelectorAll("section[id], footer[id]");
+
+      // Verificar dónde estamos en la página
+      const scrollPosition = window.scrollY + window.innerHeight * 0.5;
+
+      // Verificar si estamos cerca del final de la página
+      const isNearBottom = window.innerHeight + window.scrollY >= document.body.offsetHeight - 200;
+
+      if (isNearBottom) {
+        // Si estamos cerca del final, activar la sección support (footer)
+        setActiveSection("support");
+      } else {
+        // Detección normal
+        sections.forEach((section) => {
+          const sectionTop = section.offsetTop - 100;
+          const sectionHeight = section.offsetHeight;
+          const sectionId = section.getAttribute("id");
+
+          if (
+            scrollPosition >= sectionTop &&
+            scrollPosition < sectionTop + sectionHeight
+          ) {
+            setActiveSection(sectionId);
+          }
+        });
+      }
+
+      // Si estamos al inicio de la página, establecer "home" como activo
+      if (window.scrollY < 100) {
+        setActiveSection("home");
+      }
     }
 
-    window.addEventListener("scroll", handleScroll)
+    window.addEventListener("scroll", handleScroll);
+
+    // Ejecutar una vez al cargar para establecer la sección inicial
+    handleScroll();
 
     return () => {
-      window.removeEventListener("scroll", handleScroll)
+      window.removeEventListener("scroll", handleScroll);
     }
-  }, [])
+  }, []);
 
   return (
-    <section className="relative h-screen overflow-hidden">
+    <section id="home" className="relative min-h-screen overflow-hidden pt-16 md:pt-24">
       {/* Fondo degradado */}
       <div
         className="fixed inset-0 z-[-2]"
@@ -31,7 +68,7 @@ function LandingSection() {
 
       {/* Efecto de luz/neón inferior */}
       <div
-        className="fixed bottom-0 left-0 right-0 h-[500px] bg-gradient-to-t from-blue-600/20 to-transparent z-[-1]"
+        className="fixed bottom-0 left-0 right-0 h-[250px] bg-gradient-to-t from-blue-600/20 to-transparent z-[-1]"
         style={{
           transform: `translateY(${Math.min(scrollPos * 0.5, 200)}px)`,
           opacity: Math.max(1 - scrollPos / 700, 0),
@@ -40,7 +77,7 @@ function LandingSection() {
 
       {/* Haz luminoso */}
       <div
-        className="fixed bottom-0 left-[50%] w-[800px] h-[400px] rounded-[100%] translate-x-[-50%] bg-blue-500/15 blur-[100px] z-[-1]"
+        className="fixed bottom-0 left-[50%] w-[800px] h-[400px] rounded-[100%] translate-x-[-60%] bg-blue-500/15 blur-[100px] z-[-1]"
         style={{
           transform: `translate(-50%, ${Math.min(scrollPos * 0.3, 100)}px)`,
           opacity: Math.max(1 - scrollPos / 600, 0),
@@ -48,107 +85,30 @@ function LandingSection() {
       />
 
       {/* Barra de navegación */}
-      <header
-        className={`fixed top-0 left-0 right-0 transition-all duration-300 z-50 ${
-          scrollPos > 50 ? "py-3 bg-black/80 backdrop-blur-md" : "py-6"
-        }`}
-      >
-        <Container>
-          <div className="flex items-center justify-between">
-            {/* Logo */}
-            <div className="flex items-center">
-              <img 
-                src="/src/assets/logo.png"
-                alt="Logo"
-                className="h-12 w-auto"
-              />
-            </div>
-
-            {/* Navegación */}
-            <div className="hidden md:flex">
-              <nav className="flex items-center">
-                <ul className="flex space-x-1.5 px-4 py-2 rounded-full bg-black/40 backdrop-blur-md border border-white/10">
-                  <li>
-                    <a
-                      href="#"
-                      className="px-5 py-2 text-black bg-[#d0ff00] rounded-full text-sm font-medium block hover:bg-[#c5f000] transition-colors"
-                    >
-                      Inicio
-                    </a>
-                  </li>
-                  <li>
-                    <a
-                      href="#features"
-                      className="px-5 py-2 text-white hover:text-blue-300 rounded-full text-sm font-medium block transition-colors"
-                    >
-                      Características
-                    </a>
-                  </li>
-                  <li>
-                    <a
-                      href="#pricing"
-                      className="px-5 py-2 text-white hover:text-blue-300 rounded-full text-sm font-medium block transition-colors"
-                    >
-                      Precios
-                    </a>
-                  </li>
-                  <li>
-                    <a
-                      href="#support"
-                      className="px-5 py-2 text-white hover:text-blue-300 rounded-full text-sm font-medium block transition-colors"
-                    >
-                      Soporte
-                    </a>
-                  </li>
-                </ul>
-              </nav>
-            </div>
-
-            {/* Botón carrito */}
-            <div className="flex items-center">
-              <button className="flex items-center justify-center w-12 h-12 rounded-full bg-[#d0ff00] text-black hover:bg-[#c5f000] transition-colors">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-5 w-5"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"
-                  />
-                </svg>
-              </button>
-            </div>
-          </div>
-        </Container>
-      </header>
+      <Header scrollPos={scrollPos} activeSection={activeSection} />
 
       {/* Contenido principal */}
-      <Container className="h-full flex items-center">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+      <Container className="h-full flex items-center py-16 md:py-20">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 w-full">
           {/* Lado izquierdo: Texto */}
-          <div className="md:w-1/2 md:pr-8 text-center md:text-left mb-12 md:mb-0">
+          <div className="w-full text-center md:text-left mb-12 md:mb-0">
             <div className="mb-8">
               {/* Logotipos de colaboración, como Framer x Work Louder */}
               <div className="inline-flex items-center space-x-2 bg-black/40 backdrop-blur-md px-4 py-2 rounded-full mb-6 border border-white/10">
-                <span className="font-bold text-white">Marca</span>
+                <span className="font-bold text-white">ITC</span>
                 <span className="text-gray-400">×</span>
-                <span className="font-bold text-white">Colaborador</span>
+                <span className="font-bold text-white">TEC</span>
               </div>
 
-              <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight mb-6 text-white">
-                Producto <span className="text-blue-400">Increíble</span>
+              <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight mb-6 text-white">
+                Héctor <span className="text-blue-400">Garza</span>
               </h1>
-              <p className="text-lg md:text-xl mb-8 text-gray-300 max-w-md">
+              <p className="text-lg md:text-xl mb-8 text-gray-300 max-w-md mx-auto md:mx-0">
                 Nuestras herramientas hacen que el trabajo se sienta como un juego, ayudándote a crear tu mejor trabajo.
               </p>
 
               <div className="flex flex-col sm:flex-row items-center justify-center md:justify-start space-y-4 sm:space-y-0 sm:space-x-4">
-                <button className="px-8 py-3 bg-[#d0ff00] hover:bg-[#c5f000] text-black rounded-full font-medium transition-colors flex items-center">
+                <button className="w-full sm:w-auto px-8 py-3 bg-[#d0ff00] hover:bg-[#c5f000] text-black rounded-full font-medium transition-colors flex items-center justify-center sm:justify-start">
                   Pre-ordenar ahora
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -173,20 +133,20 @@ function LandingSection() {
           {/* Lado derecho: Imagen del producto */}
           <div className="md:w-1/2 relative">
             <img
-              src="src\assets\set4.jpg"
+              src="src/assets/set4.jpg"
               alt="Product"
-              className="w-full rounded-xl shadow-lg relative z-10"
+              className="w-full mx-auto rounded-xl shadow-lg relative z-10"
+              width="600"
+              height="400"
+              loading="eager"
             />
-
-            {/* Efecto de resplandor debajo del producto */}
-            <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-4/4 h-1/8 bg-blue-500/30 blur-2xl rounded-full z-0"></div>
           </div>
         </div>
       </Container>
 
-      {/* Indicador de scroll */}
-      <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 flex flex-col items-center text-white/70">
-        <p className="text-sm mb-2">Desplázate para más</p>
+      {/* Indicador de scroll - Oculto en móvil porque puede superponerse con el contenido */}
+      <div className="hidden md:flex absolute bottom-8 left-1/2 transform -translate-x-1/2 flex-col items-center text-white/70">
+        <p className="text-sm mb-2">Desplázate para ver más</p>
         <div className="w-6 h-10 border-2 border-white/50 rounded-full flex justify-center p-1">
           <div
             className="w-1 bg-[#d0ff00] rounded-full animate-pulse"

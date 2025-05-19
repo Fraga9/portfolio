@@ -2,9 +2,10 @@
 
 import { useState, useEffect, useRef } from "react"
 import Container from "../layout/Container"
-import NeverEndingText from "../ui/NeverEndingText"
+import NowPlaying from "../NowPlaying"
+import LastFmLink from "../LastFmLink"
 
-function Footer() {
+function Footer({ id }) {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
   const [scrollY, setScrollY] = useState(0)
   const footerRef = useRef(null)
@@ -34,23 +35,15 @@ function Footer() {
     return baseAngle + idx * 0.2
   }
 
-  const links = [
-    { name: "Inicio", url: "#" },
-    { name: "Características", url: "#features" },
-    { name: "Precios", url: "#pricing" },
-    { name: "Blog", url: "#blog" },
-    { name: "Contacto", url: "#contact" },
-  ]
-
   const socialLinks = [
-    { name: "Twitter", icon: "𝕏", url: "#" },
-    { name: "LinkedIn", icon: "in", url: "#" },
-    { name: "GitHub", icon: "⌘", url: "#" },
-    { name: "Instagram", icon: "📷", url: "#" },
+    { name: "Twitter", icon: "𝕏", url: "https://twitter.com/Osifraga" },
+    { name: "LinkedIn", icon: "in", url: "https://www.linkedin.com/in/osifraga" },
+    { name: "GitHub", icon: "⌘", url: "https://github.com/Fraga9" },
+    { name: "Instagram", icon: "📷", url: "https://www.instagram.com/Osifraga" },
   ]
 
   return (
-    <footer ref={footerRef} className="relative pt-24 pb-12 overflow-hidden bg-black text-white">
+    <footer id={id} ref={footerRef} className="relative pt-24 pb-12 overflow-hidden bg-black text-white">
       {/* Fondo con gradiente */}
       <div className="absolute inset-0 bg-gradient-to-b from-black via-black to-blue-950/30 z-0" />
 
@@ -65,97 +58,115 @@ function Footer() {
 
       <Container className="relative z-10">
         {/* Logo flotante con efecto 3D */}
-        <div className="relative flex justify-center mb-16">
+        <div className="relative flex justify-center mb-12">
           <div
             className="text-4xl font-bold tracking-tight relative"
             style={{
-              transform: `perspective(500px) rotateX(${
-                (mousePosition.y / window.innerHeight) * 5 - 2.5
-              }deg) rotateY(${(mousePosition.x / window.innerWidth) * 5 - 2.5}deg)`,
+              transform: `perspective(500px) rotateX(${(mousePosition.y / window.innerHeight) * 5 - 2.5
+                }deg) rotateY(${(mousePosition.x / window.innerWidth) * 5 - 2.5}deg)`,
               transition: "transform 0.1s ease-out",
             }}
           >
             <span className="relative z-10 bg-gradient-to-r from-white to-blue-200 bg-clip-text text-transparent">
-              Tailwind<span className="text-[#d0ff00]">Landing</span>
+              Osifraga<span className="text-[#d0ff00]">Landing</span>
             </span>
             <span className="absolute -inset-0.5 blur-sm bg-blue-400/30 rounded-lg" />
           </div>
         </div>
 
-        {/* Contenido principal del footer */}
-        <div className="grid grid-cols-1 gap-12 md:grid-cols-3">
-          <div className="space-y-6">
-            <h3 className="text-xl font-semibold text-white">Sobre Nosotros</h3>
-            <p className="text-gray-400 max-w-md">
-              Creamos experiencias digitales únicas con React y Tailwind CSS. Nuestra misión es hacer que el diseño web
-              sea accesible para todos.
-            </p>
-            <div
-              className="inline-block px-4 py-2 mt-4 text-sm border rounded-full bg-white/5 border-white/10 hover:bg-white/10 transition-colors"
-              style={{ backdropFilter: "blur(8px)" }}
-            >
-              contacto@tailwindlanding.com
+        {/* Contenido principal del footer organizado en 2 columnas bien estructuradas */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-x-16 gap-y-10">
+          {/* Columna izquierda: Sobre nosotros y enlaces rápidos */}
+          <div className="space-y-8">
+            <div className="space-y-4">
+              <h3 className="text-xl font-semibold text-white">Sobre Nosotros</h3>
+              <p className="text-gray-400">
+                Creamos experiencias digitales únicas con React y Tailwind CSS. Nuestra misión es hacer que el diseño web
+                sea accesible para todos.
+              </p>
+              <div
+                className="inline-block px-4 py-2 text-sm border rounded-full bg-white/5 border-white/10 hover:bg-white/10 transition-colors"
+                style={{ backdropFilter: "blur(8px)" }}
+              >
+                contacto@tailwindlanding.com
+              </div>
+            </div>
+            
+            {/* Enlaces rápidos - nuevo bloque añadido */}
+            <div className="space-y-4">
+              <h3 className="text-xl font-semibold text-white">Enlaces Rápidos</h3>
+              <div className="grid grid-cols-2 gap-2">
+                <a href="#" className="text-gray-400 hover:text-white transition-colors">Inicio</a>
+                <a href="#" className="text-gray-400 hover:text-white transition-colors">Servicios</a>
+                <a href="#" className="text-gray-400 hover:text-white transition-colors">Proyectos</a>
+                <a href="#" className="text-gray-400 hover:text-white transition-colors">Blog</a>
+                <a href="#" className="text-gray-400 hover:text-white transition-colors">Recursos</a>
+                <a href="#" className="text-gray-400 hover:text-white transition-colors">Contacto</a>
+              </div>
             </div>
           </div>
 
-          <div className="space-y-6">
-            <h3 className="text-xl font-semibold text-white">Enlaces Rápidos</h3>
-            <ul className="space-y-3">
-              {links.map((link, idx) => (
-                <li key={idx} className="group">
-                  <a href={link.url} className="relative inline-block text-gray-400 hover:text-white transition-colors">
-                    <span className="relative z-10">{link.name}</span>
-                    <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-[#d0ff00] group-hover:w-full transition-all duration-300" />
+          {/* Columna derecha: Conéctate y Last.fm */}
+          <div className="space-y-8">
+            {/* Redes sociales */}
+            <div className="space-y-4">
+              <h3 className="text-xl font-semibold text-white">Conéctate</h3>
+              <div className="flex flex-wrap gap-3">
+                {socialLinks.map((social, idx) => (
+                  <a
+                    key={idx}
+                    href={social.url}
+                    className="flex items-center justify-center w-10 h-10 transition-transform bg-white/5 hover:bg-white/10 backdrop-blur-sm rounded-xl hover:scale-110"
+                    aria-label={social.name}
+                  >
+                    <span className="text-lg">{social.icon}</span>
                   </a>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          <div className="space-y-6">
-            <h3 className="text-xl font-semibold text-white">Conéctate</h3>
-            <div className="flex flex-wrap gap-3">
-              {socialLinks.map((social, idx) => (
-                <a
-                  key={idx}
-                  href={social.url}
-                  className="flex items-center justify-center w-10 h-10 transition-transform bg-white/5 hover:bg-white/10 backdrop-blur-sm rounded-xl hover:scale-110"
-                  aria-label={social.name}
-                >
-                  <span className="text-lg">{social.icon}</span>
-                </a>
-              ))}
+                ))}
+              </div>
             </div>
-
-            <div className="pt-6">
-              <p className="mb-2 text-sm text-gray-300">Suscríbete a nuestro newsletter</p>
-              <div className="flex">
-                <input
-                  type="email"
-                  placeholder="tu@email.com"
-                  className="flex-1 px-4 py-2 bg-white/10 backdrop-blur-sm text-white placeholder:text-white/40 rounded-l-md border-0 focus:ring-2 ring-[#d0ff00]/50"
-                />
-                <button className="px-4 py-2 text-sm font-medium transition-colors bg-[#d0ff00] hover:bg-[#c5f000] text-black rounded-r-md">
-                  Unirse
-                </button>
+            
+            {/* Currently Listening */}
+            <div className="space-y-4">
+              <h3 className="text-xl font-semibold text-white">
+                <span className="flex items-center gap-2">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-4 w-4 text-[#d0ff00]"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3"
+                    />
+                  </svg>
+                  Currently Listening
+                </span>
+              </h3>
+              <div>
+                <NowPlaying />
+                <LastFmLink />
               </div>
             </div>
           </div>
         </div>
 
         {/* Franja inferior con efecto de gradiente y glassmorphism */}
-        <div className="flex flex-col items-center justify-between pt-12 mt-8 border-t md:flex-row border-white/10">
+        <div className="flex flex-col items-center justify-between pt-8 mt-12 border-t md:flex-row border-white/10">
           <p className="text-sm text-gray-500">
-            © {new Date().getFullYear()} TailwindLanding. Todos los derechos reservados.
+            © {new Date().getFullYear()} OsifragaLanding. Todos los derechos reservados.
           </p>
-          <div className="flex items-center mt-4 space-x-4 md:mt-0">
-            <a href="#" className="text-xs text-gray-500 hover:text-white">
+          <div className="flex items-center mt-4 space-x-6 md:mt-0">
+            <a href="#" className="text-xs text-gray-500 hover:text-white transition-colors">
               Términos
             </a>
-            <a href="#" className="text-xs text-gray-500 hover:text-white">
+            <a href="#" className="text-xs text-gray-500 hover:text-white transition-colors">
               Privacidad
             </a>
-            <a href="#" className="text-xs text-gray-500 hover:text-white">
+            <a href="#" className="text-xs text-gray-500 hover:text-white transition-colors">
               Cookies
             </a>
           </div>
