@@ -253,7 +253,7 @@ function LandingSection() {
           {/* Lado derecho: Imagen del producto */}
           <div className="relative p-10">
             <img
-              src="src/assets/set4.jpg"
+              src="images/set4.jpg"
               alt="Product"
               className="w-full mx-auto rounded-xl shadow-lg relative z-10"
               width="600"

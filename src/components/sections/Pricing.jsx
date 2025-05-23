@@ -89,12 +89,12 @@ const projects = [
     ],
     gallery: [
       {
-        url: "src/assets/smartcolonia/Cover.png",
+        url: "images/smartcolonia/Cover.png",
         alt: "SmartColonia",
         caption: "Smartcolonia",
       },
       {
-        url: "src/assets/smartcolonia/First.png",
+        url: "images/smartcolonia/First.png",
         alt: "Introducción",
         caption: "SmartColonia en Acción",
       },
@@ -126,17 +126,17 @@ const projects = [
     ],
     gallery: [
       {
-        url: "src/assets/olli/Olli1.png",
+        url: "images/olli/Olli1.png",
         alt: "Página de inicio",
         caption: "Homepage",
       },
       {
-        url: "src/assets/olli/Olli2.png",
+        url: "images/olli/Olli2.png",
         alt: "Página de Estado",
         caption: "Página de Estado/Municipio",
       },
       {
-        url: "src/assets/olli/Olli3.png",
+        url: "images/olli/Olli3.png",
         alt: "Mapa interactivo de México",
         caption: "Mapa interactivo de México",
       },
