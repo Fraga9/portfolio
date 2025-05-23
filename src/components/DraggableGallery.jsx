@@ -1,6 +1,7 @@
 "use client"
 
 import { useState, useRef } from "react"
+import ImageGalleryModal from "./ImageGalleryModal"
 
 export default function DraggableGallery({ images = [], title = "Galería de imágenes" }) {
   const [draggingIndex, setDraggingIndex] = useState(null)
@@ -8,6 +9,14 @@ export default function DraggableGallery({ images = [], title = "Galería de im�
   const [dragOverIndex, setDragOverIndex] = useState(null)
   const dragStartPosRef = useRef(null)
   const dragNodeRef = useRef(null)
+
+  // Estado para la galería modal
+  const [isModalOpen, setIsModalOpen] = useState(false)
+  const [selectedImageIndex, setSelectedImageIndex] = useState(0)
+
+  // Referencia para detectar si es un clic o un arrastre
+  const clickTimeoutRef = useRef(null)
+  const isDraggingRef = useRef(false)
 
   // Si no hay imágenes, mostrar un mensaje
   if (imageList.length === 0) {
@@ -19,6 +28,9 @@ export default function DraggableGallery({ images = [], title = "Galería de im�
   }
 
   const handleDragStart = (e, index) => {
+    // Marcar que estamos arrastrando para evitar abrir la galería
+    isDraggingRef.current = true
+
     // Guardar la posición inicial y el índice
     dragStartPosRef.current = { x: e.clientX, y: e.clientY }
     dragNodeRef.current = e.target
@@ -30,7 +42,7 @@ export default function DraggableGallery({ images = [], title = "Galería de im�
 
     // Establecer datos para el arrastre
     e.dataTransfer.effectAllowed = "move"
-    e.dataTransfer.setData("text/plain", index)
+    e.dataTransfer.setData("text/plain", index.toString())
 
     // Crear una imagen fantasma personalizada para el arrastre
     const ghostImage = e.target.cloneNode(true)
@@ -63,6 +75,11 @@ export default function DraggableGallery({ images = [], title = "Galería de im�
     setDraggingIndex(null)
     setDragOverIndex(null)
     dragStartPosRef.current = null
+
+    // Resetear el estado de arrastre después de un breve tiempo
+    setTimeout(() => {
+      isDraggingRef.current = false
+    }, 100)
   }
 
   const handleDrop = (e, dropIndex) => {
@@ -87,6 +104,25 @@ export default function DraggableGallery({ images = [], title = "Galería de im�
     setDragOverIndex(null)
   }
 
+  // Manejar el clic en una imagen para abrir la galería
+  const handleImageClick = (index) => {
+    // Si estamos arrastrando, no abrir la galería
+    if (isDraggingRef.current) return
+
+    // Configurar un timeout para detectar si es un clic o un arrastre
+    clickTimeoutRef.current = setTimeout(() => {
+      setSelectedImageIndex(index)
+      setIsModalOpen(true)
+    }, 100)
+  }
+
+  // Cancelar el timeout si comenzamos a arrastrar
+  const handleMouseDown = () => {
+    if (clickTimeoutRef.current) {
+      clearTimeout(clickTimeoutRef.current)
+    }
+  }
+
   return (
     <div className="mt-6">
       <h4 className="text-white font-medium mb-3">{title}</h4>
@@ -100,19 +136,21 @@ export default function DraggableGallery({ images = [], title = "Galería de im�
                 : dragOverIndex === index
                   ? "border-blue-500 bg-blue-500/10"
                   : "border-white/10 hover:border-white/30"
-            } transition-all duration-200 cursor-move`}
+            } transition-all duration-200 cursor-pointer group`}
             draggable
             onDragStart={(e) => handleDragStart(e, index)}
             onDragOver={(e) => handleDragOver(e, index)}
             onDragEnd={handleDragEnd}
             onDrop={(e) => handleDrop(e, index)}
+            onClick={() => handleImageClick(index)}
+            onMouseDown={handleMouseDown}
           >
             <img
               src={image.url || "/placeholder.svg"}
               alt={image.alt || `Imagen ${index + 1}`}
               className="w-full h-32 md:h-40 object-cover"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-0 hover:opacity-100 transition-opacity flex items-end p-2">
+            <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-2">
               <p className="text-white text-xs truncate w-full">{image.caption || `Imagen ${index + 1}`}</p>
             </div>
 
@@ -128,10 +166,38 @@ export default function DraggableGallery({ images = [], title = "Galería de im�
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 8h16M4 16h16" />
               </svg>
             </div>
+
+            {/* Indicador de clic para ampliar */}
+            <div className="absolute top-2 left-2 bg-black/50 rounded-full p-1 opacity-0 group-hover:opacity-100 transition-opacity">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-4 w-4 text-white"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v6m4-3H6"
+                />
+              </svg>
+            </div>
           </div>
         ))}
       </div>
-      <p className="text-xs text-gray-500 mt-2">Arrastra y suelta las imágenes para reordenarlas</p>
+      <p className="text-xs text-gray-500 mt-2">
+        Arrastra y suelta las imágenes para reordenarlas. Haz clic en una imagen para verla en pantalla completa.
+      </p>
+
+      {/* Galería modal */}
+      <ImageGalleryModal
+        images={imageList}
+        initialIndex={selectedImageIndex}
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+      />
     </div>
   )
-}
+} 

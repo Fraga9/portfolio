@@ -251,7 +251,7 @@ function LandingSection() {
           </div>
 
           {/* Lado derecho: Imagen del producto */}
-          <div className="md:w-1/2 relative">
+          <div className="relative p-10">
             <img
               src="src/assets/set4.jpg"
               alt="Product"

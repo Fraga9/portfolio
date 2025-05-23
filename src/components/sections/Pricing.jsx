@@ -89,14 +89,14 @@ const projects = [
     ],
     gallery: [
       {
-        url: "/placeholder.svg?height=300&width=400&text=Dashboard",
-        alt: "Dashboard de SmartColonia",
-        caption: "Dashboard principal",
+        url: "src/assets/smartcolonia/Cover.png",
+        alt: "SmartColonia",
+        caption: "Smartcolonia",
       },
       {
-        url: "/placeholder.svg?height=300&width=400&text=Control+de+Acceso",
-        alt: "Módulo de control de acceso",
-        caption: "Control de acceso",
+        url: "src/assets/smartcolonia/First.png",
+        alt: "Introducción",
+        caption: "SmartColonia en Acción",
       },
       {
         url: "/placeholder.svg?height=300&width=400&text=Pagos",
