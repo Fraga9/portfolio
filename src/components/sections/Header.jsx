@@ -83,7 +83,7 @@ function Header({ scrollPos, activeSection }) {
               aria-label="Ir a inicio"
             >
               <img
-                src="/src/assets/logo.png"
+                src="images/logo.png"
                 alt="Logo"
                 className="h-10 md:h-12 w-auto"
                 width="auto"
