@@ -2,7 +2,7 @@
 
 import { useRef } from "react"
 import Container from "../layout/Container"
-import Card from "../ui/card"
+import Card from "../ui/Card"
 import DraggableGallery from "../DraggableGallery"
 
 function Projects({ id }) {

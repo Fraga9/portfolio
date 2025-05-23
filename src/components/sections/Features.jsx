@@ -2,7 +2,7 @@
 
 import { useState } from "react"
 import Container from "../layout/Container"
-import Card from "../ui/card"
+import Card from "../ui/Card"
 
 function Experience({ id }) {
   const [activeExperience, setActiveExperience] = useState(0)
