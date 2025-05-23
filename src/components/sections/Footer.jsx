@@ -62,51 +62,59 @@ function Footer({ id }) {
           <div
             className="text-4xl font-bold tracking-tight relative"
             style={{
-              transform: `perspective(500px) rotateX(${(mousePosition.y / window.innerHeight) * 5 - 2.5
-                }deg) rotateY(${(mousePosition.x / window.innerWidth) * 5 - 2.5}deg)`,
+              transform: `perspective(500px) rotateX(${
+                (mousePosition.y / window.innerHeight) * 5 - 2.5
+              }deg) rotateY(${(mousePosition.x / window.innerWidth) * 5 - 2.5}deg)`,
               transition: "transform 0.1s ease-out",
             }}
           >
             <span className="relative z-10 bg-gradient-to-r from-white to-blue-200 bg-clip-text text-transparent">
-              Osifraga<span className="text-[#d0ff00]">Landing</span>
+              Héctor<span className="text-[#d0ff00]">Garza</span>
             </span>
             <span className="absolute -inset-0.5 blur-sm bg-blue-400/30 rounded-lg" />
           </div>
         </div>
 
-        {/* Contenido principal del footer organizado en 2 columnas bien estructuradas */}
+        {/* Contenido principal del footer organizado en 2 columnas */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-x-16 gap-y-10">
-          {/* Columna izquierda: Sobre nosotros y enlaces rápidos */}
+          {/* Columna izquierda: Sobre mí y navegación */}
           <div className="space-y-8">
             <div className="space-y-4">
-              <h3 className="text-xl font-semibold text-white">Sobre Nosotros</h3>
+              <h3 className="text-xl font-semibold text-white">Sobre Mí</h3>
               <p className="text-gray-400">
-                Creamos experiencias digitales únicas con React y Tailwind CSS. Nuestra misión es hacer que el diseño web
-                sea accesible para todos.
+                Ingeniero en Tecnologías Computacionales con experiencia en desarrollo Fullstack. Apasionado por crear
+                soluciones innovadoras utilizando las últimas tecnologías y aplicando conceptos de Inteligencia
+                Artificial.
               </p>
-              <div
+              <div  
                 className="inline-block px-4 py-2 text-sm border rounded-full bg-white/5 border-white/10 hover:bg-white/10 transition-colors"
                 style={{ backdropFilter: "blur(8px)" }}
               >
-                contacto@tailwindlanding.com
+                garzahector1013@gmail.com
               </div>
             </div>
-            
-            {/* Enlaces rápidos - nuevo bloque añadido */}
+
+            {/* Navegación - secciones existentes */}
             <div className="space-y-4">
-              <h3 className="text-xl font-semibold text-white">Enlaces Rápidos</h3>
+              <h3 className="text-xl font-semibold text-white">Navegación</h3>
               <div className="grid grid-cols-2 gap-2">
-                <a href="#" className="text-gray-400 hover:text-white transition-colors">Inicio</a>
-                <a href="#" className="text-gray-400 hover:text-white transition-colors">Servicios</a>
-                <a href="#" className="text-gray-400 hover:text-white transition-colors">Proyectos</a>
-                <a href="#" className="text-gray-400 hover:text-white transition-colors">Blog</a>
-                <a href="#" className="text-gray-400 hover:text-white transition-colors">Recursos</a>
-                <a href="#" className="text-gray-400 hover:text-white transition-colors">Contacto</a>
+                <a href="#home" className="text-gray-400 hover:text-white transition-colors">
+                  Inicio
+                </a>
+                <a href="#features" className="text-gray-400 hover:text-white transition-colors">
+                  Experiencia
+                </a>
+                <a href="#pricing" className="text-gray-400 hover:text-white transition-colors">
+                  Proyectos
+                </a>
+                <a href="#support" className="text-gray-400 hover:text-white transition-colors">
+                  Contacto
+                </a>
               </div>
             </div>
           </div>
 
-          {/* Columna derecha: Conéctate y Last.fm */}
+          {/* Columna derecha: Redes sociales y Last.fm */}
           <div className="space-y-8">
             {/* Redes sociales */}
             <div className="space-y-4">
@@ -118,13 +126,15 @@ function Footer({ id }) {
                     href={social.url}
                     className="flex items-center justify-center w-10 h-10 transition-transform bg-white/5 hover:bg-white/10 backdrop-blur-sm rounded-xl hover:scale-110"
                     aria-label={social.name}
+                    target="_blank"
+                    rel="noopener noreferrer"
                   >
                     <span className="text-lg">{social.icon}</span>
                   </a>
                 ))}
               </div>
             </div>
-            
+
             {/* Currently Listening */}
             <div className="space-y-4">
               <h3 className="text-xl font-semibold text-white">
@@ -154,21 +164,15 @@ function Footer({ id }) {
           </div>
         </div>
 
-        {/* Franja inferior con efecto de gradiente y glassmorphism */}
+        {/* Franja inferior con copyright */}
         <div className="flex flex-col items-center justify-between pt-8 mt-12 border-t md:flex-row border-white/10">
           <p className="text-sm text-gray-500">
-            © {new Date().getFullYear()} OsifragaLanding. Todos los derechos reservados.
+            © {new Date().getFullYear()} Héctor Garza. Todos los derechos reservados.
           </p>
           <div className="flex items-center mt-4 space-x-6 md:mt-0">
-            <a href="#" className="text-xs text-gray-500 hover:text-white transition-colors">
-              Términos
-            </a>
-            <a href="#" className="text-xs text-gray-500 hover:text-white transition-colors">
-              Privacidad
-            </a>
-            <a href="#" className="text-xs text-gray-500 hover:text-white transition-colors">
-              Cookies
-            </a>
+            <span className="text-xs text-gray-500">
+              Hecho con <span className="text-[#d0ff00]">♥</span> en México
+            </span>
           </div>
         </div>
       </Container>

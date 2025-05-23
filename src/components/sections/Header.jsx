@@ -61,7 +61,7 @@ function Header({ scrollPos, activeSection }) {
     { href: "#home", label: "Inicio", section: "home" },
     { href: "#features", label: "Experiencia", section: "features" },
     { href: "#pricing", label: "Proyectos", section: "pricing" },
-    { href: "#support", label: "Soporte", section: "support" }
+    { href: "#support", label: "Contacto", section: "support" }
   ]
 
   return (

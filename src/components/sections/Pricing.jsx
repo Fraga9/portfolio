@@ -1,9 +1,15 @@
+"use client"
+
+import { useRef } from "react"
 import Container from "../layout/Container"
 import Card from "../ui/card"
+import DraggableGallery from "../DraggableGallery"
 
 function Projects({ id }) {
+  const sectionRef = useRef(null)
+
   return (
-    <section id={id} className="py-20 md:py-32 bg-gradient-to-b from-black/90 to-[#050024] relative">
+    <section id={id} ref={sectionRef} className="py-20 md:py-32 bg-gradient-to-b from-black/90 to-[#050024] relative">
       <Container className="px-4 sm:px-6 lg:px-8">
         <div className="max-w-3xl mx-auto text-center mb-16">
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-6">
@@ -14,7 +20,7 @@ function Projects({ id }) {
 
         <div className="space-y-8 max-w-4xl mx-auto">
           {projects.map((project, index) => (
-            <Card key={index} variant="experience" className="p-6 md:p-8">
+            <Card key={index} variant="experience" className="p-6 md:p-8" index={index} animateIn={true}>
               <div className="flex flex-col md:flex-row md:items-start justify-between mb-4">
                 <div className="flex-1">
                   <h3 className="text-xl font-bold text-white">{project.title}</h3>
@@ -60,15 +66,8 @@ function Projects({ id }) {
                 ))}
               </ul>
 
-              {project.image && (
-                <div className="mt-6 rounded-lg overflow-hidden border border-white/10">
-                  <img
-                    src={project.image || "/placeholder.svg"}
-                    alt={project.title}
-                    className="w-full h-auto object-cover"
-                  />
-                </div>
-              )}
+              {/* Galería de imágenes con drag and drop */}
+              <DraggableGallery images={project.gallery || []} title={`Galería de ${project.title}`} />
             </Card>
           ))}
         </div>
@@ -88,7 +87,33 @@ const projects = [
       "Desarrollé una aplicación SaaS con tres niveles de usuario (Guardia de Seguridad, Residente, Administrador) actualmente en fase beta con 200 usuarios, proyectando 1,000 usuarios en seis meses.",
       "Implementé módulos de control de acceso, sistema de pagos integrado, anuncios comunitarios y herramientas de encuestas para mejorar la gestión del vecindario.",
     ],
-    image: "/placeholder.svg?height=300&width=600",
+    gallery: [
+      {
+        url: "/placeholder.svg?height=300&width=400&text=Dashboard",
+        alt: "Dashboard de SmartColonia",
+        caption: "Dashboard principal",
+      },
+      {
+        url: "/placeholder.svg?height=300&width=400&text=Control+de+Acceso",
+        alt: "Módulo de control de acceso",
+        caption: "Control de acceso",
+      },
+      {
+        url: "/placeholder.svg?height=300&width=400&text=Pagos",
+        alt: "Sistema de pagos",
+        caption: "Sistema de pagos",
+      },
+      {
+        url: "/placeholder.svg?height=300&width=400&text=Anuncios",
+        alt: "Anuncios comunitarios",
+        caption: "Anuncios comunitarios",
+      },
+      {
+        url: "/placeholder.svg?height=300&width=400&text=Encuestas",
+        alt: "Herramienta de encuestas",
+        caption: "Herramienta de encuestas",
+      },
+    ],
   },
   {
     title: "Olli App",
@@ -99,7 +124,23 @@ const projects = [
       "Desarrollé una plataforma web basada en React para predecir el consumo de electricidad con un 90% de precisión utilizando un modelo personalizado de TensorFlow y Python.",
       "Predije el consumo de electricidad para prevenir cortes de energía espontáneos debido a cálculos erróneos, ayudando a evitar dichos cortes.",
     ],
-    image: "/placeholder.svg?height=300&width=600",
+    gallery: [
+      {
+        url: "src/assets/olli/Olli1.png",
+        alt: "Página de inicio",
+        caption: "Homepage",
+      },
+      {
+        url: "src/assets/olli/Olli2.png",
+        alt: "Página de Estado",
+        caption: "Página de Estado/Municipio",
+      },
+      {
+        url: "src/assets/olli/Olli3.png",
+        alt: "Mapa interactivo de México",
+        caption: "Mapa interactivo de México",
+      },
+    ],
   },
   {
     title: "Acervo Bibliográfico Digital LABNL: Full Stack Developer",
@@ -110,7 +151,28 @@ const projects = [
       "Creé un sitio web para la colección bibliográfica del Laboratorio Ciudadano de Nuevo León utilizando React y Google Sheets. Diseñé el sitio para centralizar información sobre libros disponibles.",
       "Ayudé a aproximadamente 20,000 personas mensualmente a encontrar libros de interés en la colección bibliográfica digital, recibiendo 19,900 visitantes en junio de 2024.",
     ],
-    image: "/placeholder.svg?height=300&width=600",
+    gallery: [
+      {
+        url: "/placeholder.svg?height=300&width=400&text=Catálogo",
+        alt: "Catálogo de libros",
+        caption: "Catálogo principal",
+      },
+      {
+        url: "/placeholder.svg?height=300&width=400&text=Búsqueda",
+        alt: "Sistema de búsqueda",
+        caption: "Búsqueda avanzada",
+      },
+      {
+        url: "/placeholder.svg?height=300&width=400&text=Detalles",
+        alt: "Detalles de libro",
+        caption: "Detalles de libro",
+      },
+      {
+        url: "/placeholder.svg?height=300&width=400&text=Estadísticas",
+        alt: "Estadísticas de uso",
+        caption: "Estadísticas de uso",
+      },
+    ],
   },
 ]
 

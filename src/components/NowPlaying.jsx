@@ -55,9 +55,9 @@ export default function NowPlaying() {
     }
 
     fetchNowPlaying()
-    
-    // Actualizar cada 60 segundos
-    const intervalId = setInterval(fetchNowPlaying, 60000)
+
+    // Actualizar cada 30 segundos
+    const intervalId = setInterval(fetchNowPlaying, 30000)
     
     return () => clearInterval(intervalId)
   }, [])

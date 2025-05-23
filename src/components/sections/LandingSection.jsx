@@ -1,60 +1,112 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, useRef } from "react"
 import Container from "../layout/Container"
 import Header from "./Header"
 
 function LandingSection() {
   const [scrollPos, setScrollPos] = useState(0)
   const [activeSection, setActiveSection] = useState("home")
+  const [isAnimating, setIsAnimating] = useState(false)
+  const [isHovering, setIsHovering] = useState(false)
+  const bubbleRef = useRef(null)
+  const buttonRef = useRef(null)
 
   useEffect(() => {
     const handleScroll = () => {
       setScrollPos(window.scrollY)
 
       // Detectar qué sección está visible actualmente
-      const sections = document.querySelectorAll("section[id], footer[id]");
+      const sections = document.querySelectorAll("section[id], footer[id]")
 
       // Verificar dónde estamos en la página
-      const scrollPosition = window.scrollY + window.innerHeight * 0.5;
+      const scrollPosition = window.scrollY + window.innerHeight * 0.5
 
       // Verificar si estamos cerca del final de la página
-      const isNearBottom = window.innerHeight + window.scrollY >= document.body.offsetHeight - 200;
+      const isNearBottom = window.innerHeight + window.scrollY >= document.body.offsetHeight - 200
 
       if (isNearBottom) {
         // Si estamos cerca del final, activar la sección support (footer)
-        setActiveSection("support");
+        setActiveSection("support")
       } else {
         // Detección normal
         sections.forEach((section) => {
-          const sectionTop = section.offsetTop - 100;
-          const sectionHeight = section.offsetHeight;
-          const sectionId = section.getAttribute("id");
+          const sectionTop = section.offsetTop - 100
+          const sectionHeight = section.offsetHeight
+          const sectionId = section.getAttribute("id")
 
-          if (
-            scrollPosition >= sectionTop &&
-            scrollPosition < sectionTop + sectionHeight
-          ) {
-            setActiveSection(sectionId);
+          if (scrollPosition >= sectionTop && scrollPosition < sectionTop + sectionHeight) {
+            setActiveSection(sectionId)
           }
-        });
+        })
       }
 
       // Si estamos al inicio de la página, establecer "home" como activo
       if (window.scrollY < 100) {
-        setActiveSection("home");
+        setActiveSection("home")
       }
     }
 
-    window.addEventListener("scroll", handleScroll);
+    window.addEventListener("scroll", handleScroll)
 
     // Ejecutar una vez al cargar para establecer la sección inicial
-    handleScroll();
+    handleScroll()
 
     return () => {
-      window.removeEventListener("scroll", handleScroll);
+      window.removeEventListener("scroll", handleScroll)
     }
-  }, []);
+  }, [])
+
+  // Generic function to handle any social media click with animation
+  const handleSocialClick = (url) => {
+    if (isAnimating) return
+
+    setIsAnimating(true)
+
+    // Get the click position for animation centering
+    const buttonRect = buttonRef.current.getBoundingClientRect()
+    const buttonCenterX = buttonRect.left + buttonRect.width / 2
+    const buttonCenterY = buttonRect.top + buttonRect.height / 2
+
+    // Calculate maximum size to cover the screen
+    const maxSize = Math.sqrt(
+      Math.pow(Math.max(buttonCenterX, window.innerWidth - buttonCenterX) * 2, 2) +
+        Math.pow(Math.max(buttonCenterY, window.innerHeight - buttonCenterY) * 2, 2),
+    )
+
+    // Configure initial bubble position
+    if (bubbleRef.current) {
+      bubbleRef.current.style.top = `${buttonCenterY}px`
+      bubbleRef.current.style.left = `${buttonCenterX}px`
+      bubbleRef.current.style.width = "0"
+      bubbleRef.current.style.height = "0"
+      bubbleRef.current.style.opacity = "1"
+
+      // Force reflow to make animation work
+      bubbleRef.current.offsetWidth
+
+      // Expand the bubble
+      bubbleRef.current.style.width = `${maxSize}px`
+      bubbleRef.current.style.height = `${maxSize}px`
+
+      // After a moment, collapse bubble and redirect
+      setTimeout(() => {
+        bubbleRef.current.style.opacity = "0"
+
+        // Redirect after animation completes
+        setTimeout(() => {
+          window.open(url, "_blank")
+          setIsAnimating(false)
+        }, 300)
+      }, 400)
+    }
+  }
+
+  // Replace the LinkedIn click handler to use the generic social click handler
+  const handleLinkedInClick = (e) => {
+    e.preventDefault()
+    handleSocialClick("https://www.linkedin.com/in/osifraga")
+  }
 
   return (
     <section id="home" className="relative min-h-screen overflow-hidden pt-16 md:pt-24">
@@ -84,6 +136,12 @@ function LandingSection() {
         }}
       />
 
+      {/* Elemento de burbuja para la animación */}
+      <div
+        ref={bubbleRef}
+        className="fixed rounded-full bg-[#d0ff00] pointer-events-none z-50 transform -translate-x-1/2 -translate-y-1/2 transition-all duration-500"
+      ></div>
+
       {/* Barra de navegación */}
       <Header scrollPos={scrollPos} activeSection={activeSection} />
 
@@ -104,28 +162,90 @@ function LandingSection() {
                 Héctor <span className="text-blue-400">Garza</span>
               </h1>
               <p className="text-lg md:text-xl mb-8 text-gray-300 max-w-md mx-auto md:mx-0">
-                Nuestras herramientas hacen que el trabajo se sienta como un juego, ayudándote a crear tu mejor trabajo.
+                Ingeniero en Tecnologías Computacionales con experiencia en Fullstack, especializado en desarrollo web y
+                móvil. Apasionado por la tecnología, la innovación y la Inteligencia Artificial.
               </p>
 
               <div className="flex flex-col sm:flex-row items-center justify-center md:justify-start space-y-4 sm:space-y-0 sm:space-x-4">
-                <button className="w-full sm:w-auto px-8 py-3 bg-[#d0ff00] hover:bg-[#c5f000] text-black rounded-full font-medium transition-colors flex items-center justify-center sm:justify-start">
-                  Pre-ordenar ahora
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="h-4 w-4 ml-2"
-                    viewBox="0 0 20 20"
-                    fill="currentColor"
-                  >
-                    <path
-                      fillRule="evenodd"
-                      d="M10.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L12.586 11H5a1 1 0 110-2h7.586l-2.293-2.293a1 1 0 010-1.414z"
-                      clipRule="evenodd"
-                    />
-                  </svg>
+                <button
+                  ref={buttonRef}
+                  onClick={handleLinkedInClick}
+                  onMouseEnter={() => setIsHovering(true)}
+                  onMouseLeave={() => setIsHovering(false)}
+                  disabled={isAnimating}
+                  className={`
+                    cursor-pointer
+                    group w-full sm:w-auto px-8 py-3.5 
+                    bg-gradient-to-r from-[#d0ff00] via-[#c5f000] to-[#d0ff00] 
+                    hover:from-[#c5f000] hover:via-[#b8e000] hover:to-[#c5f000]
+                    active:from-[#b8e000] active:via-[#abd000] active:to-[#b8e000]
+                    text-black rounded-full font-semibold 
+                    transition-all duration-300 ease-out
+                    transform hover:scale-105 active:scale-95
+                    hover:shadow-lg hover:shadow-[#d0ff00]/30
+                    border-2 border-transparent hover:border-[#d0ff00]/20
+                    backdrop-blur-sm
+                    flex items-center justify-center sm:justify-start 
+                    relative overflow-hidden
+                    disabled:opacity-70 disabled:cursor-not-allowed
+                    disabled:hover:scale-100 disabled:hover:shadow-none
+                    before:absolute before:inset-0 before:bg-gradient-to-r 
+                    before:from-transparent before:via-white/20 before:to-transparent
+                    before:translate-x-[-100%] hover:before:translate-x-[100%]
+                    before:transition-transform before:duration-1200
+                    ${isAnimating ? 'animate-pulse' : ''}
+                  `}
+                >
+                  {/* Background glow effect */}
+                  <div className={`
+                    absolute inset-0 rounded-full bg-[#d0ff00]/30 blur-md
+                    transition-all duration-300 ease-out
+                    ${isHovering ? 'scale-110 opacity-100' : 'scale-100 opacity-0'}
+                  `} />
+                  
+                  {/* Content */}
+                  <span className="relative z-10 flex items-center">
+                    <svg
+                      className={`
+                        w-5 h-5 mr-2.5 transition-all duration-300
+                        ${isHovering ? 'scale-110 rotate-3' : 'scale-100 rotate-0'}
+                      `}
+                      fill="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                    </svg>
+                    
+                    <span className={`
+                      font-semibold transition-all duration-300
+                      ${isHovering ? 'tracking-wide' : 'tracking-normal'}
+                    `}>
+                      LinkedIn
+                    </span>
+                    
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      className={`
+                        h-4 w-4 ml-2 transition-all duration-300 ease-out
+                        ${isHovering ? 'translate-x-1 scale-110' : 'translate-x-0 scale-100'}
+                      `}
+                      viewBox="0 0 20 20"
+                      fill="currentColor"
+                    >
+                      <path
+                        fillRule="evenodd"
+                        d="M10.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L12.586 11H5a1 1 0 110-2h7.586l-2.293-2.293a1 1 0 010-1.414z"
+                        clipRule="evenodd"
+                      />
+                    </svg>
+                  </span>
+
+                  {/* Ripple effect on click */}
+                  <div className={`
+                    absolute inset-0 rounded-full 
+                    ${isAnimating ? 'animate-ping bg-[#d0ff00]/40' : ''}
+                  `} />
                 </button>
-                <div className="text-gray-400 text-sm">
-                  Desde <span className="text-white font-medium">$149</span>
-                </div>
               </div>
             </div>
           </div>

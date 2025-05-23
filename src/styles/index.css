@@ -32,7 +32,166 @@
     }
 }
 
+/* Estilos para drag and drop */
+.dragging {
+  opacity: 0.5;
+  transform: scale(0.95);
+  z-index: 1000;
+  box-shadow: 0 0 10px rgba(208, 255, 0, 0.5);
+}
+
+.drag-over {
+  border-color: #d0ff00;
+  background-color: rgba(208, 255, 0, 0.1);
+}
 
 
+/* Animación de expansión para el botón de LinkedIn */
+@keyframes expand-bubble {
+  0% {
+    transform: translate(-50%, -50%) scale(0);
+    opacity: 0.8;
+  }
+  80% {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 0.9;
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(1.1);
+    opacity: 0;
+  }
+}
+
+.bubble-animation {
+  animation: expand-bubble 1.2s cubic-bezier(0.17, 0.67, 0.23, 0.98) forwards;
+}
+
+/* Agregar estos estilos a tu archivo CSS existente */
+
+/* Animación de brillo deslizante para el botón */
+@keyframes shimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+/* Animación de pulso mejorada para cuando está animando */
+@keyframes enhanced-pulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.02);
+    opacity: 0.9;
+  }
+}
+
+/* Efecto de resplandor para el hover */
+@keyframes glow-pulse {
+  0%, 100% {
+    box-shadow: 0 0 20px rgba(208, 255, 0, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 30px rgba(208, 255, 0, 0.5);
+  }
+}
+
+/* Clase personalizada para el efecto de brillo */
+.button-shimmer:hover::before {
+  animation: shimmer 0.7s ease-out;
+}
+
+/* Botón específico de LinkedIn con efectos especiales */
+.linkedin-button {
+  background: linear-gradient(135deg, #d0ff00 0%, #c5f000 50%, #d0ff00 100%);
+  background-size: 200% 200%;
+  animation: gradient-shift 3s ease infinite;
+  position: relative;
+  overflow: hidden;
+}
+
+.linkedin-button:hover {
+  animation: gradient-shift 1.5s ease infinite, glow-pulse 2s ease-in-out infinite;
+}
+
+.linkedin-button:active {
+  transform: scale(0.98);
+  background: linear-gradient(135deg, #b8e000 0%, #abd000 50%, #b8e000 100%);
+}
+
+/* Animación de degradado sutil */
+@keyframes gradient-shift {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
 
 
+/* Efecto de ondas en el fondo del botón */
+.linkedin-button::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at center, transparent 0%, rgba(255, 255, 255, 0.1) 70%, transparent 100%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+}
+
+.linkedin-button:hover::after {
+  opacity: 1;
+  animation: ripple 1s ease-out;
+}
+
+@keyframes ripple {
+  0% {
+    transform: scale(0);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 0;
+  }
+}
+
+/* Mejora para dispositivos móviles */
+@media (max-width: 640px) {
+  .linkedin-button {
+    padding: 1rem 2rem;
+    font-size: 1.1rem;
+    touch-action: manipulation;
+  }
+}
+
+/* Estados de enfoque para accesibilidad */
+.linkedin-button:focus-visible {
+  outline: 2px solid #d0ff00;
+  outline-offset: 2px;
+  box-shadow: 0 0 0 4px rgba(208, 255, 0, 0.2);
+}
+
+/* Animación de carga cuando está deshabilitado */
+.linkedin-button:disabled {
+  background: linear-gradient(90deg, #d0ff00 0%, #c5f000 50%, #d0ff00 100%);
+  background-size: 200% 100%;
+  animation: loading-shimmer 1.5s ease-in-out infinite;
+}
+
+@keyframes loading-shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
