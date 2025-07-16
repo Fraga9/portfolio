@@ -11,8 +11,12 @@ function LandingSection() {
   const [isAnimating, setIsAnimating] = useState(false)
   const [isHovering, setIsHovering] = useState(false)
   const [isGitHubHovering, setIsGitHubHovering] = useState(false)
+  const [isTerminalHovering, setIsTerminalHovering] = useState(false)
+  const [showTerminal, setShowTerminal] = useState(false)
+  const [terminalGlow, setTerminalGlow] = useState(false)
   const bubbleRef = useRef(null)
   const buttonRef = useRef(null)
+  const terminalGlowRef = useRef(null)
 
   useEffect(() => {
     const handleScroll = () => {
@@ -59,6 +63,23 @@ function LandingSection() {
     }
   }, [])
 
+  // Easter egg: Destellos aleatorios en el botón de terminal
+  useEffect(() => {
+    if (!showTerminal) {
+      terminalGlowRef.current = setInterval(() => {
+        // 55% de probabilidad cada 3 segundos
+        if (Math.random() < 0.55) {
+          setTerminalGlow(true)
+          setTimeout(() => setTerminalGlow(false), 1500)
+        }
+      }, 3000)
+    }
+
+    return () => {
+      if (terminalGlowRef.current) clearInterval(terminalGlowRef.current)
+    }
+  }, [showTerminal])
+
   // Generic function to handle any social media click with animation
   const handleSocialClick = (url) => {
     if (isAnimating) return
@@ -73,7 +94,7 @@ function LandingSection() {
     // Calculate maximum size to cover the screen
     const maxSize = Math.sqrt(
       Math.pow(Math.max(buttonCenterX, window.innerWidth - buttonCenterX) * 2, 2) +
-        Math.pow(Math.max(buttonCenterY, window.innerHeight - buttonCenterY) * 2, 2),
+      Math.pow(Math.max(buttonCenterY, window.innerHeight - buttonCenterY) * 2, 2),
     )
 
     // Configure initial bubble position
@@ -114,6 +135,12 @@ function LandingSection() {
   const handleGitHubClick = (e) => {
     e.preventDefault()
     window.open("https://github.com/Fraga9", "_blank")
+  }
+
+  // Terminal toggle handler
+  const handleTerminalClick = (e) => {
+    e.preventDefault()
+    setShowTerminal(!showTerminal)
   }
 
   return (
@@ -210,7 +237,7 @@ function LandingSection() {
                     transition-all duration-300 ease-out
                     ${isHovering ? 'scale-110 opacity-100' : 'scale-100 opacity-0'}
                   `} />
-                  
+
                   {/* Content */}
                   <span className="relative z-10 flex items-center">
                     <svg
@@ -221,16 +248,16 @@ function LandingSection() {
                       fill="currentColor"
                       viewBox="0 0 24 24"
                     >
-                      <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                      <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
                     </svg>
-                    
+
                     <span className={`
                       font-semibold transition-all duration-300
                       ${isHovering ? 'tracking-wide' : 'tracking-normal'}
                     `}>
                       LinkedIn
                     </span>
-                    
+
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       className={`
@@ -280,7 +307,7 @@ function LandingSection() {
                     opacity-0 group-hover:opacity-100
                     transition-opacity duration-300
                   " />
-                  
+
                   {/* Inner glow */}
                   <div className="
                     absolute inset-1 rounded-full
@@ -288,7 +315,7 @@ function LandingSection() {
                     opacity-0 group-hover:opacity-100
                     transition-opacity duration-300
                   " />
-                  
+
                   {/* GitHub icon */}
                   <svg
                     className="
@@ -300,9 +327,98 @@ function LandingSection() {
                     fill="currentColor"
                     viewBox="0 0 24 24"
                   >
-                    <path d="M12 0C5.374 0 0 5.373 0 12 0 17.302 3.438 21.8 8.207 23.387c.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0112 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.30.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"/>
+                    <path d="M12 0C5.374 0 0 5.373 0 12 0 17.302 3.438 21.8 8.207 23.387c.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0112 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.30.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z" />
                   </svg>
-                  
+
+                  {/* Shine effect */}
+                  <div className="
+                    absolute top-0 left-0 w-full h-full rounded-full
+                    bg-gradient-to-br from-white/30 via-transparent to-transparent
+                    opacity-0 group-hover:opacity-100
+                    transition-all duration-500
+                    transform group-hover:rotate-180
+                  " />
+                </button>
+
+                {/* Terminal button con estilo liquid glass */}
+                <button
+                  onClick={handleTerminalClick}
+                  onMouseEnter={() => setIsTerminalHovering(true)}
+                  onMouseLeave={() => setIsTerminalHovering(false)}
+                  className={`
+                    group relative w-14 h-14 sm:w-16 sm:h-16
+                    bg-white/10 backdrop-blur-xl
+                    border border-white/20
+                    rounded-full
+                    transition-all duration-500 ease-out
+                    hover:bg-white/20 hover:border-white/30
+                    hover:scale-110 hover:shadow-2xl hover:shadow-white/20
+                    active:scale-95
+                    flex items-center justify-center
+                    overflow-hidden
+                    ${terminalGlow ? 'shadow-2xl shadow-[#d0ff00]/50 border-[#d0ff00]/40 bg-[#d0ff00]/10' : ''}
+                  `}
+                >
+                  {/* Liquid glass effect */}
+                  <div className="
+                    absolute inset-0 rounded-full
+                    bg-gradient-to-br from-white/20 via-transparent to-transparent
+                    opacity-0 group-hover:opacity-100
+                    transition-opacity duration-300
+                  " />
+
+                  {/* Inner glow */}
+                  <div className="
+                    absolute inset-1 rounded-full
+                    bg-gradient-to-br from-white/10 to-transparent
+                    opacity-0 group-hover:opacity-100
+                    transition-opacity duration-300
+                  " />
+
+                  {/* Easter egg glow effect */}
+                  {terminalGlow && (
+                    <div className="
+                      absolute inset-0 rounded-full
+                      bg-[#d0ff00]/30 blur-md
+                      animate-pulse
+                    " />
+                  )}
+
+                  {/* Terminal icon */}
+                  <svg
+                    className={`
+                      w-6 h-6 sm:w-7 sm:h-7 text-white
+                      transition-all duration-300
+                      group-hover:scale-110 group-hover:text-white
+                      relative z-10
+                      ${terminalGlow ? 'text-green-300 drop-shadow-lg' : ''}
+                    `}
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                    strokeWidth="2"
+                  >
+                    {/* Terminal window */}
+                    <rect x="3" y="5" width="18" height="14" rx="2" strokeWidth="1.5" />
+
+                    {/* Header bar */}
+                    <line x1="3" y1="9" x2="21" y2="9" strokeWidth="1" />
+
+                    {/* Terminal dots */}
+                    <circle cx="6" cy="7" r="0.5" fill="currentColor" />
+                    <circle cx="8" cy="7" r="0.5" fill="currentColor" />
+                    <circle cx="10" cy="7" r="0.5" fill="currentColor" />
+
+                    {/* Prompt */}
+                    <path d="m7 12 2 2-2 2" strokeWidth="2" />
+                    <line x1="11" y1="16" x2="16" y2="16" strokeWidth="2" />
+
+                    {/* Cursor */}
+                    <rect x="17" y="15" width="1" height="2" fill="currentColor">
+                      <animate attributeName="opacity" values="1;0;1" dur="1s" repeatCount="indefinite" />
+                    </rect>
+                  </svg>
+
                   {/* Shine effect */}
                   <div className="
                     absolute top-0 left-0 w-full h-full rounded-full
@@ -316,9 +432,13 @@ function LandingSection() {
             </div>
           </div>
 
-          {/* Lado derecho: ASCII Art animado */}
+          {/* Lado derecho: Terminal interactiva */}
           <div className="relative p-4 md:p-10">
-            <AnimatedAsciiArt />
+            {showTerminal && (
+              <div className="animate-in fade-in-0 slide-in-from-right-4 duration-500">
+                <AnimatedAsciiArt />
+              </div>
+            )}
           </div>
         </div>
       </Container>
@@ -346,9 +466,9 @@ function AnimatedAsciiArt() {
   const [isInitialized, setIsInitialized] = useState(false)
   const statusRef = useRef(null)
   const inputRef = useRef(null)
-  
+
   const currentPath = "C:\\Users\\osifraga"
-  
+
   // Sistema de comandos disponibles
   const commands = {
     help: {
@@ -360,7 +480,7 @@ function AnimatedAsciiArt() {
         "",
         "help        - Muestra esta lista de comandos",
         "experiencia - Información sobre experiencia profesional",
-        "proyecto    - Lista de proyectos destacados", 
+        "proyecto    - Lista de proyectos destacados",
         "contacto    - Información de contacto",
         "clear       - Limpia la terminal",
         "sobre       - Información personal",
@@ -381,7 +501,7 @@ function AnimatedAsciiArt() {
         "",
         "💼 EXPERIENCIA:",
         "   • Desarrollo Web Frontend/Backend",
-        "   • Aplicaciones móviles React Native", 
+        "   • Aplicaciones móviles React Native",
         "   • Integración de APIs y servicios",
         "   • Bases de datos SQL/NoSQL",
         "",
@@ -401,17 +521,18 @@ function AnimatedAsciiArt() {
         "                    PROYECTOS DESTACADOS",
         "═══════════════════════════════════════════════════════════",
         "",
-        "🔥 PROYECTO 1: E-Commerce Platform",
+        "🏗️ PROYECTO 1: Sistema de Topografía - CEMEX",
+        "   └─ React + FastAPI + PostgreSQL + Supabase",
+        "   └─ Control de calidad topográfico en pavimentación",
+        "   └─ Cálculos automáticos con tolerancias SCT",
+        "",
+        "🔥 PROYECTO 2: E-Commerce Platform",
         "   └─ React + Node.js + MongoDB",
         "   └─ Sistema completo de compras online",
         "",
-        "🤖 PROYECTO 2: AI Chat Assistant",
+        "🤖 PROYECTO 3: AI Chat Assistant",
         "   └─ Python + OpenAI API + React",
         "   └─ Asistente inteligente para atención al cliente",
-        "",
-        "📱 PROYECTO 3: Mobile Task Manager",
-        "   └─ React Native + Firebase",
-        "   └─ App de gestión de tareas con sincronización",
         "",
         "🌐 PROYECTO 4: Portfolio Website",
         "   └─ React + Tailwind + Vite",
@@ -430,7 +551,7 @@ function AnimatedAsciiArt() {
         "📧 EMAIL:",
         "   └─ hector.garza@ejemplo.com",
         "",
-        "🔗 LINKEDIN:", 
+        "🔗 LINKEDIN:",
         "   └─ linkedin.com/in/osifraga",
         "",
         "🐙 GITHUB:",
@@ -496,7 +617,7 @@ function AnimatedAsciiArt() {
       const statuses = ['ACTIVE', 'SYNCING', 'PATTERN BLUE', 'ERROR']
       const randomStatus = statuses[Math.floor(Math.random() * statuses.length)]
       setSystemStatus(randomStatus)
-      
+
       if (randomStatus === 'ERROR') {
         setErrorFlash(true)
         setTimeout(() => setErrorFlash(false), 300)
@@ -513,15 +634,15 @@ function AnimatedAsciiArt() {
   const handleCommand = (input) => {
     const command = input.toLowerCase().trim()
     const newHistory = [...terminalHistory]
-    
+
     // Agregar comando ejecutado
     newHistory.push(`${currentPath}> ${input}`)
-    
+
     if (command === 'clear') {
       setTerminalHistory([])
       return
     }
-    
+
     if (commands[command]) {
       const output = commands[command].execute()
       if (output) {
@@ -533,7 +654,7 @@ function AnimatedAsciiArt() {
       newHistory.push(`ERROR: '${input}' no es un comando reconocido.`)
       newHistory.push(`Escribe 'help' para ver los comandos disponibles.`)
     }
-    
+
     newHistory.push('') // Línea en blanco
     setTerminalHistory(newHistory)
   }
@@ -553,8 +674,8 @@ function AnimatedAsciiArt() {
           <div className="flex items-center gap-3">
             <div className="flex gap-1">
               <div className="w-2 h-2 bg-blue-500 rounded-full animate-pulse"></div>
-              <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse" style={{animationDelay: '0.5s'}}></div>
-              <div className="w-2 h-2 bg-[#d0ff00] rounded-full animate-pulse" style={{animationDelay: '1s'}}></div>
+              <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse" style={{ animationDelay: '0.5s' }}></div>
+              <div className="w-2 h-2 bg-[#d0ff00] rounded-full animate-pulse" style={{ animationDelay: '1s' }}></div>
             </div>
             <span className="text-green-300 font-bold tracking-wider">MAGI-01</span>
           </div>
@@ -569,16 +690,16 @@ function AnimatedAsciiArt() {
         {/* Efectos NERV */}
         <div className="absolute inset-0 pointer-events-none">
           {/* Escaneo vertical */}
-          <div 
+          <div
             className={`absolute w-full h-0.5 ${errorFlash ? 'bg-red-500/60' : 'bg-green-500/40'} blur-sm`}
             style={{
               animation: 'nervScan 3s linear infinite',
               boxShadow: `0 0 20px ${errorFlash ? '#ef4444' : '#22c55e'}`
             }}
           />
-          
+
           {/* Grid pattern */}
-          <div 
+          <div
             className="absolute inset-0 opacity-5"
             style={{
               backgroundImage: `
@@ -588,7 +709,7 @@ function AnimatedAsciiArt() {
               backgroundSize: '30px 30px'
             }}
           />
-          
+
           {/* Hexágonos flotantes reducidos */}
           {[...Array(3)].map((_, i) => (
             <div
@@ -605,20 +726,19 @@ function AnimatedAsciiArt() {
             </div>
           ))}
         </div>
-        
+
         {/* Terminal Output */}
         <div className="relative z-10 p-3 overflow-y-auto max-h-96">
-          <div 
-            className={`font-mono text-xs leading-relaxed transition-colors duration-300 ${
-              errorFlash ? 'text-red-300' : 'text-green-300'
-            }`}
-            style={{ 
+          <div
+            className={`font-mono text-xs leading-relaxed transition-colors duration-300 ${errorFlash ? 'text-red-300' : 'text-green-300'
+              }`}
+            style={{
               fontFamily: '"Consolas", "Monaco", "Courier New", monospace',
               fontSize: 'clamp(10px, 2vw, 14px)'
             }}
           >
             {isInitialized && terminalHistory.map((line, index) => (
-              <div 
+              <div
                 key={index}
                 className="mb-1 whitespace-pre-wrap"
                 style={{
@@ -628,7 +748,7 @@ function AnimatedAsciiArt() {
                 {line}
               </div>
             ))}
-            
+
             {/* Input line */}
             {isInitialized && (
               <div className="flex items-center mt-2">

@@ -169,11 +169,6 @@ function Footer({ id }) {
           <p className="text-sm text-gray-500">
             © {new Date().getFullYear()} Héctor Garza. Todos los derechos reservados.
           </p>
-          <div className="flex items-center mt-4 space-x-6 md:mt-0">
-            <span className="text-xs text-gray-500">
-              Hecho con <span className="text-[#d0ff00]">♥</span> en México
-            </span>
-          </div>
         </div>
       </Container>
     </footer>
