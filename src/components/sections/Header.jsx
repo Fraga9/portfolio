@@ -66,10 +66,10 @@ function Header({ scrollPos, activeSection }) {
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 transition-all duration-300 z-50 ${
+      className={`fixed top-0 left-0 right-0 transition-all duration-500 z-50 ${
         isScrolled 
-          ? "py-2 bg-black/80 backdrop-blur-md shadow-lg" 
-          : "py-4 md:py-6"
+          ? "py-2 bg-black/85 backdrop-blur-xl shadow-2xl border-b border-white/10" 
+          : "py-6 md:py-8"
       }`}
       role="banner"
     >
@@ -79,15 +79,15 @@ function Header({ scrollPos, activeSection }) {
           <div className="flex items-center">
             <a 
               href="#home" 
-              className="focus:outline-none focus-visible:ring-2 focus-visible:ring-[#d0ff00] rounded-lg"
+              className="transform hover:scale-105 transition-transform duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#d0ff00] rounded-lg"
               aria-label="Ir a inicio"
             >
               <img
                 src="images/logo.png"
                 alt="Logo"
-                className="h-10 md:h-12 w-auto"
+                className="h-12 md:h-14 w-auto drop-shadow-lg"
                 width="auto"
-                height="48"
+                height="56"
               />
             </a>
           </div>
@@ -95,15 +95,15 @@ function Header({ scrollPos, activeSection }) {
           {/* Navegación para escritorio - Centrada */}
           <div className="hidden md:block mx-auto">
             <nav className="flex items-center" aria-label="Navegación principal">
-              <ul className="flex space-x-1.5 px-4 py-2 rounded-full bg-black/40 backdrop-blur-md border border-white/10">
+              <ul className="flex space-x-2 px-6 py-3 rounded-full bg-black/60 backdrop-blur-xl border border-white/10 shadow-lg hover:bg-black/70 transition-colors duration-300">
                 {navItems.map((item) => (
                   <li key={item.section}>
                     <a
                       href={item.href}
-                      className={`px-5 py-2 rounded-full text-sm font-medium block transition-colors ${
+                      className={`px-6 py-2.5 rounded-full text-sm font-medium block transition-all duration-300 transform hover:scale-105 ${
                         activeSection === item.section
-                          ? "text-black bg-[#d0ff00] shadow-sm"
-                          : "text-white hover:text-[#d0ff00] focus:text-[#d0ff00]"
+                          ? "text-black bg-[#d0ff00] shadow-lg font-semibold"
+                          : "text-white hover:text-[#d0ff00] hover:bg-white/5"
                       }`}
                       aria-current={activeSection === item.section ? "page" : undefined}
                     >
@@ -120,7 +120,7 @@ function Header({ scrollPos, activeSection }) {
             <button
               ref={mobileButtonRef}
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="flex items-center justify-center w-10 h-10 rounded-full bg-black/40 text-white border border-white/10 hover:bg-black/60 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#d0ff00]"
+              className="flex items-center justify-center w-12 h-12 rounded-full bg-black/60 text-white border border-white/10 hover:bg-black/80 transition-all duration-300 transform hover:scale-105 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#d0ff00] shadow-lg"
               aria-expanded={mobileMenuOpen}
               aria-controls="mobile-menu"
               aria-label={mobileMenuOpen ? "Cerrar menú" : "Abrir menú"}
@@ -128,7 +128,7 @@ function Header({ scrollPos, activeSection }) {
               {mobileMenuOpen ? (
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  className="h-5 w-5"
+                  className="h-6 w-6"
                   fill="none"
                   viewBox="0 0 24 24"
                   stroke="currentColor"
@@ -144,7 +144,7 @@ function Header({ scrollPos, activeSection }) {
               ) : (
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  className="h-5 w-5"
+                  className="h-6 w-6"
                   fill="none"
                   viewBox="0 0 24 24"
                   stroke="currentColor"
@@ -169,22 +169,22 @@ function Header({ scrollPos, activeSection }) {
         <div 
           id="mobile-menu"
           ref={menuRef}
-          className={`md:hidden mt-4 bg-black/90 backdrop-blur-md rounded-xl border border-white/10 overflow-hidden transition-all duration-300 origin-top ${
+          className={`md:hidden mt-4 bg-black/95 backdrop-blur-xl rounded-2xl border border-white/10 overflow-hidden transition-all duration-500 shadow-2xl ${
             mobileMenuOpen 
-              ? 'max-h-64 opacity-100 scale-y-100 translate-y-0' 
-              : 'max-h-0 opacity-0 scale-y-95 -translate-y-2 pointer-events-none'
+              ? 'max-h-[280px] opacity-100 scale-100 translate-y-0' 
+              : 'max-h-0 opacity-0 scale-95 -translate-y-4 pointer-events-none'
           }`}
         >
-          <nav className="py-2" aria-label="Navegación móvil">
-            <ul className="flex flex-col">
+          <nav className="py-3" aria-label="Navegación móvil">
+            <ul className="flex flex-col space-y-1 px-3">
               {navItems.map((item) => (
                 <li key={`mobile-${item.section}`}>
                   <a
                     href={item.href}
-                    className={`px-5 py-3 block text-sm font-medium transition-colors ${
+                    className={`px-5 py-3.5 rounded-xl block text-sm font-medium transition-all duration-300 ${
                       activeSection === item.section
-                        ? "text-[#d0ff00] bg-white/5"
-                        : "text-white hover:bg-white/5"
+                        ? "text-black bg-[#d0ff00] shadow-lg font-semibold"
+                        : "text-white hover:bg-white/10 hover:text-[#d0ff00] hover:translate-x-2 transform"
                     }`}
                     onClick={() => setMobileMenuOpen(false)}
                     aria-current={activeSection === item.section ? "page" : undefined}

@@ -4,11 +4,13 @@ import { useState, useEffect, useRef } from "react"
 import Container from "../layout/Container"
 import Header from "./Header"
 
+
 function LandingSection() {
   const [scrollPos, setScrollPos] = useState(0)
   const [activeSection, setActiveSection] = useState("home")
   const [isAnimating, setIsAnimating] = useState(false)
   const [isHovering, setIsHovering] = useState(false)
+  const [isGitHubHovering, setIsGitHubHovering] = useState(false)
   const bubbleRef = useRef(null)
   const buttonRef = useRef(null)
 
@@ -108,6 +110,12 @@ function LandingSection() {
     handleSocialClick("https://www.linkedin.com/in/osifraga")
   }
 
+  // GitHub click handler
+  const handleGitHubClick = (e) => {
+    e.preventDefault()
+    window.open("https://github.com/Fraga9", "_blank")
+  }
+
   return (
     <section id="home" className="relative min-h-screen overflow-hidden pt-16 md:pt-24">
       {/* Fondo degradado */}
@@ -166,7 +174,7 @@ function LandingSection() {
                 móvil. Apasionado por la tecnología, la innovación y la Inteligencia Artificial.
               </p>
 
-              <div className="flex flex-col sm:flex-row items-center justify-center md:justify-start space-y-4 sm:space-y-0 sm:space-x-4">
+              <div className="flex flex-col sm:flex-row items-center justify-center md:justify-start gap-4">
                 <button
                   ref={buttonRef}
                   onClick={handleLinkedInClick}
@@ -246,20 +254,71 @@ function LandingSection() {
                     ${isAnimating ? 'animate-ping bg-[#d0ff00]/40' : ''}
                   `} />
                 </button>
+
+                {/* GitHub button con estilo liquid glass */}
+                <button
+                  onClick={handleGitHubClick}
+                  onMouseEnter={() => setIsGitHubHovering(true)}
+                  onMouseLeave={() => setIsGitHubHovering(false)}
+                  className="
+                    group relative w-14 h-14 sm:w-16 sm:h-16
+                    bg-white/10 backdrop-blur-xl
+                    border border-white/20
+                    rounded-full
+                    transition-all duration-500 ease-out
+                    hover:bg-white/20 hover:border-white/30
+                    hover:scale-110 hover:shadow-2xl hover:shadow-white/20
+                    active:scale-95
+                    flex items-center justify-center
+                    overflow-hidden
+                  "
+                >
+                  {/* Liquid glass effect */}
+                  <div className="
+                    absolute inset-0 rounded-full
+                    bg-gradient-to-br from-white/20 via-transparent to-transparent
+                    opacity-0 group-hover:opacity-100
+                    transition-opacity duration-300
+                  " />
+                  
+                  {/* Inner glow */}
+                  <div className="
+                    absolute inset-1 rounded-full
+                    bg-gradient-to-br from-white/10 to-transparent
+                    opacity-0 group-hover:opacity-100
+                    transition-opacity duration-300
+                  " />
+                  
+                  {/* GitHub icon */}
+                  <svg
+                    className="
+                      w-6 h-6 sm:w-7 sm:h-7 text-white
+                      transition-all duration-300
+                      group-hover:scale-110 group-hover:text-white
+                      relative z-10
+                    "
+                    fill="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path d="M12 0C5.374 0 0 5.373 0 12 0 17.302 3.438 21.8 8.207 23.387c.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0112 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.30.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"/>
+                  </svg>
+                  
+                  {/* Shine effect */}
+                  <div className="
+                    absolute top-0 left-0 w-full h-full rounded-full
+                    bg-gradient-to-br from-white/30 via-transparent to-transparent
+                    opacity-0 group-hover:opacity-100
+                    transition-all duration-500
+                    transform group-hover:rotate-180
+                  " />
+                </button>
               </div>
             </div>
           </div>
 
-          {/* Lado derecho: Imagen del producto */}
-          <div className="relative p-10">
-            <img
-              src="images/set4.jpg"
-              alt="Product"
-              className="w-full mx-auto rounded-xl shadow-lg relative z-10"
-              width="600"
-              height="400"
-              loading="eager"
-            />
+          {/* Lado derecho: ASCII Art animado */}
+          <div className="relative p-4 md:p-10">
+            <AnimatedAsciiArt />
           </div>
         </div>
       </Container>
@@ -275,6 +334,373 @@ function LandingSection() {
         </div>
       </div>
     </section>
+  )
+}
+
+// Terminal funcional estilo NERV/Evangelion
+function AnimatedAsciiArt() {
+  const [systemStatus, setSystemStatus] = useState('ACTIVE')
+  const [errorFlash, setErrorFlash] = useState(false)
+  const [currentInput, setCurrentInput] = useState('')
+  const [terminalHistory, setTerminalHistory] = useState([])
+  const [isInitialized, setIsInitialized] = useState(false)
+  const statusRef = useRef(null)
+  const inputRef = useRef(null)
+  
+  const currentPath = "C:\\Users\\osifraga"
+  
+  // Sistema de comandos disponibles
+  const commands = {
+    help: {
+      description: "Muestra todos los comandos disponibles",
+      execute: () => [
+        "═══════════════════════════════════════════════════════════",
+        "                    COMANDOS DISPONIBLES",
+        "═══════════════════════════════════════════════════════════",
+        "",
+        "help        - Muestra esta lista de comandos",
+        "experiencia - Información sobre experiencia profesional",
+        "proyecto    - Lista de proyectos destacados", 
+        "contacto    - Información de contacto",
+        "clear       - Limpia la terminal",
+        "sobre       - Información personal",
+        "",
+        "═══════════════════════════════════════════════════════════"
+      ]
+    },
+    experiencia: {
+      description: "Muestra experiencia profesional",
+      execute: () => [
+        "═══════════════════════════════════════════════════════════",
+        "                  EXPERIENCIA PROFESIONAL",
+        "═══════════════════════════════════════════════════════════",
+        "",
+        "🎓 EDUCACIÓN:",
+        "   • Ingeniero en Tecnologías Computacionales - TEC",
+        "   • Especialización en Desarrollo Fullstack",
+        "",
+        "💼 EXPERIENCIA:",
+        "   • Desarrollo Web Frontend/Backend",
+        "   • Aplicaciones móviles React Native", 
+        "   • Integración de APIs y servicios",
+        "   • Bases de datos SQL/NoSQL",
+        "",
+        "🚀 TECNOLOGÍAS:",
+        "   • JavaScript/TypeScript, React, Node.js",
+        "   • Python, Java, C++",
+        "   • MongoDB, PostgreSQL, Firebase",
+        "   • AWS, Docker, Git",
+        "",
+        "═══════════════════════════════════════════════════════════"
+      ]
+    },
+    proyecto: {
+      description: "Lista proyectos destacados",
+      execute: () => [
+        "═══════════════════════════════════════════════════════════",
+        "                    PROYECTOS DESTACADOS",
+        "═══════════════════════════════════════════════════════════",
+        "",
+        "🔥 PROYECTO 1: E-Commerce Platform",
+        "   └─ React + Node.js + MongoDB",
+        "   └─ Sistema completo de compras online",
+        "",
+        "🤖 PROYECTO 2: AI Chat Assistant",
+        "   └─ Python + OpenAI API + React",
+        "   └─ Asistente inteligente para atención al cliente",
+        "",
+        "📱 PROYECTO 3: Mobile Task Manager",
+        "   └─ React Native + Firebase",
+        "   └─ App de gestión de tareas con sincronización",
+        "",
+        "🌐 PROYECTO 4: Portfolio Website",
+        "   └─ React + Tailwind + Vite",
+        "   └─ Sitio web personal con terminal interactiva",
+        "",
+        "═══════════════════════════════════════════════════════════"
+      ]
+    },
+    contacto: {
+      description: "Información de contacto",
+      execute: () => [
+        "═══════════════════════════════════════════════════════════",
+        "                    INFORMACIÓN DE CONTACTO",
+        "═══════════════════════════════════════════════════════════",
+        "",
+        "📧 EMAIL:",
+        "   └─ hector.garza@ejemplo.com",
+        "",
+        "🔗 LINKEDIN:", 
+        "   └─ linkedin.com/in/osifraga",
+        "",
+        "🐙 GITHUB:",
+        "   └─ github.com/Fraga9",
+        "",
+        "📱 TELÉFONO:",
+        "   └─ +52 (xxx) xxx-xxxx",
+        "",
+        "📍 UBICACIÓN:",
+        "   └─ México",
+        "",
+        "═══════════════════════════════════════════════════════════"
+      ]
+    },
+    sobre: {
+      description: "Información personal",
+      execute: () => [
+        "═══════════════════════════════════════════════════════════",
+        "                      SOBRE MÍ",
+        "═══════════════════════════════════════════════════════════",
+        "",
+        "👨‍💻 Héctor Garza - Osifraga",
+        "",
+        "Ingeniero en Tecnologías Computacionales apasionado por",
+        "la innovación y el desarrollo de soluciones tecnológicas.",
+        "",
+        "🎯 ESPECIALIDADES:",
+        "   • Desarrollo Fullstack",
+        "   • Inteligencia Artificial",
+        "   • Arquitectura de Software",
+        "   • Experiencia de Usuario",
+        "",
+        "🌟 FILOSOFÍA:",
+        "   'La tecnología debe servir para mejorar la vida",
+        "    de las personas y crear un futuro mejor.'",
+        "",
+        "═══════════════════════════════════════════════════════════"
+      ]
+    },
+    clear: {
+      description: "Limpia la terminal",
+      execute: () => null // Comando especial
+    }
+  }
+
+  // Inicialización de la terminal
+  useEffect(() => {
+    const initTimer = setTimeout(() => {
+      setIsInitialized(true)
+      setTerminalHistory([
+        `NERV Terminal v3.33 [Build 2024.07.16]`,
+        `Sistema operativo: MAGI OS`,
+        `Usuario: osifraga`,
+        `Directorio: ${currentPath}`,
+        ``,
+        `Escribe 'help' para ver los comandos disponibles.`,
+        ``
+      ])
+    }, 1000)
+
+    // Estados del sistema
+    statusRef.current = setInterval(() => {
+      const statuses = ['ACTIVE', 'SYNCING', 'PATTERN BLUE', 'ERROR']
+      const randomStatus = statuses[Math.floor(Math.random() * statuses.length)]
+      setSystemStatus(randomStatus)
+      
+      if (randomStatus === 'ERROR') {
+        setErrorFlash(true)
+        setTimeout(() => setErrorFlash(false), 300)
+      }
+    }, 5000)
+
+    return () => {
+      clearTimeout(initTimer)
+      if (statusRef.current) clearInterval(statusRef.current)
+    }
+  }, [])
+
+  // Manejar entrada de comandos
+  const handleCommand = (input) => {
+    const command = input.toLowerCase().trim()
+    const newHistory = [...terminalHistory]
+    
+    // Agregar comando ejecutado
+    newHistory.push(`${currentPath}> ${input}`)
+    
+    if (command === 'clear') {
+      setTerminalHistory([])
+      return
+    }
+    
+    if (commands[command]) {
+      const output = commands[command].execute()
+      if (output) {
+        newHistory.push(...output)
+      }
+    } else if (command === '') {
+      // No hacer nada con comando vacío
+    } else {
+      newHistory.push(`ERROR: '${input}' no es un comando reconocido.`)
+      newHistory.push(`Escribe 'help' para ver los comandos disponibles.`)
+    }
+    
+    newHistory.push('') // Línea en blanco
+    setTerminalHistory(newHistory)
+  }
+
+  const handleKeyPress = (e) => {
+    if (e.key === 'Enter') {
+      handleCommand(currentInput)
+      setCurrentInput('')
+    }
+  }
+
+  return (
+    <div className="relative w-full max-w-full">
+      {/* NERV Terminal Header */}
+      <div className="bg-gradient-to-r from-blue-900/20 to-green-900/20 border border-green-500/30 rounded-t-lg p-2 mb-0">
+        <div className="flex items-center justify-between text-xs font-mono">
+          <div className="flex items-center gap-3">
+            <div className="flex gap-1">
+              <div className="w-2 h-2 bg-blue-500 rounded-full animate-pulse"></div>
+              <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse" style={{animationDelay: '0.5s'}}></div>
+              <div className="w-2 h-2 bg-[#d0ff00] rounded-full animate-pulse" style={{animationDelay: '1s'}}></div>
+            </div>
+            <span className="text-green-300 font-bold tracking-wider">MAGI-01</span>
+          </div>
+          <div className={`font-bold tracking-wider ${errorFlash ? 'text-red-400 animate-pulse' : 'text-green-400'}`}>
+            {systemStatus}
+          </div>
+        </div>
+      </div>
+
+      {/* Terminal principal */}
+      <div className="relative bg-black/40 backdrop-blur-sm border border-green-500/30 rounded-b-lg overflow-hidden">
+        {/* Efectos NERV */}
+        <div className="absolute inset-0 pointer-events-none">
+          {/* Escaneo vertical */}
+          <div 
+            className={`absolute w-full h-0.5 ${errorFlash ? 'bg-red-500/60' : 'bg-green-500/40'} blur-sm`}
+            style={{
+              animation: 'nervScan 3s linear infinite',
+              boxShadow: `0 0 20px ${errorFlash ? '#ef4444' : '#22c55e'}`
+            }}
+          />
+          
+          {/* Grid pattern */}
+          <div 
+            className="absolute inset-0 opacity-5"
+            style={{
+              backgroundImage: `
+                linear-gradient(90deg, ${errorFlash ? '#ef4444' : '#22c55e'} 1px, transparent 1px),
+                linear-gradient(${errorFlash ? '#ef4444' : '#22c55e'} 1px, transparent 1px)
+              `,
+              backgroundSize: '30px 30px'
+            }}
+          />
+          
+          {/* Hexágonos flotantes reducidos */}
+          {[...Array(3)].map((_, i) => (
+            <div
+              key={i}
+              className={`absolute w-3 h-3 ${errorFlash ? 'text-red-400' : 'text-green-400'} opacity-10`}
+              style={{
+                left: `${20 + i * 30}%`,
+                top: `${10 + i * 20}%`,
+                animation: `float ${4 + i * 0.5}s ease-in-out infinite alternate`,
+                fontSize: '12px'
+              }}
+            >
+              ⬢
+            </div>
+          ))}
+        </div>
+        
+        {/* Terminal Output */}
+        <div className="relative z-10 p-3 overflow-y-auto max-h-96">
+          <div 
+            className={`font-mono text-xs leading-relaxed transition-colors duration-300 ${
+              errorFlash ? 'text-red-300' : 'text-green-300'
+            }`}
+            style={{ 
+              fontFamily: '"Consolas", "Monaco", "Courier New", monospace',
+              fontSize: 'clamp(10px, 2vw, 14px)'
+            }}
+          >
+            {isInitialized && terminalHistory.map((line, index) => (
+              <div 
+                key={index}
+                className="mb-1 whitespace-pre-wrap"
+                style={{
+                  animation: `fadeIn 0.3s ease-out ${index * 0.1}s both`
+                }}
+              >
+                {line}
+              </div>
+            ))}
+            
+            {/* Input line */}
+            {isInitialized && (
+              <div className="flex items-center mt-2">
+                <span className={`mr-2 ${errorFlash ? 'text-red-400' : 'text-green-400'}`}>
+                  {currentPath}&gt;
+                </span>
+                <input
+                  ref={inputRef}
+                  type="text"
+                  value={currentInput}
+                  onChange={(e) => setCurrentInput(e.target.value)}
+                  onKeyPress={handleKeyPress}
+                  className="bg-transparent outline-none flex-1 text-green-300 caret-green-400"
+                  style={{ fontSize: 'clamp(10px, 2vw, 14px)' }}
+                  placeholder="Escribe un comando..."
+                  autoFocus
+                />
+                <span className={`ml-1 w-2 h-4 ${errorFlash ? 'bg-red-400' : 'bg-green-400'} animate-pulse`}></span>
+              </div>
+            )}
+          </div>
+        </div>
+
+        {/* Status bar inferior */}
+        <div className="bg-gradient-to-r from-green-900/30 to-blue-900/30 border-t border-green-500/30 p-2">
+          <div className="flex justify-between items-center text-xs font-mono">
+            <span className="text-green-400">USUARIO: osifraga</span>
+            <span className="text-green-400">SESIÓN: {isInitialized ? 'ACTIVA' : 'INICIANDO...'}</span>
+            <span className={`${errorFlash ? 'text-red-400' : 'text-green-400'}`}>
+              COMANDOS: {Object.keys(commands).length}
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <style jsx>{`
+        @keyframes nervScan {
+          0% { transform: translateY(-100%); opacity: 0; }
+          10% { opacity: 1; }
+          90% { opacity: 1; }
+          100% { transform: translateY(100%); opacity: 0; }
+        }
+        
+        @keyframes float {
+          0% { transform: translateY(0) rotate(0deg); }
+          100% { transform: translateY(-8px) rotate(180deg); }
+        }
+        
+        @keyframes fadeIn {
+          from { opacity: 0; transform: translateX(-10px); }
+          to { opacity: 1; transform: translateX(0); }
+        }
+        
+        /* Scrollbar personalizado */
+        .overflow-y-auto::-webkit-scrollbar {
+          width: 6px;
+        }
+        
+        .overflow-y-auto::-webkit-scrollbar-track {
+          background: rgba(0, 0, 0, 0.2);
+        }
+        
+        .overflow-y-auto::-webkit-scrollbar-thumb {
+          background: rgba(34, 197, 94, 0.5);
+          border-radius: 3px;
+        }
+        
+        .overflow-y-auto::-webkit-scrollbar-thumb:hover {
+          background: rgba(34, 197, 94, 0.8);
+        }
+      `}</style>
+    </div>
   )
 }
 
