@@ -1,7 +1,16 @@
+import { track } from '@vercel/analytics'
+
 export default function LastFmLink() {
   return (
     <a
       href="https://www.last.fm/user/Fraga9"
+      onClick={() => {
+        // Track event with Vercel Analytics
+        track('Last.fm Profile Click', {
+          username: 'Fraga9',
+          location: 'footer'
+        })
+      }}
       target="_blank"
       rel="noopener noreferrer"
       className="inline-flex items-center space-x-1 text-xs text-gray-500 hover:text-gray-300 transition-colors mt-1"

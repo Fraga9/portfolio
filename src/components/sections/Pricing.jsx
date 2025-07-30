@@ -1,6 +1,7 @@
 "use client"
 
 import { useRef } from "react"
+import { track } from '@vercel/analytics'
 import Container from "../layout/Container"
 import Card from "../ui/Card"
 import DraggableGallery from "../DraggableGallery"
@@ -35,6 +36,14 @@ function Projects({ id }) {
                 {project.link && (
                   <a
                     href={project.link}
+                    onClick={() => {
+                      // Track event with Vercel Analytics
+                      track('Project Link Click', {
+                        project: project.title,
+                        link_type: project.linkText,
+                        url: project.link
+                      })
+                    }}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="mt-2 md:mt-0 inline-flex items-center text-[#d0ff00] hover:text-[#e0ff40] transition-colors text-sm"

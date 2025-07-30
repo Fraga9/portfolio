@@ -1,5 +1,6 @@
 // src/App.jsx
 import { useEffect } from 'react';
+import { Analytics } from '@vercel/analytics/react';
 import LandingSection from './components/sections/LandingSection';
 import Projects from './components/sections/Pricing';
 import Footer from './components/sections/Footer';
@@ -53,6 +54,7 @@ function App() {
       <Experience id="features" />
       <Projects id="pricing" />
       <Footer id="support" />
+      <Analytics />
     </div>
   );
 }

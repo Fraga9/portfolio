@@ -1,6 +1,7 @@
 "use client"
 
 import { useState, useEffect, useRef } from "react"
+import { track } from '@vercel/analytics'
 import Container from "../layout/Container"
 import Header from "./Header"
 
@@ -128,18 +129,39 @@ function LandingSection() {
   // Replace the LinkedIn click handler to use the generic social click handler
   const handleLinkedInClick = (e) => {
     e.preventDefault()
+    
+    // Track event with Vercel Analytics
+    track('LinkedIn Click', {
+      location: 'landing_section',
+      url: 'https://www.linkedin.com/in/osifraga'
+    })
+    
     handleSocialClick("https://www.linkedin.com/in/osifraga")
   }
 
   // GitHub click handler
   const handleGitHubClick = (e) => {
     e.preventDefault()
+    
+    // Track event with Vercel Analytics
+    track('GitHub Click', {
+      location: 'landing_section',
+      url: 'https://github.com/Fraga9'
+    })
+    
     window.open("https://github.com/Fraga9", "_blank")
   }
 
   // Terminal toggle handler
   const handleTerminalClick = (e) => {
     e.preventDefault()
+    
+    // Track event with Vercel Analytics
+    track('Terminal Toggle', {
+      action: showTerminal ? 'close' : 'open',
+      location: 'landing_section'
+    })
+    
     setShowTerminal(!showTerminal)
   }
 

@@ -1,6 +1,7 @@
 "use client"
 
 import { useState, useEffect, useRef } from "react"
+import { track } from '@vercel/analytics'
 import Container from "../layout/Container"
 import NowPlaying from "../NowPlaying"
 import LastFmLink from "../LastFmLink"
@@ -10,14 +11,31 @@ function Footer({ id }) {
   const [scrollY, setScrollY] = useState(0)
   const footerRef = useRef(null)
 
-  // Rastrear posición del mouse para efectos interactivos
+  // Rastrear posición del mouse para efectos interactivos y scroll profundo
   useEffect(() => {
+    let footerViewTracked = false
+    
     const handleMouseMove = (e) => {
       setMousePosition({ x: e.clientX, y: e.clientY })
     }
 
     const handleScroll = () => {
       setScrollY(window.scrollY)
+      
+      // Track deep scroll (footer visible) only once per session
+      if (!footerViewTracked && footerRef.current) {
+        const footerRect = footerRef.current.getBoundingClientRect()
+        const isFooterVisible = footerRect.top < window.innerHeight && footerRect.bottom > 0
+        
+        if (isFooterVisible) {
+          footerViewTracked = true
+          // Track event with Vercel Analytics
+          track('Deep Scroll', {
+            section: 'footer',
+            scrolled_to_bottom: true
+          })
+        }
+      }
     }
 
     window.addEventListener("mousemove", handleMouseMove)
@@ -124,6 +142,14 @@ function Footer({ id }) {
                   <a
                     key={idx}
                     href={social.url}
+                    onClick={() => {
+                      // Track event with Vercel Analytics
+                      track('Social Link Click', {
+                        platform: social.name,
+                        location: 'footer',
+                        url: social.url
+                      })
+                    }}
                     className="flex items-center justify-center w-10 h-10 transition-transform bg-white/5 hover:bg-white/10 backdrop-blur-sm rounded-xl hover:scale-110"
                     aria-label={social.name}
                     target="_blank"
