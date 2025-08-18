@@ -118,8 +118,14 @@ function Header({ scrollPos, activeSection }) {
             </nav>
           </div>
 
-          {/* Botón de menú móvil - Alineado a la derecha */}
-          <div className="md:hidden ml-auto">
+          {/* Controles móviles - Selector de idioma y menú hamburguesa */}
+          <div className="md:hidden ml-auto flex items-center gap-3">
+            {/* Selector de idioma móvil */}
+            <div className="relative">
+              <LanguageSelector />
+            </div>
+            
+            {/* Botón de menú móvil */}
             <button
               ref={mobileButtonRef}
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
@@ -198,9 +204,6 @@ function Header({ scrollPos, activeSection }) {
                   </a>
                 </li>
               ))}
-              <li className="pt-3 px-2">
-                <LanguageSelector />
-              </li>
             </ul>
           </nav>
         </div>
