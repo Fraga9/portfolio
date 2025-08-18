@@ -1,0 +1,117 @@
+{
+  "nav": {
+    "home": "Inicio",
+    "experience": "Experiencia", 
+    "projects": "Proyectos",
+    "contact": "Contacto"
+  },
+  "hero": {
+    "greeting": "Hola, soy",
+    "name": "Héctor Garza",
+    "role": "Desarrollador Full Stack",
+    "description": "Ingeniero en Tecnologías Computacionales con experiencia en Fullstack, especializado en desarrollo web y móvil. Apasionado por la tecnología, la innovación y la Inteligencia Artificial.",
+    "linkedin": "LinkedIn",
+    "github": "GitHub", 
+    "terminal": "Terminal",
+    "downloadCV": "Descargar CV",
+    "scrollIndicator": "Desplázate para ver más"
+  },
+  "experience": {
+    "title": "Experiencia",
+    "subtitle": "Trayectoria Profesional",
+    "description": "Proyectos y roles en los que he aplicado mis habilidades para crear soluciones innovadoras.",
+    "current": "Actual",
+    "present": "Presente",
+    "experiences": {
+      "cemex": {
+        "position": "Full Stack Developer",
+        "company": "Cemex",
+        "period": "Feb 2025 - Presente",
+        "achievements": [
+          "Desarrollé tres plataformas clave: Promexma Marketplace (distribución uniforme), Xpresa (seguimiento de satisfacción del cliente) y Permisos Promexma (gestión de documentos) para optimizar operaciones en más de 60 sucursales.",
+          "Implementé un sistema basado en LLM para abordar consultas frecuentes de clientes, mejorando la experiencia del usuario y reduciendo la carga operativa en atención al cliente."
+        ],
+        "metrics": {
+          "branches": "Sucursales",
+          "platforms": "Plataformas", 
+          "reduction": "Reducción de carga"
+        }
+      },
+      "infosys": {
+        "position": "InStep Internship",
+        "company": "Infosys",
+        "period": "Jun 2024 - Ago 2024",
+        "achievements": [
+          "Desarrollé un sistema de caché semántico integrado con el chatbot EdgeVerve para la recuperación de datos PDF, reduciendo el tiempo de proceso en un 90%.",
+          "Creé un sistema para la creación de agentes y tareas impulsado por el usuario con paneles y gráficos personalizados, mejorando la eficiencia en la gestión de tareas."
+        ],
+        "metrics": {
+          "timeReduction": "Reducción de tiempo",
+          "keySystems": "Sistemas clave"
+        }
+      }
+    }
+  },
+  "projects": {
+    "title": "Mis Proyectos",
+    "subtitle": "Trabajo destacado",
+    "description": "Soluciones innovadoras que he desarrollado",
+    "viewProject": "Ver Proyecto",
+    "technologies": "Tecnologías",
+    "galleryTitle": "Galería de",
+    "projectList": {
+      "smartcolonia": {
+        "title": "SmartColonia: Comprehensive Neighborhood Management Platform",
+        "achievements": [
+          "Desarrollé una aplicación SaaS con tres niveles de usuario (Guardia de Seguridad, Residente, Administrador) actualmente en fase beta con 200 usuarios, proyectando 1,000 usuarios en seis meses.",
+          "Implementé módulos de control de acceso, sistema de pagos integrado, anuncios comunitarios y herramientas de encuestas para mejorar la gestión del vecindario."
+        ]
+      },
+      "cemex": {
+        "title": "Sistema de Topografía - CEMEX",
+        "linkText": "GitHub",
+        "achievements": [
+          "Desarrollé individualmente como Arquitecto de Software una aplicación de control de calidad topográfico para CEMEX Nacional, después de que otra consultora falló en su implementación. Diseñé el sistema para automatizar cálculos bajo tolerancias SCT en pavimentación.",
+          "Eficienté y aceleré procesos críticos al generar gráficas automáticas y reportes de liberación instantáneos con un solo click, transformando un proceso manual de horas en segundos."
+        ]
+      },
+      "labnl": {
+        "title": "Acervo Bibliográfico Digital LABNL: Full Stack Developer",
+        "linkText": "Sitio Web",
+        "achievements": [
+          "Creé un sitio web para la colección bibliográfica del Laboratorio Ciudadano de Nuevo León utilizando React y Google Sheets. Diseñé el sitio para centralizar información sobre libros disponibles.",
+          "Ayudé a aproximadamente 20,000 personas mensualmente a encontrar libros de interés en la colección bibliográfica digital, recibiendo 19,900 visitantes en junio de 2024."
+        ]
+      }
+    }
+  },
+  "footer": {
+    "aboutMe": "Sobre Mí",
+    "aboutDescription": "Ingeniero en Tecnologías Computacionales con experiencia en desarrollo Fullstack. Apasionado por crear soluciones innovadoras utilizando las últimas tecnologías y aplicando conceptos de Inteligencia Artificial.",
+    "navigation": "Navegación",
+    "connect": "Conéctate",
+    "currentlyListening": "Currently Listening",
+    "contact": "Contacto",
+    "rights": "Todos los derechos reservados.",
+    "builtWith": "Construido con React & Tailwind CSS"
+  },
+  "music": {
+    "nowPlaying": "Reproduciendo",
+    "lastPlayed": "Última reproducción",
+    "scrobbles": "scrobbles",
+    "listeners": "oyentes"
+  },
+  "common": {
+    "loading": "Cargando...",
+    "error": "Error",
+    "retry": "Reintentar"
+  },
+  "gallery": {
+    "title": "Galería de imágenes",
+    "noImages": "No hay imágenes disponibles para este proyecto.",
+    "dragDropInstructions": "Arrastra y suelta las imágenes para reordenarlas. Haz clic en una imagen para verla en pantalla completa."
+  },
+  "skills": {
+    "title": "Habilidades principales"
+  }
+}

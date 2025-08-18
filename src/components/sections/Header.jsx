@@ -1,8 +1,11 @@
 // components/sections/Header.jsx
 import { useState, useEffect, useRef } from "react"
+import { useTranslation } from 'react-i18next'
 import Container from "../layout/Container"
+import LanguageSelector from "../LanguageSelector"
 
 function Header({ scrollPos, activeSection }) {
+  const { t } = useTranslation()
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [isScrolled, setIsScrolled] = useState(scrollPos > 50)
   const menuRef = useRef(null)
@@ -58,10 +61,10 @@ function Header({ scrollPos, activeSection }) {
   
   // Lista de elementos de navegación para mantener DRY
   const navItems = [
-    { href: "#home", label: "Inicio", section: "home" },
-    { href: "#features", label: "Experiencia", section: "features" },
-    { href: "#pricing", label: "Proyectos", section: "pricing" },
-    { href: "#support", label: "Contacto", section: "support" }
+    { href: "#home", label: t('nav.home'), section: "home" },
+    { href: "#features", label: t('nav.experience'), section: "features" },
+    { href: "#pricing", label: t('nav.projects'), section: "pricing" },
+    { href: "#support", label: t('nav.contact'), section: "support" }
   ]
 
   return (
@@ -161,8 +164,10 @@ function Header({ scrollPos, activeSection }) {
             </button>
           </div>
 
-          {/* Elemento vacío para mantener la disposición en escritorio */}
-          <div className="hidden md:block"></div>
+          {/* Selector de idiomas para escritorio */}
+          <div className="hidden md:block">
+            <LanguageSelector />
+          </div>
         </div>
 
         {/* Menú móvil */}
@@ -193,6 +198,9 @@ function Header({ scrollPos, activeSection }) {
                   </a>
                 </li>
               ))}
+              <li className="pt-3 px-2">
+                <LanguageSelector />
+              </li>
             </ul>
           </nav>
         </div>

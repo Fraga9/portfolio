@@ -1,18 +1,20 @@
 "use client"
 
 import { useState, useEffect, useRef } from "react"
+import { useTranslation } from 'react-i18next'
 import { track } from '@vercel/analytics'
 import Container from "../layout/Container"
 import Header from "./Header"
 
 
 function LandingSection() {
+  const { t } = useTranslation()
   const [scrollPos, setScrollPos] = useState(0)
   const [activeSection, setActiveSection] = useState("home")
   const [isAnimating, setIsAnimating] = useState(false)
   const [isHovering, setIsHovering] = useState(false)
-  const [isGitHubHovering, setIsGitHubHovering] = useState(false)
-  const [isTerminalHovering, setIsTerminalHovering] = useState(false)
+  const [_isGitHubHovering, setIsGitHubHovering] = useState(false)
+  const [_isTerminalHovering, setIsTerminalHovering] = useState(false)
   const [showTerminal, setShowTerminal] = useState(false)
   const [terminalGlow, setTerminalGlow] = useState(false)
   const bubbleRef = useRef(null)
@@ -216,11 +218,10 @@ function LandingSection() {
               </div>
 
               <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight mb-6 text-white">
-                Héctor <span className="text-blue-400">Garza</span>
+                {t('hero.greeting')} <span className="text-blue-400">{t('hero.name')}</span>
               </h1>
               <p className="text-lg md:text-xl mb-8 text-gray-300 max-w-md mx-auto md:mx-0">
-                Ingeniero en Tecnologías Computacionales con experiencia en Fullstack, especializado en desarrollo web y
-                móvil. Apasionado por la tecnología, la innovación y la Inteligencia Artificial.
+                {t('hero.description')}
               </p>
 
               <div className="flex flex-col sm:flex-row items-center justify-center md:justify-start gap-4">
@@ -277,7 +278,7 @@ function LandingSection() {
                       font-semibold transition-all duration-300
                       ${isHovering ? 'tracking-wide' : 'tracking-normal'}
                     `}>
-                      LinkedIn
+                      {t('hero.linkedin')}
                     </span>
 
                     <svg
@@ -467,7 +468,7 @@ function LandingSection() {
 
       {/* Indicador de scroll - Oculto en móvil porque puede superponerse con el contenido */}
       <div className="hidden md:flex absolute bottom-8 left-1/2 transform -translate-x-1/2 flex-col items-center text-white/70">
-        <p className="text-sm mb-2">Desplázate para ver más</p>
+        <p className="text-sm mb-2">{t('hero.scrollIndicator')}</p>
         <div className="w-6 h-10 border-2 border-white/50 rounded-full flex justify-center p-1">
           <div
             className="w-1 bg-[#d0ff00] rounded-full animate-pulse"

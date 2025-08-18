@@ -1,9 +1,12 @@
 "use client"
 
 import { useState, useRef } from "react"
+import { useTranslation } from 'react-i18next'
 import ImageGalleryModal from "./ImageGalleryModal"
 
-export default function DraggableGallery({ images = [], title = "Galería de imágenes" }) {
+export default function DraggableGallery({ images = [], title }) {
+  const { t } = useTranslation()
+  const displayTitle = title || t('gallery.title')
   const [draggingIndex, setDraggingIndex] = useState(null)
   const [imageList, setImageList] = useState(images)
   const [dragOverIndex, setDragOverIndex] = useState(null)
@@ -22,7 +25,7 @@ export default function DraggableGallery({ images = [], title = "Galería de im�
   if (imageList.length === 0) {
     return (
       <div className="mt-6 p-4 rounded-lg border border-white/10 bg-black/30 text-center">
-        <p className="text-gray-400">No hay imágenes disponibles para este proyecto.</p>
+        <p className="text-gray-400">{t('gallery.noImages')}</p>
       </div>
     )
   }
@@ -125,7 +128,7 @@ export default function DraggableGallery({ images = [], title = "Galería de im�
 
   return (
     <div className="mt-6">
-      <h4 className="text-white font-medium mb-3">{title}</h4>
+      <h4 className="text-white font-medium mb-3">{displayTitle}</h4>
       <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
         {imageList.map((image, index) => (
           <div
@@ -188,7 +191,7 @@ export default function DraggableGallery({ images = [], title = "Galería de im�
         ))}
       </div>
       <p className="text-xs text-gray-500 mt-2">
-        Arrastra y suelta las imágenes para reordenarlas. Haz clic en una imagen para verla en pantalla completa.
+        {t('gallery.dragDropInstructions')}
       </p>
 
       {/* Galería modal */}

@@ -1,11 +1,14 @@
 "use client"
 
 import { useState } from "react"
+import { useTranslation } from 'react-i18next'
 import Container from "../layout/Container"
 import Card from "../ui/Card"
 
 function Experience({ id }) {
+  const { t } = useTranslation()
   const [activeExperience, setActiveExperience] = useState(0)
+  const experiences = getExperiences(t)
 
   return (
     <section id={id} className="py-20 md:py-32 bg-black relative overflow-hidden">
@@ -18,13 +21,13 @@ function Experience({ id }) {
       <Container className="px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="max-w-3xl mx-auto mb-16">
           <div className="inline-flex items-center space-x-2 bg-black/40 backdrop-blur-md px-4 py-2 rounded-full mb-6 border border-white/10">
-            <span className="font-medium text-white text-sm">Experiencia</span>
+            <span className="font-medium text-white text-sm">{t('experience.title')}</span>
           </div>
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-6">
-            Trayectoria <span className="text-blue-400">Profesional</span>
+            {t('experience.subtitle')}
           </h2>
           <p className="text-gray-400 text-lg">
-            Proyectos y roles en los que he aplicado mis habilidades para crear soluciones innovadoras.
+            {t('experience.description')}
           </p>
         </div>
 
@@ -100,7 +103,7 @@ function Experience({ id }) {
 
         {/* Habilidades - Versión minimalista */}
         <div className="mt-20 max-w-4xl mx-auto">
-          <h3 className="text-xl font-bold text-white mb-8">Habilidades principales</h3>
+          <h3 className="text-xl font-bold text-white mb-8">{t('skills.title')}</h3>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
             {skills.map((skill, index) => (
               <div key={index} className="group">
@@ -123,37 +126,56 @@ function Experience({ id }) {
   )
 }
 
-const experiences = [
-  {
-    position: "Data Analyst",
-    company: "Cemex",
-    technologies: ["React", "FastAPI", "Firebase", "Supabase"],
-    period: "Feb 2025 - Present",
-    achievements: [
+const getExperiences = (t) => {
+  // Para arrays necesitamos usar returnObjects: true para obtener el array completo
+  const cemexAchievements = t('experience.experiences.cemex.achievements', { 
+    returnObjects: true,
+    defaultValue: [
       "Desarrollé tres plataformas clave: Promexma Marketplace (distribución uniforme), Xpresa (seguimiento de satisfacción del cliente) y Permisos Promexma (gestión de documentos) para optimizar operaciones en más de 60 sucursales.",
       "Implementé un sistema basado en LLM para abordar consultas frecuentes de clientes, mejorando la experiencia del usuario y reduciendo la carga operativa en atención al cliente.",
-    ],
-    metrics: [
-      { value: "60+", label: "Sucursales" },
-      { value: "3", label: "Plataformas" },
-      { value: "90%", label: "Reducción de carga" },
-    ],
-  },
-  {
-    position: "InStep Internship",
-    company: "Infosys",
-    technologies: ["AI Agents", "Semantic Search", "LLM", "Python", "React", "Flask"],
-    period: "Jun 2024 - Aug 2024",
-    achievements: [
+    ]
+  })
+  
+  const infosysAchievements = t('experience.experiences.infosys.achievements', { 
+    returnObjects: true,
+    defaultValue: [
       "Desarrollé un sistema de caché semántico integrado con el chatbot EdgeVerve para la recuperación de datos PDF, reduciendo el tiempo de proceso en un 90%.",
       "Creé un sistema para la creación de agentes y tareas impulsado por el usuario con paneles y gráficos personalizados, mejorando la eficiencia en la gestión de tareas.",
-    ],
-    metrics: [
-      { value: "90%", label: "Reducción de tiempo" },
-      { value: "2", label: "Sistemas clave" },
-    ],
-  },
-]
+    ]
+  })
+
+  return [
+    {
+      position: t('experience.experiences.cemex.position', 'Full Stack Developer'),
+      company: "Cemex",
+      technologies: ["React", "FastAPI", "Firebase", "Supabase"],
+      period: t('experience.experiences.cemex.period', 'Feb 2025 - Present'),
+      achievements: Array.isArray(cemexAchievements) ? cemexAchievements : [
+        "Desarrollé tres plataformas clave: Promexma Marketplace (distribución uniforme), Xpresa (seguimiento de satisfacción del cliente) y Permisos Promexma (gestión de documentos) para optimizar operaciones en más de 60 sucursales.",
+        "Implementé un sistema basado en LLM para abordar consultas frecuentes de clientes, mejorando la experiencia del usuario y reduciendo la carga operativa en atención al cliente.",
+      ],
+      metrics: [
+        { value: "60+", label: t('experience.experiences.cemex.metrics.branches', 'Sucursales') },
+        { value: "3", label: t('experience.experiences.cemex.metrics.platforms', 'Plataformas') },
+        { value: "90%", label: t('experience.experiences.cemex.metrics.reduction', 'Reducción de carga') },
+      ],
+    },
+    {
+      position: t('experience.experiences.infosys.position', 'InStep Internship'),
+      company: "Infosys",
+      technologies: ["AI Agents", "Semantic Search", "LLM", "Python", "React", "Flask"],
+      period: t('experience.experiences.infosys.period', 'Jun 2024 - Aug 2024'),
+      achievements: Array.isArray(infosysAchievements) ? infosysAchievements : [
+        "Desarrollé un sistema de caché semántico integrado con el chatbot EdgeVerve para la recuperación de datos PDF, reduciendo el tiempo de proceso en un 90%.",
+        "Creé un sistema para la creación de agentes y tareas impulsado por el usuario con paneles y gráficos personalizados, mejorando la eficiencia en la gestión de tareas.",
+      ],
+      metrics: [
+        { value: "90%", label: t('experience.experiences.infosys.metrics.timeReduction', 'Reducción de tiempo') },
+        { value: "2", label: t('experience.experiences.infosys.metrics.keySystems', 'Sistemas clave') },
+      ],
+    },
+  ]
+}
 
 const skills = [
   { name: "React", level: 95 },

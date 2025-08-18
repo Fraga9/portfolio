@@ -1,14 +1,16 @@
 "use client"
 
 import { useState, useEffect, useRef } from "react"
+import { useTranslation } from 'react-i18next'
 import { track } from '@vercel/analytics'
 import Container from "../layout/Container"
 import NowPlaying from "../NowPlaying"
 import LastFmLink from "../LastFmLink"
 
 function Footer({ id }) {
+  const { t } = useTranslation()
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
-  const [scrollY, setScrollY] = useState(0)
+  const [_scrollY, setScrollY] = useState(0)
   const footerRef = useRef(null)
 
   // Rastrear posición del mouse para efectos interactivos y scroll profundo
@@ -48,7 +50,7 @@ function Footer({ id }) {
   }, [])
 
   // Calcular ángulos para efectos basados en el mouse
-  const calcRotation = (idx) => {
+  const _calcRotation = (idx) => {
     const baseAngle = (mousePosition.x / window.innerWidth) * 5 - 2.5
     return baseAngle + idx * 0.2
   }
@@ -98,11 +100,9 @@ function Footer({ id }) {
           {/* Columna izquierda: Sobre mí y navegación */}
           <div className="space-y-8">
             <div className="space-y-4">
-              <h3 className="text-xl font-semibold text-white">Sobre Mí</h3>
+              <h3 className="text-xl font-semibold text-white">{t('footer.aboutMe')}</h3>
               <p className="text-gray-400">
-                Ingeniero en Tecnologías Computacionales con experiencia en desarrollo Fullstack. Apasionado por crear
-                soluciones innovadoras utilizando las últimas tecnologías y aplicando conceptos de Inteligencia
-                Artificial.
+                {t('footer.aboutDescription')}
               </p>
               <div  
                 className="inline-block px-4 py-2 text-sm border rounded-full bg-white/5 border-white/10 hover:bg-white/10 transition-colors"
@@ -114,19 +114,19 @@ function Footer({ id }) {
 
             {/* Navegación - secciones existentes */}
             <div className="space-y-4">
-              <h3 className="text-xl font-semibold text-white">Navegación</h3>
+              <h3 className="text-xl font-semibold text-white">{t('footer.navigation')}</h3>
               <div className="grid grid-cols-2 gap-2">
                 <a href="#home" className="text-gray-400 hover:text-white transition-colors">
-                  Inicio
+                  {t('nav.home')}
                 </a>
                 <a href="#features" className="text-gray-400 hover:text-white transition-colors">
-                  Experiencia
+                  {t('nav.experience')}
                 </a>
                 <a href="#pricing" className="text-gray-400 hover:text-white transition-colors">
-                  Proyectos
+                  {t('nav.projects')}
                 </a>
                 <a href="#support" className="text-gray-400 hover:text-white transition-colors">
-                  Contacto
+                  {t('nav.contact')}
                 </a>
               </div>
             </div>
@@ -136,7 +136,7 @@ function Footer({ id }) {
           <div className="space-y-8">
             {/* Redes sociales */}
             <div className="space-y-4">
-              <h3 className="text-xl font-semibold text-white">Conéctate</h3>
+              <h3 className="text-xl font-semibold text-white">{t('footer.connect')}</h3>
               <div className="flex flex-wrap gap-3">
                 {socialLinks.map((social, idx) => (
                   <a
@@ -179,7 +179,7 @@ function Footer({ id }) {
                       d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3"
                     />
                   </svg>
-                  Currently Listening
+                  {t('footer.currentlyListening')}
                 </span>
               </h3>
               <div>
@@ -193,7 +193,7 @@ function Footer({ id }) {
         {/* Franja inferior con copyright */}
         <div className="flex flex-col items-center justify-between pt-8 mt-12 border-t md:flex-row border-white/10">
           <p className="text-sm text-gray-500">
-            © {new Date().getFullYear()} Héctor Garza. Todos los derechos reservados.
+            © {new Date().getFullYear()} Héctor Garza. {t('footer.rights')}
           </p>
         </div>
       </Container>

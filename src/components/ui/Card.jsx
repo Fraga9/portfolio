@@ -5,7 +5,7 @@ import { useEffect, useRef, useState } from "react"
 function Card({ children, className = "", variant = "default", index = 0, animateIn = false, onClick }) {
   const cardRef = useRef(null)
   const [isVisible, setIsVisible] = useState(false)
-  const [isHovered, setIsHovered] = useState(false)
+  const [_isHovered, setIsHovered] = useState(false)
 
   const variantClasses = {
     default: "bg-white rounded-xl shadow-md overflow-hidden",

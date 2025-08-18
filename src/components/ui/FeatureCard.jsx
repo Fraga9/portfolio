@@ -17,7 +17,7 @@ function FeatureCard({
   
   // Generar colores automáticos para sombras y superposiciones basados en el color principal
   const backgroundColor = color
-  const textColor = "black" // Se podría calcular dinámicamente según la luminosidad del color
+  const _textColor = "black" // Se podría calcular dinámicamente según la luminosidad del color
   
   return (
     <div

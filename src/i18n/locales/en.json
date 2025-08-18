@@ -1,0 +1,117 @@
+{
+  "nav": {
+    "home": "Home",
+    "experience": "Experience", 
+    "projects": "Projects",
+    "contact": "Contact"
+  },
+  "hero": {
+    "greeting": "Hi, I'm",
+    "name": "Héctor Garza",
+    "role": "Full Stack Developer",
+    "description": "Computer Technology Engineer with Fullstack experience, specialized in web and mobile development. Passionate about technology, innovation and Artificial Intelligence.",
+    "linkedin": "LinkedIn",
+    "github": "GitHub", 
+    "terminal": "Terminal",
+    "downloadCV": "Download CV",
+    "scrollIndicator": "Scroll to see more"
+  },
+  "experience": {
+    "title": "Experience",
+    "subtitle": "Professional Journey",
+    "description": "Projects and roles where I have applied my skills to create innovative solutions.",
+    "current": "Current",
+    "present": "Present",
+    "experiences": {
+      "cemex": {
+        "position": "Full Stack Developer",
+        "company": "Cemex",
+        "period": "Feb 2025 - Present",
+        "achievements": [
+          "Developed three key platforms: Promexma Marketplace (uniform distribution), Xpresa (customer satisfaction tracking) and Promexma Permits (document management) to optimize operations across 60+ branches.",
+          "Implemented an LLM-based system to address frequent customer queries, improving user experience and reducing operational load in customer service."
+        ],
+        "metrics": {
+          "branches": "Branches",
+          "platforms": "Platforms", 
+          "reduction": "Load reduction"
+        }
+      },
+      "infosys": {
+        "position": "InStep Internship",
+        "company": "Infosys",
+        "period": "Jun 2024 - Aug 2024",
+        "achievements": [
+          "Developed a semantic cache system integrated with EdgeVerve chatbot for PDF data retrieval, reducing processing time by 90%.",
+          "Created a user-driven agent and task creation system with custom dashboards and charts, improving task management efficiency."
+        ],
+        "metrics": {
+          "timeReduction": "Time reduction",
+          "keySystems": "Key systems"
+        }
+      }
+    }
+  },
+  "projects": {
+    "title": "My Projects",
+    "subtitle": "Featured work",
+    "description": "Innovative solutions I have developed",
+    "viewProject": "View Project",
+    "technologies": "Technologies",
+    "galleryTitle": "Gallery of",
+    "projectList": {
+      "smartcolonia": {
+        "title": "SmartColonia: Comprehensive Neighborhood Management Platform",
+        "achievements": [
+          "Developed a SaaS application with three user levels (Security Guard, Resident, Administrator) currently in beta phase with 200 users, projecting 1,000 users in six months.",
+          "Implemented access control modules, integrated payment system, community announcements and survey tools to improve neighborhood management."
+        ]
+      },
+      "cemex": {
+        "title": "Topography System - CEMEX",
+        "linkText": "GitHub",
+        "achievements": [
+          "Individually developed as Software Architect a topographic quality control application for CEMEX Nacional, after another consulting firm failed in its implementation. Designed the system to automate calculations under SCT tolerances in paving.",
+          "Streamlined and accelerated critical processes by generating automatic graphs and instant release reports with a single click, transforming a manual process of hours into seconds."
+        ]
+      },
+      "labnl": {
+        "title": "LABNL Digital Bibliographic Collection: Full Stack Developer",
+        "linkText": "Website",
+        "achievements": [
+          "Created a website for the bibliographic collection of the Nuevo León Citizen Laboratory using React and Google Sheets. Designed the site to centralize information about available books.",
+          "Helped approximately 20,000 people monthly find books of interest in the digital bibliographic collection, receiving 19,900 visitors in June 2024."
+        ]
+      }
+    }
+  },
+  "footer": {
+    "aboutMe": "About Me",
+    "aboutDescription": "Computer Technology Engineer with Fullstack development experience. Passionate about creating innovative solutions using the latest technologies and applying Artificial Intelligence concepts.",
+    "navigation": "Navigation",
+    "connect": "Connect",
+    "currentlyListening": "Currently Listening",
+    "contact": "Contact",
+    "rights": "All rights reserved.",
+    "builtWith": "Built with React & Tailwind CSS"
+  },
+  "music": {
+    "nowPlaying": "Now Playing",
+    "lastPlayed": "Last Played",
+    "scrobbles": "scrobbles",
+    "listeners": "listeners"
+  },
+  "common": {
+    "loading": "Loading...",
+    "error": "Error",
+    "retry": "Retry"
+  },
+  "gallery": {
+    "title": "Image gallery",
+    "noImages": "No images available for this project.",
+    "dragDropInstructions": "Drag and drop images to reorder them. Click on an image to view it in full screen."
+  },
+  "skills": {
+    "title": "Main Skills"
+  }
+}

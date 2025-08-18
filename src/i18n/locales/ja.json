@@ -1,0 +1,117 @@
+{
+  "nav": {
+    "home": "ホーム",
+    "experience": "経験", 
+    "projects": "プロジェクト",
+    "contact": "お問い合わせ"
+  },
+  "hero": {
+    "greeting": "こんにちは、私は",
+    "name": "Héctor Garza",
+    "role": "フルスタック開発者",
+    "description": "コンピューター技術エンジニアで、フルスタック経験を持ち、Webおよびモバイル開発を専門としています。技術、革新、人工知能に情熱を注いでいます。",
+    "linkedin": "LinkedIn",
+    "github": "GitHub", 
+    "terminal": "ターミナル",
+    "downloadCV": "履歴書をダウンロード",
+    "scrollIndicator": "スクロールして詳細を見る"
+  },
+  "experience": {
+    "title": "経験",
+    "subtitle": "職歴",
+    "description": "スキルを応用して革新的なソリューションを作成したプロジェクトと役割。",
+    "current": "現在",
+    "present": "現在",
+    "experiences": {
+      "cemex": {
+        "position": "フルスタック開発者",
+        "company": "Cemex",
+        "period": "2025年2月 - 現在",
+        "achievements": [
+          "3つの主要プラットフォームを開発：Promexma Marketplace（統一配布）、Xpresa（顧客満足度追跡）、Promexma Permits（文書管理）により、60以上の支店での運営を最適化しました。",
+          "顧客からの頻繁な問い合わせに対応するLLMベースのシステムを実装し、ユーザーエクスペリエンスを向上させ、カスタマーサービスの運用負荷を軽減しました。"
+        ],
+        "metrics": {
+          "branches": "支店",
+          "platforms": "プラットフォーム", 
+          "reduction": "負荷軽減"
+        }
+      },
+      "infosys": {
+        "position": "InStepインターンシップ",
+        "company": "Infosys",
+        "period": "2024年6月 - 2024年8月",
+        "achievements": [
+          "PDFデータ検索用のEdgeVerveチャットボットに統合されたセマンティックキャッシュシステムを開発し、処理時間を90%短縮しました。",
+          "カスタムダッシュボードとチャートを備えたユーザー主導のエージェントとタスク作成システムを作成し、タスク管理の効率を向上させました。"
+        ],
+        "metrics": {
+          "timeReduction": "時間短縮",
+          "keySystems": "主要システム"
+        }
+      }
+    }
+  },
+  "projects": {
+    "title": "私のプロジェクト",
+    "subtitle": "注目の作品",
+    "description": "開発した革新的なソリューション",
+    "viewProject": "プロジェクトを見る",
+    "technologies": "技術",
+    "galleryTitle": "ギャラリー",
+    "projectList": {
+      "smartcolonia": {
+        "title": "SmartColonia：総合近隣管理プラットフォーム",
+        "achievements": [
+          "3つのユーザーレベル（セキュリティガード、住民、管理者）を持つSaaSアプリケーションを開発し、現在200ユーザーでベータフェーズ中、6ヶ月では1,000ユーザーを目指しています。",
+          "アクセス制御モジュール、統合決済システム、コミュニティ告知、アンケートツールを実装し、近隣管理を改善しました。"
+        ]
+      },
+      "cemex": {
+        "title": "地形システム - CEMEX",
+        "linkText": "GitHub",
+        "achievements": [
+          "他のコンサルティング会社が実装に失敗した後、ソフトウェアアーキテクトとしてCEMEX Nacionalの地形品質管理アプリケーションを個別に開発しました。舟装におけるSCT許容差下での計算を自動化するシステムを設計しました。",
+          "ワンクリックで自動グラフと即座リリースレポートを生成することで重要なプロセスを合理化・加速化し、数時間の手動プロセスを数秒に短縮しました。"
+        ]
+      },
+      "labnl": {
+        "title": "LABNLデジタル書目コレクション：フルスタック開発者",
+        "linkText": "ウェブサイト",
+        "achievements": [
+          "ReactとGoogle Sheetsを使用してNuevo León市民ラボの書目コレクション用のウェブサイトを作成しました。利用可能な書籍に関する情報を一元化するためにサイトを設計しました。",
+          "デジタル書目コレクションで月約　2万人が興味のある本を見つけるのを支援し、2024年6月には19,900人の訪問者を受け入れました。"
+        ]
+      }
+    }
+  },
+  "footer": {
+    "aboutMe": "私について",
+    "aboutDescription": "コンピューター技術エンジニアで、フルスタック開発経験を持っています。最新技術を使用して革新的なソリューションを作成し、人工知能の概念を応用することに情熱を注いでいます。",
+    "navigation": "ナビゲーション",
+    "connect": "接続",
+    "currentlyListening": "現在再生中",
+    "contact": "お問い合わせ",
+    "rights": "全著作権所有。",
+    "builtWith": "React & Tailwind CSS で構築"
+  },
+  "music": {
+    "nowPlaying": "再生中",
+    "lastPlayed": "最後に再生",
+    "scrobbles": "スクロブル",
+    "listeners": "リスナー"
+  },
+  "common": {
+    "loading": "読み込み中...",
+    "error": "エラー",
+    "retry": "再試行"
+  },
+  "gallery": {
+    "title": "イメージギャラリー",
+    "noImages": "このプロジェクトには利用可能な画像がありません。",
+    "dragDropInstructions": "画像をドラッグ＆ドロップして並び替えます。画像をクリックしてフルスクリーン表示。"
+  },
+  "skills": {
+    "title": "主要スキル"
+  }
+}

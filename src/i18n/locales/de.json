@@ -1,0 +1,117 @@
+{
+  "nav": {
+    "home": "Startseite",
+    "experience": "Erfahrung", 
+    "projects": "Projekte",
+    "contact": "Kontakt"
+  },
+  "hero": {
+    "greeting": "Hallo, ich bin",
+    "name": "Héctor Garza",
+    "role": "Full Stack Entwickler",
+    "description": "Ingenieur für Computertechnologie mit Fullstack-Erfahrung, spezialisiert auf Web- und mobile Entwicklung. Leidenschaftlich für Technologie, Innovation und Künstliche Intelligenz.",
+    "linkedin": "LinkedIn",
+    "github": "GitHub", 
+    "terminal": "Terminal",
+    "downloadCV": "Lebenslauf herunterladen",
+    "scrollIndicator": "Scrollen Sie, um mehr zu sehen"
+  },
+  "experience": {
+    "title": "Erfahrung",
+    "subtitle": "Beruflicher Werdegang",
+    "description": "Projekte und Rollen, in denen ich meine Fähigkeiten angewendet habe, um innovative Lösungen zu schaffen.",
+    "current": "Aktuell",
+    "present": "Gegenwart",
+    "experiences": {
+      "cemex": {
+        "position": "Full Stack Entwickler",
+        "company": "Cemex",
+        "period": "Feb 2025 - Gegenwart",
+        "achievements": [
+          "Entwickelte drei Schlüsselplattformen: Promexma Marketplace (einheitliche Verteilung), Xpresa (Kundenzufriedenheitsverfolgung) und Promexma Permits (Dokumentenverwaltung) zur Optimierung der Abläufe in über 60 Filialen.",
+          "Implementierte ein LLM-basiertes System zur Bearbeitung häufiger Kundenanfragen, wodurch die Benutzererfahrung verbessert und die operative Belastung im Kundendienst reduziert wurde."
+        ],
+        "metrics": {
+          "branches": "Filialen",
+          "platforms": "Plattformen", 
+          "reduction": "Lastreduzierung"
+        }
+      },
+      "infosys": {
+        "position": "InStep Praktikum",
+        "company": "Infosys",
+        "period": "Juni 2024 - Aug 2024",
+        "achievements": [
+          "Entwickelte ein semantisches Cache-System, das in den EdgeVerve-Chatbot für PDF-Datenabruf integriert ist und die Verarbeitungszeit um 90% reduzierte.",
+          "Erstellte ein benutzergesteuertes System zur Erstellung von Agenten und Aufgaben mit benutzerdefinierten Dashboards und Diagrammen, wodurch die Effizienz des Aufgabenmanagements verbessert wurde."
+        ],
+        "metrics": {
+          "timeReduction": "Zeitreduzierung",
+          "keySystems": "Schlüsselsysteme"
+        }
+      }
+    }
+  },
+  "projects": {
+    "title": "Meine Projekte",
+    "subtitle": "Ausgewählte Arbeiten",
+    "description": "Innovative Lösungen, die ich entwickelt habe",
+    "viewProject": "Projekt ansehen",
+    "technologies": "Technologien",
+    "galleryTitle": "Galerie von",
+    "projectList": {
+      "smartcolonia": {
+        "title": "SmartColonia: Umfassende Nachbarschaftsverwaltungsplattform",
+        "achievements": [
+          "Entwickelte eine SaaS-Anwendung mit drei Benutzerebenen (Sicherheitswache, Bewohner, Administrator), die sich derzeit in der Beta-Phase mit 200 Benutzern befindet und 1.000 Benutzer in sechs Monaten projiziert.",
+          "Implementierte Zugangskontrollen, integriertes Zahlungssystem, Gemeinschaftsankündigungen und Umfrage-Tools zur Verbesserung der Nachbarschaftsverwaltung."
+        ]
+      },
+      "cemex": {
+        "title": "Topographie-System - CEMEX",
+        "linkText": "GitHub",
+        "achievements": [
+          "Einzeln als Software-Architekt eine topographische Qualitätskontrollanwendung für CEMEX Nacional entwickelt, nachdem ein anderes Beratungsunternehmen bei der Implementierung versagt hatte. System zur Automatisierung von Berechnungen unter SCT-Toleranzen im Straßenbau entworfen.",
+          "Kritische Prozesse rationalisiert und beschleunigt durch automatische Diagramme und sofortige Freigabeberichte mit einem Klick, wodurch ein manueller Prozess von Stunden in Sekunden verwandelt wurde."
+        ]
+      },
+      "labnl": {
+        "title": "LABNL Digitale Bibliographische Sammlung: Full Stack Entwickler",
+        "linkText": "Website",
+        "achievements": [
+          "Eine Website für die bibliographische Sammlung des Bürgerlabors Nuevo León mit React und Google Sheets erstellt. Die Website zur Zentralisierung von Informationen über verfügbare Bücher konzipiert.",
+          "Half etwa 20.000 Menschen monatlich, Bücher von Interesse in der digitalen bibliographischen Sammlung zu finden, und erhielt 19.900 Besucher im Juni 2024."
+        ]
+      }
+    }
+  },
+  "footer": {
+    "aboutMe": "Über mich",
+    "aboutDescription": "Ingenieur für Computertechnologie mit Fullstack-Entwicklungserfahrung. Leidenschaftlich für die Entwicklung innovativer Lösungen mit den neuesten Technologien und der Anwendung von Künstlicher Intelligenz-Konzepten.",
+    "navigation": "Navigation",
+    "connect": "Verbinden",
+    "currentlyListening": "Gerade am Hören",
+    "contact": "Kontakt",
+    "rights": "Alle Rechte vorbehalten.",
+    "builtWith": "Erstellt mit React & Tailwind CSS"
+  },
+  "music": {
+    "nowPlaying": "Läuft gerade",
+    "lastPlayed": "Zuletzt gespielt",
+    "scrobbles": "Scrobbles",
+    "listeners": "Hörer"
+  },
+  "common": {
+    "loading": "Lädt...",
+    "error": "Fehler",
+    "retry": "Wiederholen"
+  },
+  "gallery": {
+    "title": "Bildergalerie",
+    "noImages": "Keine Bilder für dieses Projekt verfügbar.",
+    "dragDropInstructions": "Ziehen Sie Bilder per Drag & Drop, um sie neu anzuordnen. Klicken Sie auf ein Bild, um es im Vollbild anzuzeigen."
+  },
+  "skills": {
+    "title": "Hauptfähigkeiten"
+  }
+}

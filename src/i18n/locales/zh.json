@@ -1,0 +1,117 @@
+{
+  "nav": {
+    "home": "首页",
+    "experience": "经验", 
+    "projects": "项目",
+    "contact": "联系"
+  },
+  "hero": {
+    "greeting": "你好，我是",
+    "name": "Héctor Garza",
+    "role": "全栈开发者",
+    "description": "计算机技术工程师，具有全栈经验，专业从事Web和移动开发。热衷于技术、创新和人工智能。",
+    "linkedin": "领英",
+    "github": "GitHub", 
+    "terminal": "终端",
+    "downloadCV": "下载简历",
+    "scrollIndicator": "滚动查看更多"
+  },
+  "experience": {
+    "title": "经验",
+    "subtitle": "职业历程",
+    "description": "我应用技能创造创新解决方案的项目和角色。",
+    "current": "当前",
+    "present": "至今",
+    "experiences": {
+      "cemex": {
+        "position": "全栈开发工程师",
+        "company": "Cemex",
+        "period": "2025年2月 - 至今",
+        "achievements": [
+          "开发了三个关键平台：Promexma Marketplace（统一分销）、Xpresa（客户满意度跟踪）和Promexma Permits（文档管理），以优化60多个分支机构的运营。",
+          "实施了基于LLM的系统来处理客户常见查询，改善用户体验并减少客户服务的运营负担。"
+        ],
+        "metrics": {
+          "branches": "分支机构",
+          "platforms": "平台", 
+          "reduction": "负载减少"
+        }
+      },
+      "infosys": {
+        "position": "InStep实习生",
+        "company": "Infosys",
+        "period": "2024年6月 - 2024年8月",
+        "achievements": [
+          "开发了一个语义缓存系统，集成到EdgeVerve聊天机器人中用于PDF数据检索，将处理时间减少了90%。",
+          "创建了一个用户驱动的代理和任务创建系统，配有自定义仪表板和图表，提高了任务管理效率。"
+        ],
+        "metrics": {
+          "timeReduction": "时间减少",
+          "keySystems": "关键系统"
+        }
+      }
+    }
+  },
+  "projects": {
+    "title": "我的项目",
+    "subtitle": "精选作品",
+    "description": "我开发的创新解决方案",
+    "viewProject": "查看项目",
+    "technologies": "技术栈",
+    "galleryTitle": "图库",
+    "projectList": {
+      "smartcolonia": {
+        "title": "SmartColonia：综合社区管理平台",
+        "achievements": [
+          "开发了一个SaaS应用程序，具有三个用户级别（保安、居民、管理员），目前处于Beta测试阶段，有200个用户，预计六个月内达到1000个用户。",
+          "实施了门禁控制模块、集成支付系统、社区公告和调查工具，以改善社区管理。"
+        ]
+      },
+      "cemex": {
+        "title": "地形测量系统 - CEMEX",
+        "linkText": "GitHub",
+        "achievements": [
+          "作为软件架构师独立开发了CEMEX Nacional的地形质量控制应用程序，在另一家咨询公司实施失败后。设计系统在路面铺设中在SCT容差下自动化计算。",
+          "通过一键生成自动图表和即时发布报告，简化和加速关键流程，将数小时的手动流程转化为秒级操作。"
+        ]
+      },
+      "labnl": {
+        "title": "LABNL数字书目集：全栈开发员",
+        "linkText": "网站",
+        "achievements": [
+          "使用React和Google Sheets为Nuevo León公民实验室的书目集创建了一个网站。设计网站以集中化可用书籍信息。",
+          "每月帮助大约20,000人在数字书目集中找到感兴趣的书籍，2024年6月接待了19,900名访问者。"
+        ]
+      }
+    }
+  },
+  "footer": {
+    "aboutMe": "关于我",
+    "aboutDescription": "计算机技术工程师，具有全栈开发经验。热衷于使用最新技术创造创新解决方案，并应用人工智能概念。",
+    "navigation": "导航",
+    "connect": "联系",
+    "currentlyListening": "正在听",
+    "contact": "联系",
+    "rights": "保留所有权利。",
+    "builtWith": "使用 React & Tailwind CSS 构建"
+  },
+  "music": {
+    "nowPlaying": "正在播放",
+    "lastPlayed": "最近播放",
+    "scrobbles": "播放次数",
+    "listeners": "听众"
+  },
+  "common": {
+    "loading": "加载中...",
+    "error": "错误",
+    "retry": "重试"
+  },
+  "gallery": {
+    "title": "图片库",
+    "noImages": "此项目没有可用的图片。",
+    "dragDropInstructions": "拖放图片以重新排序。单击图片全屏查看。"
+  },
+  "skills": {
+    "title": "主要技能"
+  }
+}

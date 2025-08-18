@@ -1,0 +1,117 @@
+{
+  "nav": {
+    "home": "Accueil",
+    "experience": "Expérience", 
+    "projects": "Projets",
+    "contact": "Contact"
+  },
+  "hero": {
+    "greeting": "Salut, je suis",
+    "name": "Héctor Garza",
+    "role": "Développeur Full Stack",
+    "description": "Ingénieur en Technologie Informatique avec expérience Fullstack, spécialisé dans le développement web et mobile. Passionné par la technologie, l'innovation et l'Intelligence Artificielle.",
+    "linkedin": "LinkedIn",
+    "github": "GitHub", 
+    "terminal": "Terminal",
+    "downloadCV": "Télécharger CV",
+    "scrollIndicator": "Faites défiler pour voir plus"
+  },
+  "experience": {
+    "title": "Expérience",
+    "subtitle": "Parcours Professionnel",
+    "description": "Projets et rôles où j'ai appliqué mes compétences pour créer des solutions innovantes.",
+    "current": "Actuel",
+    "present": "Présent",
+    "experiences": {
+      "cemex": {
+        "position": "Développeur Full Stack",
+        "company": "Cemex",
+        "period": "Fév 2025 - Présent",
+        "achievements": [
+          "Développé trois plateformes clés : Promexma Marketplace (distribution uniforme), Xpresa (suivi de satisfaction client) et Promexma Permits (gestion de documents) pour optimiser les opérations dans plus de 60 succursales.",
+          "Implémenté un système basé sur LLM pour traiter les requêtes fréquentes des clients, améliorant l'expérience utilisateur et réduisant la charge opérationnelle du service client."
+        ],
+        "metrics": {
+          "branches": "Succursales",
+          "platforms": "Plateformes", 
+          "reduction": "Réduction de charge"
+        }
+      },
+      "infosys": {
+        "position": "Stage InStep",
+        "company": "Infosys",
+        "period": "Juin 2024 - Août 2024",
+        "achievements": [
+          "Développé un système de cache sémantique intégré au chatbot EdgeVerve pour la récupération de données PDF, réduisant le temps de traitement de 90%.",
+          "Créé un système de création d'agents et de tâches piloté par l'utilisateur avec des tableaux de bord et graphiques personnalisés, améliorant l'efficacité de la gestion des tâches."
+        ],
+        "metrics": {
+          "timeReduction": "Réduction du temps",
+          "keySystems": "Systèmes clés"
+        }
+      }
+    }
+  },
+  "projects": {
+    "title": "Mes Projets",
+    "subtitle": "Travaux en vedette",
+    "description": "Solutions innovantes que j'ai développées",
+    "viewProject": "Voir le Projet",
+    "technologies": "Technologies",
+    "galleryTitle": "Galerie de",
+    "projectList": {
+      "smartcolonia": {
+        "title": "SmartColonia: Plateforme de Gestion de Quartier Complète",
+        "achievements": [
+          "Développé une application SaaS avec trois niveaux d'utilisateur (Agent de Sécurité, Résident, Administrateur) actuellement en phase bêta avec 200 utilisateurs, projetant 1 000 utilisateurs en six mois.",
+          "Implémenté des modules de contrôle d'accès, système de paiement intégré, annonces communautaires et outils d'enquête pour améliorer la gestion du quartier."
+        ]
+      },
+      "cemex": {
+        "title": "Système de Topographie - CEMEX",
+        "linkText": "GitHub",
+        "achievements": [
+          "Développé individuellement en tant qu'Architecte Logiciel une application de contrôle qualité topographique pour CEMEX Nacional, après l'échec d'une autre société de conseil dans sa mise en œuvre. Conçu le système pour automatiser les calculs sous les tolérances SCT en pavage.",
+          "Rationalisé et accéléré les processus critiques en générant des graphiques automatiques et des rapports de libération instantanés en un seul clic, transformant un processus manuel de plusieurs heures en secondes."
+        ]
+      },
+      "labnl": {
+        "title": "Collection Bibliographique Numérique LABNL: Développeur Full Stack",
+        "linkText": "Site Web",
+        "achievements": [
+          "Créé un site web pour la collection bibliographique du Laboratoire Citoyen de Nuevo León en utilisant React et Google Sheets. Conçu le site pour centraliser les informations sur les livres disponibles.",
+          "Aidé environ 20 000 personnes mensuellement à trouver des livres d'intérêt dans la collection bibliographique numérique, recevant 19 900 visiteurs en juin 2024."
+        ]
+      }
+    }
+  },
+  "footer": {
+    "aboutMe": "À propos de moi",
+    "aboutDescription": "Ingénieur en Technologie Informatique avec expérience en développement Fullstack. Passionné par la création de solutions innovantes utilisant les dernières technologies et l'application de concepts d'Intelligence Artificielle.",
+    "navigation": "Navigation",
+    "connect": "Se connecter",
+    "currentlyListening": "En cours d'écoute",
+    "contact": "Contact",
+    "rights": "Tous droits réservés.",
+    "builtWith": "Construit avec React & Tailwind CSS"
+  },
+  "music": {
+    "nowPlaying": "En cours",
+    "lastPlayed": "Dernière écoute",
+    "scrobbles": "scrobbles",
+    "listeners": "auditeurs"
+  },
+  "common": {
+    "loading": "Chargement...",
+    "error": "Erreur",
+    "retry": "Réessayer"
+  },
+  "gallery": {
+    "title": "Galerie d'images",
+    "noImages": "Aucune image disponible pour ce projet.",
+    "dragDropInstructions": "Glissez et déposez les images pour les réorganiser. Cliquez sur une image pour la voir en plein écran."
+  },
+  "skills": {
+    "title": "Compétences principales"
+  }
+}
