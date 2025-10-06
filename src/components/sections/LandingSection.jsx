@@ -15,7 +15,7 @@ function LandingSection() {
   const [isHovering, setIsHovering] = useState(false)
   const [_isGitHubHovering, setIsGitHubHovering] = useState(false)
   const [_isTerminalHovering, setIsTerminalHovering] = useState(false)
-  const [showTerminal, setShowTerminal] = useState(false)
+  const [showTerminal, setShowTerminal] = useState(true)
   const [terminalGlow, setTerminalGlow] = useState(false)
   const bubbleRef = useRef(null)
   const buttonRef = useRef(null)
