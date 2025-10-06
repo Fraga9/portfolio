@@ -205,8 +205,8 @@ function LandingSection() {
       <Header scrollPos={scrollPos} activeSection={activeSection} />
 
       {/* Contenido principal */}
-      <Container className="h-full flex items-center py-16 md:py-20">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 w-full">
+      <Container className="h-full flex items-center py-12 md:py-10">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-8 w-full">
           {/* Lado izquierdo: Texto */}
           <div className="w-full text-center md:text-left mb-12 md:mb-0">
             <div className="mb-8">
@@ -217,10 +217,10 @@ function LandingSection() {
                 <span className="font-bold text-white">TEC</span>
               </div>
 
-              <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight mb-6 text-white">
+              <h1 className="text-4xl sm:text-5xl md:text-5xl lg:text-6xl font-bold tracking-tight mb-6 text-white">
                 {t('hero.greeting')} <span className="text-blue-400">{t('hero.name')}</span>
               </h1>
-              <p className="text-lg md:text-xl mb-8 text-gray-300 max-w-md mx-auto md:mx-0">
+              <p className="text-lg md:text-lg mb-8 text-gray-300 max-w-md mx-auto md:mx-0">
                 {t('hero.description')}
               </p>
 

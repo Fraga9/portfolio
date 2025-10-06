@@ -28,7 +28,18 @@ export default function LanguageSelector() {
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef(null);
 
-  const currentLanguage = languages.find(lang => lang.code === i18n.language) || languages[0];
+  // Sincronizar con el fallbackLng configurado en i18n para mantener consistencia
+  const fallbackLng = Array.isArray(i18n.options.fallbackLng)
+    ? i18n.options.fallbackLng[0]
+    : i18n.options.fallbackLng;
+
+  // Extraer solo el código de idioma (primeras 2 letras) para manejar variantes regionales
+  // Ejemplo: "es-MX" -> "es", "en-US" -> "en"
+  const currentLangCode = i18n.language?.split('-')[0] || fallbackLng;
+
+  const currentLanguage = languages.find(lang => lang.code === currentLangCode) ||
+                          languages.find(lang => lang.code === fallbackLng) ||
+                          languages[0];
 
   useEffect(() => {
     function handleClickOutside(event) {
@@ -66,23 +77,28 @@ export default function LanguageSelector() {
 
       {isOpen && (
         <div className="absolute top-full right-0 sm:right-0 left-0 sm:left-auto mt-2 w-full sm:w-48 max-w-xs bg-black/90 backdrop-blur-md rounded-lg border border-white/10 shadow-xl overflow-hidden z-50">
-          {languages.map((language) => (
-            <button
-              key={language.code}
-              onClick={() => handleLanguageChange(language.code)}
-              className={`w-full flex items-center gap-3 px-4 py-3 text-sm transition-colors duration-200 ${
-                language.code === i18n.language
-                  ? 'bg-blue-500/20 text-blue-300'
-                  : 'text-white/80 hover:bg-white/5 hover:text-white'
-              }`}
-            >
-              <FlagIcon countryCode={language.flag} />
-              <span className="font-medium">{language.name}</span>
-              {language.code === i18n.language && (
-                <div className="ml-auto w-2 h-2 bg-blue-400 rounded-full"></div>
-              )}
-            </button>
-          ))}
+          {languages.map((language) => {
+            // Comparar solo el código base del idioma (sin variante regional)
+            const isActive = language.code === currentLangCode;
+
+            return (
+              <button
+                key={language.code}
+                onClick={() => handleLanguageChange(language.code)}
+                className={`w-full flex items-center gap-3 px-4 py-3 text-sm transition-colors duration-200 ${
+                  isActive
+                    ? 'bg-blue-500/20 text-blue-300'
+                    : 'text-white/80 hover:bg-white/5 hover:text-white'
+                }`}
+              >
+                <FlagIcon countryCode={language.flag} />
+                <span className="font-medium">{language.name}</span>
+                {isActive && (
+                  <div className="ml-auto w-2 h-2 bg-blue-400 rounded-full"></div>
+                )}
+              </button>
+            );
+          })}
         </div>
       )}
     </div>
