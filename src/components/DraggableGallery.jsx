@@ -2,7 +2,7 @@
 
 import { useState, useRef } from "react"
 import { useTranslation } from 'react-i18next'
-import ImageGalleryModal from "./ImageGalleryModal"
+import ImageLightbox from "./ImageLightbox"
 
 export default function DraggableGallery({ images = [], title }) {
   const { t } = useTranslation()
@@ -194,8 +194,8 @@ export default function DraggableGallery({ images = [], title }) {
         {t('gallery.dragDropInstructions')}
       </p>
 
-      {/* Galería modal */}
-      <ImageGalleryModal
+      {/* Lightbox minimalista */}
+      <ImageLightbox
         images={imageList}
         initialIndex={selectedImageIndex}
         isOpen={isModalOpen}
