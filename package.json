@@ -10,16 +10,20 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@react-three/fiber": "^9.4.0",
+    "@react-three/postprocessing": "^3.0.4",
     "@tailwindcss/vite": "^4.1.7",
     "@vercel/analytics": "^1.5.0",
     "i18next": "^25.3.6",
     "i18next-browser-languagedetector": "^8.2.0",
     "lucide-react": "^0.511.0",
+    "postprocessing": "^6.37.8",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
     "react-i18next": "^15.6.1",
     "react-world-flags": "^1.6.0",
-    "tailwindcss": "^4.1.7"
+    "tailwindcss": "^4.1.7",
+    "three": "^0.180.0"
   },
   "devDependencies": {
     "@eslint/js": "^9.25.0",

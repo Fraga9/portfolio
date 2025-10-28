@@ -2,6 +2,7 @@
 import { useEffect } from 'react';
 import { Analytics } from '@vercel/analytics/react';
 import LandingSection from './components/sections/LandingSection';
+import LandingSection2 from './components/sections/LandingSection2';
 import Projects from './components/sections/Pricing';
 import Footer from './components/sections/Footer';
 import Experience from './components/sections/Features';
@@ -50,7 +51,7 @@ function App() {
 
   return (
     <div className="min-h-screen">
-      <LandingSection />
+      <LandingSection2 />
       <Experience id="features" />
       <Projects id="pricing" />
       <Footer id="support" />
