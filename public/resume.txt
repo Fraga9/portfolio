@@ -1,0 +1,180 @@
+================================================================================
+                         HÉCTOR EDUARDO GARZA FRAGA
+                            FULL STACK DEVELOPER
+================================================================================
+
+📧 Email: garzahector1013@gmail.com
+📱 Phone: +52 (81) 1299-5975
+📍 Location: Monterrey, Mexico
+🔗 LinkedIn: linkedin.com/in/osifraga
+🐙 GitHub: github.com/Fraga9
+🌐 Portfolio: osifraga.vercel.app
+
+================================================================================
+PROFESSIONAL SUMMARY
+================================================================================
+
+Full Stack Developer with expertise in React, Python, and AI/ML technologies.
+Currently a Computer Science student at Tecnológico de Monterrey with a 4.0 GPA
+and 100% Academic Merit Scholarship. Specializing in Advanced AI for Data
+Science. Proven track record of building scalable applications serving 20,000+
+monthly users and delivering innovative solutions that drive business results.
+
+================================================================================
+EDUCATION
+================================================================================
+
+BACHELOR OF SCIENCE - COMPUTER SCIENCE AND TECHNOLOGY
+Tecnológico de Monterrey (TEC)
+August 2022 - June 2026 (Expected)
+
+• GPA: 4.0 / 4.0
+• 100% Academic Merit Scholarship
+• Concentration: Advanced AI for Data Science
+• Xignux Challenge 2024 - Top 3 Finalist
+
+================================================================================
+PROFESSIONAL EXPERIENCE
+================================================================================
+
+FULL STACK DEVELOPER
+Cemex | Monterrey, Mexico
+February 2025 - Present
+
+• Developed 5 web applications for Promexma operations across 60+ branches
+  - Promexma Marketplace: Uniform distribution platform
+  - Xpresa: Customer satisfaction tracking system
+  - Promexma Permits: Document management solution
+
+• Implemented LLM-based customer support system addressing frequent queries
+• Tech Stack: React, FastAPI, PostgreSQL, AWS, Supabase
+
+
+INSTEP INTERNSHIP - SOFTWARE ENGINEER
+Infosys | Remote
+June 2024 - August 2024
+
+• Developed semantic cache system integrated with EdgeVerve chatbot
+• Achieved 90% reduction in PDF data retrieval processing time
+• Created user-driven agent system with custom dashboards and charts
+• Improved task management efficiency through intelligent automation
+
+================================================================================
+TECHNICAL SKILLS
+================================================================================
+
+PROGRAMMING LANGUAGES
+  • Python (Advanced)
+  • JavaScript/TypeScript (Advanced)
+  • C++ (Intermediate)
+  • SQL (Advanced)
+  • Java (Intermediate)
+
+FRONTEND DEVELOPMENT
+  • React 19.x
+  • Tailwind CSS
+  • React Native
+  • Web3 Integration
+  • State Management (Context API, Redux)
+
+BACKEND DEVELOPMENT
+  • FastAPI
+  • Django
+  • Node.js/Express
+  • PostgreSQL
+  • MongoDB
+
+ARTIFICIAL INTELLIGENCE & ML
+  • LangChain & LLM Applications
+  • Machine Learning (Scikit-learn, TensorFlow)
+  • Data Science (Pandas, NumPy)
+  • RAG Systems
+  • Prompt Engineering
+
+CLOUD & DEVOPS
+  • AWS (EC2, S3, RDS, Lambda)
+  • Firebase
+  • Supabase
+  • OCI
+  • Git/GitHub
+  • Docker (Basic)
+
+ADDITIONAL TOOLS
+  • Vercel Analytics
+  • Google Sheets API
+  • Amazon S3
+  • EdgeVerve Chatbot
+  • Figma
+
+================================================================================
+FEATURED PROJECTS
+================================================================================
+
+SMARTCOLONIA - NEIGHBORHOOD MANAGEMENT PLATFORM
+Role: Full Stack Developer | Tech: FastAPI, React Native, AWS S3, Supabase
+
+• Developed comprehensive SaaS platform with 3-level user hierarchy
+  - Security Guard, Resident, and Administrator roles
+• Currently in Beta with 200 active users
+• Projection: 1,000 users in 6 months
+• Features: Access control, payment integration, community announcements, surveys
+
+TOPOGRAFÍA CEMEX - TOPOGRAPHIC MANAGEMENT SYSTEM
+Role: Software Architect | Tech: React, FastAPI, PostgreSQL, Supabase
+
+• Independently developed topographic quality control application
+• Automated calculations under SCT (Secretaría de Comunicaciones) tolerances
+• Transformed manual process (hours) into automated solution (seconds)
+• Live Demo: topografia-two.vercel.app
+
+ACERVO BIBLIOGRÁFICO DIGITAL LABNL
+Role: Full Stack Developer | Tech: React, Axios, Google Sheets
+
+• Created digital library platform for Nuevo León Citizen Laboratory
+• Serves 20,000+ monthly users
+• 19,900 visits in June 2024 alone
+• Centralized access to 10,000+ bibliographic resources
+• Website: labnlacervo.web.app
+
+================================================================================
+ACHIEVEMENTS & CERTIFICATIONS
+================================================================================
+
+• Xignux Challenge 2024 - Top 3 Finalist
+• 100% Academic Merit Scholarship at Tecnológico de Monterrey
+• Built products serving 20,000+ monthly users
+• 90% improvement in system performance (Infosys project)
+• Full Stack expertise across multiple domains
+
+================================================================================
+LANGUAGES
+================================================================================
+
+• Spanish (Native)
+• English (Fluent - Professional Level)
+• French (Basic)
+
+================================================================================
+ADDITIONAL INFORMATION
+================================================================================
+
+AVAILABILITY:
+Open to freelance projects, contract work, and full-time opportunities
+
+INTERESTS:
+  • Artificial Intelligence & Machine Learning
+  • Full Stack Web Development
+  • Cloud Architecture
+  • Startup Ecosystems
+  • Technical Innovation
+
+PROFESSIONAL COMMITMENTS:
+  • Continuous learning and skill development
+  • Clean code practices and documentation
+  • Team collaboration and mentorship
+  • Problem-solving and innovation
+
+================================================================================
+Generated: January 2025
+For the latest information, visit: osifraga.vercel.app
+================================================================================

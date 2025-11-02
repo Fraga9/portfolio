@@ -1,13 +1,106 @@
 <!doctype html>
 <html lang="en">
   <head>
+    <!-- Character Encoding & Viewport -->
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="src/assets/logo.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Osifraga</title>
+
+    <!-- Primary Meta Tags (SEO) -->
+    <title>Héctor Garza | Full Stack Developer | AI & Web Development</title>
+    <meta name="title" content="Héctor Garza | Full Stack Developer | AI & Web Development" />
+    <meta name="description" content="Full Stack Developer specializing in React, FastAPI, and AI/ML. Computer Science student at TEC with 4.0 GPA building innovative solutions with 20,000+ monthly users." />
+    <meta name="keywords" content="Full Stack Developer, React, FastAPI, AI, Machine Learning, Web Development, Python, JavaScript, Monterrey" />
+    <meta name="author" content="Héctor Garza" />
+    <meta name="theme-color" content="#000000" />
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://osifraga.vercel.app/" />
+    <meta property="og:title" content="Héctor Garza | Full Stack Developer | AI & Web Development" />
+    <meta property="og:description" content="Full Stack Developer specializing in React, FastAPI, and AI/ML. Computer Science student at TEC with 4.0 GPA building innovative solutions." />
+    <meta property="og:image" content="https://osifraga.vercel.app/og-image.png" />
+    <meta property="og:site_name" content="Héctor Garza Portfolio" />
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:url" content="https://osifraga.vercel.app/" />
+    <meta property="twitter:title" content="Héctor Garza | Full Stack Developer | AI & Web Development" />
+    <meta property="twitter:description" content="Full Stack Developer specializing in React, FastAPI, and AI/ML. Explore my projects and experience." />
+    <meta property="twitter:image" content="https://osifraga.vercel.app/og-image.png" />
+    <meta property="twitter:creator" content="@osifraga" />
+
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://osifraga.vercel.app/" />
+
+    <!-- Favicons & App Icons -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#d0ff00" />
+    <meta name="apple-mobile-web-app-title" content="Héctor Garza" />
+    <meta name="application-name" content="Héctor Garza Portfolio" />
+    <meta name="msapplication-TileColor" content="#000000" />
+    <meta name="msapplication-config" content="/browserconfig.xml" />
+
+    <!-- Manifest & PWA -->
+    <link rel="manifest" href="/manifest.json" />
+
+    <!-- Preconnect to External Domains -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+    <!-- Robots & Crawling -->
+    <meta name="robots" content="index, follow" />
+    <meta name="googlebot" content="index, follow" />
+    <meta name="revisit-after" content="7 days" />
   </head>
   <body>
     <div id="root"></div>
+
+    <!-- JSON-LD Schema (Person/Developer) -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Person",
+      "name": "Héctor Eduardo Garza Fraga",
+      "url": "https://osifraga.vercel.app",
+      "image": "https://osifraga.vercel.app/profile.jpg",
+      "description": "Full Stack Developer specializing in React, FastAPI, and AI/ML",
+      "jobTitle": "Full Stack Developer",
+      "sameAs": [
+        "https://www.linkedin.com/in/osifraga",
+        "https://github.com/Fraga9",
+        "https://twitter.com/osifraga"
+      ],
+      "contactPoint": {
+        "@type": "ContactPoint",
+        "email": "garzahector1013@gmail.com",
+        "contactType": "Personal"
+      },
+      "knowsAbout": ["React", "Python", "FastAPI", "JavaScript", "Machine Learning", "Web Development", "Full Stack Development"],
+      "worksFor": [
+        {
+          "@type": "Organization",
+          "name": "Cemex"
+        }
+      ]
+    }
+    </script>
+
+    <!-- JSON-LD Schema (Website) -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "Héctor Garza Portfolio",
+      "url": "https://osifraga.vercel.app",
+      "description": "Full Stack Developer portfolio showcasing projects in React, FastAPI, and AI/ML",
+      "image": "https://osifraga.vercel.app/og-image.png"
+    }
+    </script>
+
     <script type="module" src="/src/main.jsx"></script>
   </body>
 </html>
