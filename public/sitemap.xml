@@ -3,48 +3,52 @@
         xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
   <url>
     <loc>https://osifraga.vercel.app/</loc>
-    <lastmod>2025-01-01</lastmod>
-    <changefreq>monthly</changefreq>
+    <lastmod>2025-11-04</lastmod>
+    <changefreq>weekly</changefreq>
     <priority>1.0</priority>
     <image:image>
       <image:loc>https://osifraga.vercel.app/og-image.png</image:loc>
       <image:title>Héctor Garza Portfolio</image:title>
+      <image:caption>Full Stack Developer specializing in React, FastAPI, and AI/ML</image:caption>
     </image:image>
   </url>
   <url>
     <loc>https://osifraga.vercel.app/#home</loc>
-    <lastmod>2025-01-01</lastmod>
+    <lastmod>2025-11-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
     <loc>https://osifraga.vercel.app/#experience</loc>
-    <lastmod>2025-01-01</lastmod>
+    <lastmod>2025-11-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://osifraga.vercel.app/#projects</loc>
-    <lastmod>2025-01-01</lastmod>
-    <changefreq>monthly</changefreq>
+    <lastmod>2025-11-04</lastmod>
+    <changefreq>weekly</changefreq>
     <priority>0.9</priority>
     <image:image>
       <image:loc>https://osifraga.vercel.app/images/smartcolonia/cover.jpg</image:loc>
       <image:title>SmartColonia Project</image:title>
+      <image:caption>Digital platform with 20,000+ monthly users</image:caption>
     </image:image>
     <image:image>
       <image:loc>https://osifraga.vercel.app/images/topografia/campo-captura.jpg</image:loc>
       <image:title>Topografía CEMEX Project</image:title>
+      <image:caption>LiDAR data processing and 3D visualization</image:caption>
     </image:image>
     <image:image>
       <image:loc>https://osifraga.vercel.app/images/acervo/acervo.jpg</image:loc>
       <image:title>Acervo Bibliográfico Digital LABNL</image:title>
+      <image:caption>Digital library with advanced search capabilities</image:caption>
     </image:image>
   </url>
   <url>
     <loc>https://osifraga.vercel.app/#contact</loc>
-    <lastmod>2025-01-01</lastmod>
-    <changefreq>monthly</changefreq>
+    <lastmod>2025-11-04</lastmod>
+    <changefreq>yearly</changefreq>
     <priority>0.7</priority>
   </url>
 </urlset>

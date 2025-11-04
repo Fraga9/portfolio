@@ -50,11 +50,39 @@
     <!-- Preconnect to External Domains -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="dns-prefetch" href="//ws.audioscrobbler.com" />
+    <link rel="dns-prefetch" href="//www.google-analytics.com" />
+    <link rel="preconnect" href="https://www.google-analytics.com" />
+    <link rel="preconnect" href="https://www.googletagmanager.com" />
+
+    <!-- Preload Critical Assets (Performance Optimization) -->
+    <link rel="preload" as="image" href="/og-image.png" fetchpriority="high" />
+    <link rel="preload" as="image" href="/profile.jpg" fetchpriority="high" />
 
     <!-- Robots & Crawling -->
     <meta name="robots" content="index, follow" />
     <meta name="googlebot" content="index, follow" />
     <meta name="revisit-after" content="7 days" />
+
+    <!-- Google Analytics 4 (GA4) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-CSBMMJE0HQ"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      // Configuración básica de GA4
+      gtag('config', 'G-CSBMMJE0HQ', {
+        'send_page_view': true,
+        'anonymize_ip': true,
+        'cookie_flags': 'SameSite=None;Secure'
+      });
+
+      // Event tracking helpers - disponible globalmente
+      window.trackEvent = function(eventName, params) {
+        gtag('event', eventName, params);
+      };
+    </script>
   </head>
   <body>
     <div id="root"></div>

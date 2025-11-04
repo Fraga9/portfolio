@@ -1,6 +1,7 @@
 // src/App.jsx
 import { useEffect } from 'react';
 import { Analytics } from '@vercel/analytics/react';
+import useAnalytics from './hooks/useAnalytics';
 import LandingSection from './components/sections/LandingSection';
 import LandingSection2 from './components/sections/LandingSection2';
 import Projects from './components/sections/Pricing';
@@ -8,6 +9,8 @@ import Footer from './components/sections/Footer';
 import Experience from './components/sections/Features';
 
 function App() {
+  // Activar tracking automático de scroll y tiempo
+  useAnalytics();
   // Aseguramos que los enlaces de anclaje funcionen correctamente con offset
   useEffect(() => {
     // Función para manejar los clics en enlaces de anclaje
