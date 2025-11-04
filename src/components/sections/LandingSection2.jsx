@@ -17,6 +17,7 @@ function LandingSection() {
   const [isHovering, setIsHovering] = useState(false)
   const [_isGitHubHovering, setIsGitHubHovering] = useState(false)
   const [_isTerminalHovering, setIsTerminalHovering] = useState(false)
+  const [_isCVHovering, setIsCVHovering] = useState(false)
   const [showTerminal, setShowTerminal] = useState(true)
   const [terminalGlow, setTerminalGlow] = useState(false)
   const bubbleRef = useRef(null)
@@ -180,6 +181,28 @@ function LandingSection() {
     setShowTerminal(newState)
   }
 
+  // CV Download handler
+  const handleCVClick = (e) => {
+    e.preventDefault()
+
+    // Track event with Vercel Analytics
+    track('CV Download', {
+      location: 'landing_section',
+      file: 'cv.pdf'
+    })
+
+    // Track with Google Analytics 4
+    Analytics.trackCVDownload()
+
+    // Download CV
+    const link = document.createElement('a')
+    link.href = '/cv.pdf'
+    link.download = 'Hector_Garza_CV.pdf'
+    document.body.appendChild(link)
+    link.click()
+    document.body.removeChild(link)
+  }
+
   return (
     <section id="home" className="relative min-h-screen overflow-hidden pt-16 md:pt-24">
       {/* Fondo degradado base */}
@@ -245,23 +268,24 @@ function LandingSection() {
                   onMouseEnter={() => setIsHovering(true)}
                   onMouseLeave={() => setIsHovering(false)}
                   disabled={isAnimating}
+                  aria-label="Connect on LinkedIn"
                   className={`
                     cursor-pointer
-                    group w-full sm:w-auto px-8 py-3.5 
-                    bg-gradient-to-r from-[#d0ff00] via-[#c5f000] to-[#d0ff00] 
+                    group w-full sm:w-auto px-8 py-3.5
+                    bg-gradient-to-r from-[#d0ff00] via-[#c5f000] to-[#d0ff00]
                     hover:from-[#c5f000] hover:via-[#b8e000] hover:to-[#c5f000]
                     active:from-[#b8e000] active:via-[#abd000] active:to-[#b8e000]
-                    text-black rounded-full font-semibold 
+                    text-black rounded-full font-semibold
                     transition-all duration-300 ease-out
                     transform hover:scale-105 active:scale-95
                     hover:shadow-lg hover:shadow-[#d0ff00]/30
                     border-2 border-transparent hover:border-[#d0ff00]/20
                     backdrop-blur-sm
-                    flex items-center justify-center sm:justify-start 
+                    flex items-center justify-center sm:justify-start
                     relative overflow-hidden
                     disabled:opacity-70 disabled:cursor-not-allowed
                     disabled:hover:scale-100 disabled:hover:shadow-none
-                    before:absolute before:inset-0 before:bg-gradient-to-r 
+                    before:absolute before:inset-0 before:bg-gradient-to-r
                     before:from-transparent before:via-white/20 before:to-transparent
                     before:translate-x-[-100%] hover:before:translate-x-[100%]
                     before:transition-transform before:duration-1200
@@ -324,6 +348,7 @@ function LandingSection() {
                   onClick={handleGitHubClick}
                   onMouseEnter={() => setIsGitHubHovering(true)}
                   onMouseLeave={() => setIsGitHubHovering(false)}
+                  aria-label="View GitHub profile"
                   className="
                     group relative w-14 h-14 sm:w-16 sm:h-16
                     bg-white/10 backdrop-blur-xl
@@ -382,6 +407,7 @@ function LandingSection() {
                   onClick={handleTerminalClick}
                   onMouseEnter={() => setIsTerminalHovering(true)}
                   onMouseLeave={() => setIsTerminalHovering(false)}
+                  aria-label={showTerminal ? "Close interactive terminal" : "Open interactive terminal"}
                   className={`
                     group relative w-14 h-14 sm:w-16 sm:h-16
                     bg-white/10 backdrop-blur-xl
@@ -454,6 +480,85 @@ function LandingSection() {
                     <rect x="17" y="15" width="1" height="2" fill="currentColor">
                       <animate attributeName="opacity" values="1;0;1" dur="1s" repeatCount="indefinite" />
                     </rect>
+                  </svg>
+
+                  {/* Shine effect */}
+                  <div className="
+                    absolute top-0 left-0 w-full h-full rounded-full
+                    bg-gradient-to-br from-white/30 via-transparent to-transparent
+                    opacity-0 group-hover:opacity-100
+                    transition-all duration-500
+                    transform group-hover:rotate-180
+                  " />
+                </button>
+
+                {/* CV Download button con estilo liquid glass */}
+                <button
+                  onClick={handleCVClick}
+                  onMouseEnter={() => setIsCVHovering(true)}
+                  onMouseLeave={() => setIsCVHovering(false)}
+                  className="
+                    group relative w-14 h-14 sm:w-16 sm:h-16
+                    bg-white/10 backdrop-blur-xl
+                    border border-white/20
+                    rounded-full
+                    transition-all duration-500 ease-out
+                    hover:bg-white/20 hover:border-white/30
+                    hover:scale-110 hover:shadow-2xl hover:shadow-white/20
+                    active:scale-95
+                    flex items-center justify-center
+                    overflow-hidden
+                  "
+                  aria-label="Download CV"
+                >
+                  {/* Liquid glass effect */}
+                  <div className="
+                    absolute inset-0 rounded-full
+                    bg-gradient-to-br from-white/20 via-transparent to-transparent
+                    opacity-0 group-hover:opacity-100
+                    transition-opacity duration-300
+                  " />
+
+                  {/* Inner glow */}
+                  <div className="
+                    absolute inset-1 rounded-full
+                    bg-gradient-to-br from-white/10 to-transparent
+                    opacity-0 group-hover:opacity-100
+                    transition-opacity duration-300
+                  " />
+
+                  {/* Download icon */}
+                  <svg
+                    className="
+                      w-6 h-6 sm:w-7 sm:h-7 text-white
+                      transition-all duration-300
+                      group-hover:scale-110 group-hover:text-white
+                      relative z-10
+                    "
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                    strokeWidth="2"
+                  >
+                    {/* Document outline */}
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"
+                    />
+                    {/* Folded corner */}
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M13 3v6a1 1 0 001 1h6"
+                    />
+                    {/* Download arrow */}
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M12 11v6m0 0l-2-2m2 2l2-2"
+                      className="group-hover:translate-y-0.5 transition-transform duration-300"
+                    />
                   </svg>
 
                   {/* Shine effect */}
