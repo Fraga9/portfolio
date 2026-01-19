@@ -167,24 +167,19 @@ const getProjects = (t) => {
       ],
       gallery: [
         {
-          url: "/placeholder.svg?height=300&width=400&text=Home",
+          url: "images/healthwind/Healthwind.png",
           alt: "Vista Home",
           caption: "Pantalla principal",
         },
         {
-          url: "/placeholder.svg?height=300&width=400&text=Mapa",
+          url: "images/healthwind/Healthwind3.png",
           alt: "Mapa de sensores",
-          caption: "Mapa interactivo",
+          caption: "Mediciones de temperatura, humedad y PM",
         },
         {
-          url: "/placeholder.svg?height=300&width=400&text=Sensor",
+          url: "images/healthwind/Healthwind2.png",
           alt: "Detalles del sensor",
-          caption: "Información detallada",
-        },
-        {
-          url: "/placeholder.svg?height=300&width=400&text=IMECA",
-          alt: "Mediciones IMECA",
-          caption: "Índice de calidad",
+          caption: "Home, Aprender, Mapa",
         },
       ],
     },
@@ -199,24 +194,19 @@ const getProjects = (t) => {
       ],
       gallery: [
         {
-          url: "/placeholder.svg?height=300&width=400&text=Dashboard",
+          url: "images/vibematch/dashboard.jpg",
           alt: "Dashboard principal",
-          caption: "Panel de usuario",
+          caption: "Landing Page",
         },
         {
-          url: "/placeholder.svg?height=300&width=400&text=Matches",
+          url: "images/vibematch/user.jpg",
           alt: "Resultados de matching",
           caption: "Usuarios compatibles",
         },
         {
-          url: "/placeholder.svg?height=300&width=400&text=GNN",
-          alt: "Visualización de embeddings",
-          caption: "Graph Neural Network",
-        },
-        {
-          url: "/placeholder.svg?height=300&width=400&text=Analytics",
-          alt: "Estadísticas",
-          caption: "Análisis de compatibilidad",
+          url: "images/vibematch/arquitectura.jpg",
+          alt: "Arquitectura del sistema",
+          caption: "Arquitectura de la aplicación",
         },
       ],
     },
