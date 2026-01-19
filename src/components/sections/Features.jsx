@@ -4,6 +4,7 @@ import { useState } from "react"
 import { useTranslation } from 'react-i18next'
 import Container from "../layout/Container"
 import Card from "../ui/Card"
+import TechCarousel from "../TechCarousel"
 
 function Experience({ id }) {
   const { t } = useTranslation()
@@ -11,7 +12,7 @@ function Experience({ id }) {
   const experiences = getExperiences(t)
 
   return (
-    <section id={id} className="py-20 md:py-32 bg-black relative overflow-hidden">
+    <section id={id} className="pt-20 md:pt-32 pb-12 md:pb-16 bg-black relative overflow-hidden">
       {/* Sutiles elementos de fondo */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute top-[20%] left-[10%] w-[300px] h-[300px] rounded-full bg-blue-500/5 blur-[120px]"></div>
@@ -101,25 +102,15 @@ function Experience({ id }) {
           ))}
         </div>
 
-        {/* Habilidades - Versión minimalista */}
-        <div className="mt-20 max-w-4xl mx-auto">
-          <h3 className="text-xl font-bold text-white mb-8">{t('skills.title')}</h3>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-            {skills.map((skill, index) => (
-              <div key={index} className="group">
-                <div className="flex items-center justify-between mb-2">
-                  <h4 className="font-medium text-white">{skill.name}</h4>
-                  <span className="text-sm text-gray-400">{skill.level}%</span>
-                </div>
-                <div className="w-full h-1 bg-white/10 rounded-full overflow-hidden">
-                  <div
-                    className="h-full bg-[#d0ff00] group-hover:bg-blue-400 transition-colors duration-300"
-                    style={{ width: `${skill.level}%` }}
-                  ></div>
-                </div>
-              </div>
-            ))}
+        {/* Tech Stack - Infinite Carousel */}
+        <div className="mt-20">
+          <div className="max-w-4xl mx-auto mb-8">
+            <h3 className="text-2xl md:text-3xl font-bold text-white text-center">{t('skills.title')}</h3>
+            <p className="text-gray-400 text-center mt-2">
+              {t('skills.subtitle', 'Tecnologías y herramientas con las que trabajo')}
+            </p>
           </div>
+          <TechCarousel />
         </div>
       </Container>
     </section>
@@ -176,17 +167,6 @@ const getExperiences = (t) => {
     },
   ]
 }
-
-const skills = [
-  { name: "React", level: 95 },
-  { name: "Python", level: 90 },
-  { name: "FastAPI", level: 85 },
-  { name: "Firebase", level: 80 },
-  { name: "Supabase", level: 75 },
-  { name: "AI/LLM", level: 88 },
-  { name: "UI/UX", level: 82 },
-  { name: "DevOps", level: 70 },
-]
 
 export default Experience
   

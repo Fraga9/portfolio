@@ -131,6 +131,7 @@
     "dragDropInstructions": "拖放图片以重新排序。单击图片全屏查看。"
   },
   "skills": {
-    "title": "主要技能"
+    "title": "主要技能",
+    "subtitle": "我使用的技术和工具"
   }
 }

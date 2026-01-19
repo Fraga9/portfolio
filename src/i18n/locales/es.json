@@ -131,6 +131,7 @@
     "dragDropInstructions": "Arrastra y suelta las imágenes para reordenarlas. Haz clic en una imagen para verla en pantalla completa."
   },
   "skills": {
-    "title": "Habilidades principales"
+    "title": "Habilidades principales",
+    "subtitle": "Tecnologías y herramientas con las que trabajo"
   }
 }

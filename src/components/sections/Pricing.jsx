@@ -11,7 +11,7 @@ function Projects({ id }) {
   const projects = getProjects(t)
 
   return (
-    <section id={id} ref={sectionRef} className="py-20 md:py-32 bg-gradient-to-b from-black/90 to-[#050024] relative">
+    <section id={id} ref={sectionRef} className="pt-12 md:pt-16 pb-20 md:pb-32 bg-gradient-to-b from-black/90 to-[#050024] relative">
       <Container className="px-4 sm:px-6 lg:px-8">
         <div className="max-w-3xl mx-auto text-center mb-16">
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-6">

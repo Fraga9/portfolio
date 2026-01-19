@@ -131,6 +131,7 @@
     "dragDropInstructions": "Glissez et déposez les images pour les réorganiser. Cliquez sur une image pour la voir en plein écran."
   },
   "skills": {
-    "title": "Compétences principales"
+    "title": "Compétences principales",
+    "subtitle": "Technologies et outils avec lesquels je travaille"
   }
 }

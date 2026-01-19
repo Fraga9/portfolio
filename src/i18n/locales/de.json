@@ -131,6 +131,7 @@
     "dragDropInstructions": "Ziehen Sie Bilder per Drag & Drop, um sie neu anzuordnen. Klicken Sie auf ein Bild, um es im Vollbild anzuzeigen."
   },
   "skills": {
-    "title": "Hauptfähigkeiten"
+    "title": "Hauptfähigkeiten",
+    "subtitle": "Technologien und Tools, mit denen ich arbeite"
   }
 }

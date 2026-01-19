@@ -131,6 +131,7 @@
     "dragDropInstructions": "Drag and drop images to reorder them. Click on an image to view it in full screen."
   },
   "skills": {
-    "title": "Main Skills"
+    "title": "Main Skills",
+    "subtitle": "Technologies and tools I work with"
   }
 }
