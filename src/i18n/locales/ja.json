@@ -59,6 +59,10 @@
     "viewProject": "プロジェクトを見る",
     "technologies": "技術",
     "galleryTitle": "ギャラリー",
+    "showDetails": "詳細を表示",
+    "showLess": "詳細を非表示",
+    "achievements": "主な成果",
+    "gallery": "ギャラリー",
     "projectList": {
       "smartcolonia": {
         "title": "SmartColonia：総合近隣管理プラットフォーム",

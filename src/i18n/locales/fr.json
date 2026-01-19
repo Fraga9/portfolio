@@ -59,6 +59,10 @@
     "viewProject": "Voir le Projet",
     "technologies": "Technologies",
     "galleryTitle": "Galerie de",
+    "showDetails": "Voir les détails",
+    "showLess": "Voir moins",
+    "achievements": "Réalisations clés",
+    "gallery": "Galerie",
     "projectList": {
       "smartcolonia": {
         "title": "SmartColonia: Plateforme de Gestion de Quartier Complète",

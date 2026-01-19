@@ -2,10 +2,8 @@
 
 import { useRef } from "react"
 import { useTranslation } from 'react-i18next'
-import { track } from '@vercel/analytics'
 import Container from "../layout/Container"
-import Card from "../ui/Card"
-import DraggableGallery from "../DraggableGallery"
+import ProjectCard from "../ProjectCard"
 
 function Projects({ id }) {
   const { t } = useTranslation()
@@ -22,65 +20,15 @@ function Projects({ id }) {
           <p className="text-gray-300 text-lg">{t('projects.description')}</p>
         </div>
 
-        <div className="space-y-8 max-w-4xl mx-auto">
+        <div className="space-y-12 max-w-5xl mx-auto">
           {projects.map((project, index) => (
-            <Card key={index} variant="experience" className="p-6 md:p-8" index={index} animateIn={true}>
-              <div className="flex flex-col md:flex-row md:items-start justify-between mb-4">
-                <div className="flex-1">
-                  <h3 className="text-xl font-bold text-white">{project.title}</h3>
-                  <div className="flex flex-wrap gap-2 mt-2">
-                    {project.technologies.map((tech, techIndex) => (
-                      <span key={techIndex} className="text-xs bg-blue-900/30 text-blue-300 px-2 py-1 rounded-full">
-                        {tech}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-                {project.link && (
-                  <a
-                    href={project.link}
-                    onClick={() => {
-                      // Track event with Vercel Analytics
-                      track('Project Link Click', {
-                        project: project.title,
-                        link_type: project.linkText,
-                        url: project.link
-                      })
-                    }}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="mt-2 md:mt-0 inline-flex items-center text-[#d0ff00] hover:text-[#e0ff40] transition-colors text-sm"
-                  >
-                    <span>{project.linkText}</span>
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="h-4 w-4 ml-1"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
-                      />
-                    </svg>
-                  </a>
-                )}
-              </div>
-              <ul className="space-y-3 text-gray-300">
-                {project.achievements.map((achievement, achievementIndex) => (
-                  <li key={achievementIndex} className="flex items-start">
-                    <span className="text-[#d0ff00] mr-2 mt-1">•</span>
-                    <span>{achievement}</span>
-                  </li>
-                ))}
-              </ul>
-
-              {/* Galería de imágenes con drag and drop */}
-              <DraggableGallery images={project.gallery || []} title={`${t('projects.galleryTitle')} ${project.title}`} />
-            </Card>
+            <ProjectCard
+              key={index}
+              project={project}
+              index={index}
+              galleryTitle={`${t('projects.galleryTitle')} ${project.title}`}
+              t={t}
+            />
           ))}
         </div>
       </Container>

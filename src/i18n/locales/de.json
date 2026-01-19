@@ -59,6 +59,10 @@
     "viewProject": "Projekt ansehen",
     "technologies": "Technologien",
     "galleryTitle": "Galerie von",
+    "showDetails": "Details anzeigen",
+    "showLess": "Weniger anzeigen",
+    "achievements": "Wichtige Erfolge",
+    "gallery": "Galerie",
     "projectList": {
       "smartcolonia": {
         "title": "SmartColonia: Umfassende Nachbarschaftsverwaltungsplattform",

@@ -59,6 +59,10 @@
     "viewProject": "查看项目",
     "technologies": "技术栈",
     "galleryTitle": "图库",
+    "showDetails": "显示详情",
+    "showLess": "显示更少",
+    "achievements": "主要成就",
+    "gallery": "图库",
     "projectList": {
       "smartcolonia": {
         "title": "SmartColonia：综合社区管理平台",
