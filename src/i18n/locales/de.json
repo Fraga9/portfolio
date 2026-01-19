@@ -75,6 +75,21 @@
           "Kritische Prozesse rationalisiert und beschleunigt durch automatische Diagramme und sofortige Freigabeberichte mit einem Klick, wodurch ein manueller Prozess von Stunden in Sekunden verwandelt wurde."
         ]
       },
+      "healthwind": {
+        "title": "Healthwind: Luftqualitätsüberwachung",
+        "achievements": [
+          "Entwickelte das .NET Core Backend und die native Android-Anwendung zur Überwachung der Luftqualität im Stadtgebiet Monterrey, wobei PM 2.5- und PM 10-Partikel über ein städtisches Sensornetzwerk gemessen werden.",
+          "Implementierte drei Hauptabschnitte: Visualisierung des nächstgelegenen Sensors mit IMECA-Messungen, interaktive Karte aktiver Sensoren und detailliertes Informationssystem pro Sensor zur Sensibilisierung für Umweltverschmutzung."
+        ]
+      },
+      "vibematch": {
+        "title": "VibeMatch: Musik-Matching mit Deep Learning",
+        "linkText": "Webseite",
+        "achievements": [
+          "Entwickelte eine Plattform, die Benutzer mit ähnlichem Musikgeschmack über Graph Neural Networks (LightGCN) verbindet, trainiert mit 338K+ Tracks und 6.9K+ Künstlern, die Vektorsuchen in weniger als 10ms mit Qdrant erreicht.",
+          "Implementierte ein 128-dimensionales Embedding-System mit multi-temporaler Strategie und 95% Benutzerabdeckung durch exakte Übereinstimmungen, Fuzzy Matching und Zero-Shot-Inferenz, mit Recall@10 von 0.64 und End-to-End-Latenz unter 800ms."
+        ]
+      },
       "labnl": {
         "title": "LABNL Digitale Bibliographische Sammlung: Full Stack Entwickler",
         "linkText": "Website",

@@ -108,7 +108,23 @@ const getProjects = (t) => {
     ]
   })
   
-  const labnlAchievements = t('projects.projectList.labnl.achievements', { 
+  const healthwindAchievements = t('projects.projectList.healthwind.achievements', {
+    returnObjects: true,
+    defaultValue: [
+      "Desarrollé el backend en .NET Core y la aplicación nativa Android para monitorear la calidad del aire en el área metropolitana de Monterrey, midiendo partículas PM 2.5 y PM 10 a través de una red urbana de sensores.",
+      "Implementé tres secciones principales: visualización del sensor más cercano con mediciones IMECA, mapa interactivo de sensores activos, y sistema de información detallada por sensor para aumentar la conciencia sobre la contaminación.",
+    ]
+  })
+
+  const vibematchAchievements = t('projects.projectList.vibematch.achievements', {
+    returnObjects: true,
+    defaultValue: [
+      "Desarrollé una plataforma que conecta usuarios con gustos musicales similares usando Graph Neural Networks (LightGCN) entrenada con 338K+ tracks y 6.9K+ artistas, logrando búsquedas vectoriales en menos de 10ms con Qdrant.",
+      "Implementé un sistema de embeddings de 128 dimensiones con estrategia multi-temporal y cobertura del 95% de usuarios mediante coincidencias exactas, fuzzy matching y zero-shot inference, alcanzando Recall@10 de 0.64 y latencia end-to-end menor a 800ms.",
+    ]
+  })
+
+  const labnlAchievements = t('projects.projectList.labnl.achievements', {
     returnObjects: true,
     defaultValue: [
       "Creé un sitio web para la colección bibliográfica del Laboratorio Ciudadano de Nuevo León utilizando React y Google Sheets. Diseñé el sitio para centralizar información sobre libros disponibles.",
@@ -139,6 +155,68 @@ const getProjects = (t) => {
           url: "/images/smartcolonia/Landing.png",
           alt: "Página de inicio",
           caption: "Bienvenida",
+        },
+      ],
+    },
+    {
+      title: t('projects.projectList.healthwind.title', 'Healthwind: Monitoreo de Calidad del Aire'),
+      technologies: ["Android/Kotlin", ".NET/ASP.NET Core", "Sensores IoT", "API REST"],
+      achievements: Array.isArray(healthwindAchievements) ? healthwindAchievements : [
+        "Desarrollé el backend en .NET Core y la aplicación nativa Android para monitorear la calidad del aire en el área metropolitana de Monterrey, midiendo partículas PM 2.5 y PM 10 a través de una red urbana de sensores.",
+        "Implementé tres secciones principales: visualización del sensor más cercano con mediciones IMECA, mapa interactivo de sensores activos, y sistema de información detallada por sensor para aumentar la conciencia sobre la contaminación.",
+      ],
+      gallery: [
+        {
+          url: "/placeholder.svg?height=300&width=400&text=Home",
+          alt: "Vista Home",
+          caption: "Pantalla principal",
+        },
+        {
+          url: "/placeholder.svg?height=300&width=400&text=Mapa",
+          alt: "Mapa de sensores",
+          caption: "Mapa interactivo",
+        },
+        {
+          url: "/placeholder.svg?height=300&width=400&text=Sensor",
+          alt: "Detalles del sensor",
+          caption: "Información detallada",
+        },
+        {
+          url: "/placeholder.svg?height=300&width=400&text=IMECA",
+          alt: "Mediciones IMECA",
+          caption: "Índice de calidad",
+        },
+      ],
+    },
+    {
+      title: t('projects.projectList.vibematch.title', 'VibeMatch: Matching Musical con Deep Learning'),
+      technologies: ["Next.js", "TypeScript", "FastAPI", "PyTorch", "Qdrant", "Graph Neural Networks"],
+      link: "https://vibematchs.me",
+      linkText: t('projects.projectList.vibematch.linkText', 'Sitio Web'),
+      achievements: Array.isArray(vibematchAchievements) ? vibematchAchievements : [
+        "Desarrollé una plataforma que conecta usuarios con gustos musicales similares usando Graph Neural Networks (LightGCN) entrenada con 338K+ tracks y 6.9K+ artistas, logrando búsquedas vectoriales en menos de 10ms con Qdrant.",
+        "Implementé un sistema de embeddings de 128 dimensiones con estrategia multi-temporal y cobertura del 95% de usuarios mediante coincidencias exactas, fuzzy matching y zero-shot inference, alcanzando Recall@10 de 0.64 y latencia end-to-end menor a 800ms.",
+      ],
+      gallery: [
+        {
+          url: "/placeholder.svg?height=300&width=400&text=Dashboard",
+          alt: "Dashboard principal",
+          caption: "Panel de usuario",
+        },
+        {
+          url: "/placeholder.svg?height=300&width=400&text=Matches",
+          alt: "Resultados de matching",
+          caption: "Usuarios compatibles",
+        },
+        {
+          url: "/placeholder.svg?height=300&width=400&text=GNN",
+          alt: "Visualización de embeddings",
+          caption: "Graph Neural Network",
+        },
+        {
+          url: "/placeholder.svg?height=300&width=400&text=Analytics",
+          alt: "Estadísticas",
+          caption: "Análisis de compatibilidad",
         },
       ],
     },

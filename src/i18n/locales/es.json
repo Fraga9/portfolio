@@ -75,6 +75,21 @@
           "Eficienté y aceleré procesos críticos al generar gráficas automáticas y reportes de liberación instantáneos con un solo click, transformando un proceso manual de horas en segundos."
         ]
       },
+      "healthwind": {
+        "title": "Healthwind: Monitoreo de Calidad del Aire",
+        "achievements": [
+          "Desarrollé el backend en .NET Core y la aplicación nativa Android para monitorear la calidad del aire en el área metropolitana de Monterrey, midiendo partículas PM 2.5 y PM 10 a través de una red urbana de sensores.",
+          "Implementé tres secciones principales: visualización del sensor más cercano con mediciones IMECA, mapa interactivo de sensores activos, y sistema de información detallada por sensor para aumentar la conciencia sobre la contaminación."
+        ]
+      },
+      "vibematch": {
+        "title": "VibeMatch: Matching Musical con Deep Learning",
+        "linkText": "Sitio Web",
+        "achievements": [
+          "Desarrollé una plataforma que conecta usuarios con gustos musicales similares usando Graph Neural Networks (LightGCN) entrenada con 338K+ tracks y 6.9K+ artistas, logrando búsquedas vectoriales en menos de 10ms con Qdrant.",
+          "Implementé un sistema de embeddings de 128 dimensiones con estrategia multi-temporal y cobertura del 95% de usuarios mediante coincidencias exactas, fuzzy matching y zero-shot inference, alcanzando Recall@10 de 0.64 y latencia end-to-end menor a 800ms."
+        ]
+      },
       "labnl": {
         "title": "Acervo Bibliográfico Digital LABNL: Full Stack Developer",
         "linkText": "Sitio Web",
