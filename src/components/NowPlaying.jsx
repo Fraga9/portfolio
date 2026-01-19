@@ -114,21 +114,18 @@ export default function NowPlaying() {
       </div>
       
       <div className="flex flex-col min-w-0">
-        <div className="flex items-center">
-          <span className="text-xs uppercase tracking-wider text-gray-500 mr-2">
-            {trackInfo.isNowPlaying ? "Escuchando ahora" : "Última canción"}
-          </span>
+        <div className="flex items-center gap-2 mb-1">
+          <p className="text-sm font-medium text-white truncate group-hover:text-[#d0ff00] transition-colors">
+            {trackInfo.track}
+          </p>
           {trackInfo.isNowPlaying && (
-            <div className="flex space-x-1">
+            <div className="flex space-x-1 flex-shrink-0">
               <div className="w-1 h-3 bg-green-500 rounded-full animate-pulse" style={{ animationDelay: "0ms" }}></div>
               <div className="w-1 h-3 bg-green-500 rounded-full animate-pulse" style={{ animationDelay: "200ms" }}></div>
               <div className="w-1 h-3 bg-green-500 rounded-full animate-pulse" style={{ animationDelay: "400ms" }}></div>
             </div>
           )}
         </div>
-        <p className="text-sm font-medium text-white truncate group-hover:text-[#d0ff00] transition-colors">
-          {trackInfo.track}
-        </p>
         <p className="text-xs text-gray-400 truncate">
           {trackInfo.artist} • {trackInfo.album}
         </p>

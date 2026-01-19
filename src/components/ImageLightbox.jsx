@@ -162,10 +162,13 @@ export default function ImageLightbox({ images, initialIndex, isOpen, onClose })
               e.stopPropagation()
               navigatePrev()
             }}
-            className="fixed left-2 sm:left-4 top-1/2 -translate-y-1/2 z-[10001] p-2 sm:p-3 rounded-full bg-white/10 hover:bg-white/20 backdrop-blur-md border border-white/20 text-white transition-all duration-200 opacity-0 hover:opacity-100 focus:opacity-100 active:scale-95"
+            className="fixed left-2 sm:left-4 top-1/2 -translate-y-1/2 z-[10001] p-3 sm:p-4 rounded-full bg-black/40 hover:bg-black/60 backdrop-blur-md border border-white/30 text-white transition-all duration-200 hover:scale-110 active:scale-95 shadow-lg hover:shadow-xl"
             aria-label="Imagen anterior"
+            style={{
+              boxShadow: "0 8px 16px rgba(0, 0, 0, 0.3)",
+            }}
           >
-            <ChevronLeft className="w-6 h-6 sm:w-8 sm:h-8" />
+            <ChevronLeft className="w-6 h-6 sm:w-8 sm:h-8 stroke-[2.5]" />
           </button>
 
           {/* Botón siguiente */}
@@ -174,10 +177,13 @@ export default function ImageLightbox({ images, initialIndex, isOpen, onClose })
               e.stopPropagation()
               navigateNext()
             }}
-            className="fixed right-2 sm:right-4 top-1/2 -translate-y-1/2 z-[10001] p-2 sm:p-3 rounded-full bg-white/10 hover:bg-white/20 backdrop-blur-md border border-white/20 text-white transition-all duration-200 opacity-0 hover:opacity-100 focus:opacity-100 active:scale-95"
+            className="fixed right-2 sm:right-4 top-1/2 -translate-y-1/2 z-[10001] p-3 sm:p-4 rounded-full bg-black/40 hover:bg-black/60 backdrop-blur-md border border-white/30 text-white transition-all duration-200 hover:scale-110 active:scale-95 shadow-lg hover:shadow-xl"
             aria-label="Imagen siguiente"
+            style={{
+              boxShadow: "0 8px 16px rgba(0, 0, 0, 0.3)",
+            }}
           >
-            <ChevronRight className="w-6 h-6 sm:w-8 sm:h-8" />
+            <ChevronRight className="w-6 h-6 sm:w-8 sm:h-8 stroke-[2.5]" />
           </button>
         </>
       )}
