@@ -11,22 +11,14 @@ export default function NowPlaying() {
     const fetchNowPlaying = async () => {
       try {
         setLoading(true)
-        const API_KEY = import.meta.env.VITE_LASTFM_API_KEY
-        const username = "Fraga9" // Usuario de Last.fm
 
-        // Endpoint para obtener la información de la última canción
-        const url = `https://ws.audioscrobbler.com/2.0/?method=user.getrecenttracks&user=${username}&api_key=${API_KEY}&limit=1&format=json`
-        
-        const response = await fetch(url)
-        console.log("response", response)
-        
+        const response = await fetch('/api/lastfm')
+
         if (!response.ok) {
           throw new Error("Error al obtener datos de Last.fm")
-
         }
-        
+
         const data = await response.json()
-        console.log("data", data)
         
         // Verificar si hay tracks en la respuesta
         if (data.recenttracks && data.recenttracks.track && data.recenttracks.track.length > 0) {

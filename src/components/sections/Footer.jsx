@@ -12,26 +12,27 @@ function Footer({ id }) {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
   const [_scrollY, setScrollY] = useState(0)
   const footerRef = useRef(null)
+  const lastMouseUpdateRef = useRef(0)
 
-  // Rastrear posición del mouse para efectos interactivos y scroll profundo
   useEffect(() => {
     let footerViewTracked = false
 
     const handleMouseMove = (e) => {
+      const now = Date.now()
+      if (now - lastMouseUpdateRef.current < 100) return
+      lastMouseUpdateRef.current = now
       setMousePosition({ x: e.clientX, y: e.clientY })
     }
 
     const handleScroll = () => {
       setScrollY(window.scrollY)
 
-      // Track deep scroll (footer visible) only once per session
       if (!footerViewTracked && footerRef.current) {
         const footerRect = footerRef.current.getBoundingClientRect()
         const isFooterVisible = footerRect.top < window.innerHeight && footerRect.bottom > 0
 
         if (isFooterVisible) {
           footerViewTracked = true
-          // Track event with Vercel Analytics
           track('Deep Scroll', {
             section: 'footer',
             scrolled_to_bottom: true
@@ -40,8 +41,8 @@ function Footer({ id }) {
       }
     }
 
-    window.addEventListener("mousemove", handleMouseMove)
-    window.addEventListener("scroll", handleScroll)
+    window.addEventListener("mousemove", handleMouseMove, { passive: true })
+    window.addEventListener("scroll", handleScroll, { passive: true })
 
     return () => {
       window.removeEventListener("mousemove", handleMouseMove)

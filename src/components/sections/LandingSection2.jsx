@@ -23,49 +23,51 @@ function LandingSection() {
   const bubbleRef = useRef(null)
   const buttonRef = useRef(null)
   const terminalGlowRef = useRef(null)
+  const sectionsRef = useRef([])
+  const rafRef = useRef(null)
 
   useEffect(() => {
+    sectionsRef.current = Array.from(
+      document.querySelectorAll("section[id], footer[id]")
+    ).map(el => ({
+      id: el.id,
+      top: el.offsetTop - 100,
+      height: el.offsetHeight
+    }))
+
     const handleScroll = () => {
-      setScrollPos(window.scrollY)
+      if (rafRef.current) return
 
-      // Detectar qué sección está visible actualmente
-      const sections = document.querySelectorAll("section[id], footer[id]")
+      rafRef.current = requestAnimationFrame(() => {
+        const scrollY = window.scrollY
+        const scrollPosition = scrollY + window.innerHeight * 0.5
+        const isNearBottom = window.innerHeight + scrollY >= document.body.offsetHeight - 200
 
-      // Verificar dónde estamos en la página
-      const scrollPosition = window.scrollY + window.innerHeight * 0.5
+        setScrollPos(scrollY)
 
-      // Verificar si estamos cerca del final de la página
-      const isNearBottom = window.innerHeight + window.scrollY >= document.body.offsetHeight - 200
-
-      if (isNearBottom) {
-        // Si estamos cerca del final, activar la sección support (footer)
-        setActiveSection("support")
-      } else {
-        // Detección normal
-        sections.forEach((section) => {
-          const sectionTop = section.offsetTop - 100
-          const sectionHeight = section.offsetHeight
-          const sectionId = section.getAttribute("id")
-
-          if (scrollPosition >= sectionTop && scrollPosition < sectionTop + sectionHeight) {
-            setActiveSection(sectionId)
+        if (scrollY < 100) {
+          setActiveSection("home")
+        } else if (isNearBottom) {
+          setActiveSection("support")
+        } else {
+          for (const section of sectionsRef.current) {
+            if (scrollPosition >= section.top && scrollPosition < section.top + section.height) {
+              setActiveSection(section.id)
+              break
+            }
           }
-        })
-      }
+        }
 
-      // Si estamos al inicio de la página, establecer "home" como activo
-      if (window.scrollY < 100) {
-        setActiveSection("home")
-      }
+        rafRef.current = null
+      })
     }
 
-    window.addEventListener("scroll", handleScroll)
-
-    // Ejecutar una vez al cargar para establecer la sección inicial
+    window.addEventListener("scroll", handleScroll, { passive: true })
     handleScroll()
 
     return () => {
       window.removeEventListener("scroll", handleScroll)
+      if (rafRef.current) cancelAnimationFrame(rafRef.current)
     }
   }, [])
 
@@ -599,6 +601,151 @@ function LandingSection() {
   )
 }
 
+const TERMINAL_COMMANDS = {
+  help: {
+    description: "Muestra todos los comandos disponibles",
+    execute: () => [
+      "═══════════════════════════════════════════════════════════",
+      "                    COMANDOS DISPONIBLES",
+      "═══════════════════════════════════════════════════════════",
+      "",
+      "help        - Muestra esta lista de comandos",
+      "experiencia - Educación, experiencia laboral y skills",
+      "proyecto    - Proyectos destacados (SmartColonia, LABNL...)",
+      "contacto    - Email, LinkedIn, GitHub, teléfono",
+      "sobre       - Información personal y logros",
+      "clear       - Limpia la terminal",
+      "",
+      "Tip: Usa las flechas ↑↓ para navegar por el historial",
+      "",
+      "═══════════════════════════════════════════════════════════"
+    ]
+  },
+  experiencia: {
+    description: "Muestra experiencia profesional",
+    execute: () => [
+      "═══════════════════════════════════════════════════════════",
+      "                  EXPERIENCIA PROFESIONAL",
+      "═══════════════════════════════════════════════════════════",
+      "",
+      "🎓 EDUCACIÓN:",
+      "   • B.S. Computer Science and Technology - TEC",
+      "   • Aug 2022 - June 2026 (Expected)",
+      "   • GPA: 4.0",
+      "   • Concentración: Advanced AI for Data Science",
+      "   • 100% Academic Merit Scholarship",
+      "   • Xignux Challenge 2024 - Top 3 Finalist",
+      "",
+      "💼 EXPERIENCIA:",
+      "   • Full Stack Intern, Cemex (Feb 2025 - Aug 2025)",
+      "     └─ Desarrollé 5 aplicaciones web para operaciones Promexma",
+      "     └─ Sistema LLM para soporte al cliente",
+      "",
+      "   • InStep Internship, Infosys (Jun 2024 - Aug 2024)",
+      "     └─ Sistema de caché semántico con EdgeVerge chatbot",
+      "     └─ Reducción del 90% en tiempo de procesamiento",
+      "",
+      "🚀 SKILLS:",
+      "   • Languages: Python, JavaScript, C++, SQL, Java",
+      "   • Frameworks: React, FastAPI, Django, LangChain, Flask",
+      "   • Tools: Supabase, AWS, Firebase, OCI, GitHub",
+      "",
+      "═══════════════════════════════════════════════════════════"
+    ]
+  },
+  proyecto: {
+    description: "Lista proyectos destacados",
+    execute: () => [
+      "═══════════════════════════════════════════════════════════",
+      "                    PROYECTOS DESTACADOS",
+      "═══════════════════════════════════════════════════════════",
+      "",
+      "🏗️ SmartColonia: Neighborhood Management Platform",
+      "   └─ Tech: FastAPI + React Native + Amazon S3 + Supabase",
+      "   └─ SaaS con 3 niveles de usuario (Beta: 200 users)",
+      "   └─ Control de acceso, pagos, anuncios y encuestas",
+      "   └─ Proyección: 1,000 usuarios en 6 meses",
+      "",
+      "🏗️ Topografía Cemex: Topographic Management System",
+      "   └─ Tech: React + FastAPI + PostgreSQL + Supabase",
+      "   └─ Control de calidad topográfico en construcción vial",
+      "   └─ Cálculos automáticos con cumplimiento SCT",
+      "   └─ Demo: topografia-two.vercel.app",
+      "",
+      "📚 Acervo Bibliográfico Digital LABNL",
+      "   └─ Tech: React + Axios + Google Sheets",
+      "   └─ Colección bibliográfica del Laboratorio Ciudadano NL",
+      "   └─ 20,000 usuarios mensuales, 19,900 visitas (Jun 2024)",
+      "   └─ Website: labnlacervo.web.app",
+      "",
+      "═══════════════════════════════════════════════════════════"
+    ]
+  },
+  contacto: {
+    description: "Información de contacto",
+    execute: () => [
+      "═══════════════════════════════════════════════════════════",
+      "                    INFORMACIÓN DE CONTACTO",
+      "═══════════════════════════════════════════════════════════",
+      "",
+      "📧 EMAIL:",
+      "   └─ garzahector1013@gmail.com",
+      "",
+      "🔗 LINKEDIN:",
+      "   └─ linkedin.com/in/héctor-garza-fraga-6b660723a/",
+      "",
+      "🐙 GITHUB:",
+      "   └─ github.com/Fraga9",
+      "",
+      "💼 DEVPOST:",
+      "   └─ devpost.com/garzahector1013",
+      "",
+      "🌐 PORTFOLIO:",
+      "   └─ osifraga.vercel.app",
+      "",
+      "📱 TELÉFONO:",
+      "   └─ +52 81 1299 5975",
+      "",
+      "📍 UBICACIÓN:",
+      "   └─ Monterrey, MX",
+      "",
+      "═══════════════════════════════════════════════════════════"
+    ]
+  },
+  sobre: {
+    description: "Información personal",
+    execute: () => [
+      "═══════════════════════════════════════════════════════════",
+      "                      SOBRE MÍ",
+      "═══════════════════════════════════════════════════════════",
+      "",
+      "👨‍💻 Héctor Eduardo Garza Fraga",
+      "",
+      "Computer Science student at Tecnológico de Monterrey with",
+      "a 4.0 GPA and 100% Academic Merit Scholarship.",
+      "Specializing in Advanced AI for Data Science.",
+      "",
+      "🎯 ÁREAS DE ESPECIALIZACIÓN:",
+      "   • Full Stack Development (React, FastAPI, Django)",
+      "   • Artificial Intelligence & Machine Learning",
+      "   • LangChain & LLM Applications",
+      "   • Cloud Infrastructure (AWS, Firebase, Supabase)",
+      "   • Mobile Development (React Native)",
+      "",
+      "🏆 LOGROS:",
+      "   • Xignux Challenge 2024 - Top 3 Finalist",
+      "   • 100% Academic Merit Scholarship",
+      "   • Built products serving 20,000+ monthly users",
+      "",
+      "═══════════════════════════════════════════════════════════"
+    ]
+  },
+  clear: {
+    description: "Limpia la terminal",
+    execute: () => null
+  }
+}
+
 // Terminal funcional estilo NERV/Evangelion
 function AnimatedAsciiArt() {
   const [systemStatus, setSystemStatus] = useState('ACTIVE')
@@ -611,151 +758,6 @@ function AnimatedAsciiArt() {
 
   const currentPath = "C:\\Users\\osifraga"
 
-  // Sistema de comandos disponibles
-  const commands = {
-    help: {
-      description: "Muestra todos los comandos disponibles",
-      execute: () => [
-        "═══════════════════════════════════════════════════════════",
-        "                    COMANDOS DISPONIBLES",
-        "═══════════════════════════════════════════════════════════",
-        "",
-        "help        - Muestra esta lista de comandos",
-        "experiencia - Educación, experiencia laboral y skills",
-        "proyecto    - Proyectos destacados (SmartColonia, LABNL...)",
-        "contacto    - Email, LinkedIn, GitHub, teléfono",
-        "sobre       - Información personal y logros",
-        "clear       - Limpia la terminal",
-        "",
-        "Tip: Usa las flechas ↑↓ para navegar por el historial",
-        "",
-        "═══════════════════════════════════════════════════════════"
-      ]
-    },
-    experiencia: {
-      description: "Muestra experiencia profesional",
-      execute: () => [
-        "═══════════════════════════════════════════════════════════",
-        "                  EXPERIENCIA PROFESIONAL",
-        "═══════════════════════════════════════════════════════════",
-        "",
-        "🎓 EDUCACIÓN:",
-        "   • B.S. Computer Science and Technology - TEC",
-        "   • Aug 2022 - June 2026 (Expected)",
-        "   • GPA: 4.0",
-        "   • Concentración: Advanced AI for Data Science",
-        "   • 100% Academic Merit Scholarship",
-        "   • Xignux Challenge 2024 - Top 3 Finalist",
-        "",
-        "💼 EXPERIENCIA:",
-        "   • Full Stack Intern, Cemex (Feb 2025 - Aug 2025)",
-        "     └─ Desarrollé 5 aplicaciones web para operaciones Promexma",
-        "     └─ Sistema LLM para soporte al cliente",
-        "",
-        "   • InStep Internship, Infosys (Jun 2024 - Aug 2024)",
-        "     └─ Sistema de caché semántico con EdgeVerve chatbot",
-        "     └─ Reducción del 90% en tiempo de procesamiento",
-        "",
-        "🚀 SKILLS:",
-        "   • Languages: Python, JavaScript, C++, SQL, Java",
-        "   • Frameworks: React, FastAPI, Django, LangChain, Flask",
-        "   • Tools: Supabase, AWS, Firebase, OCI, GitHub",
-        "",
-        "═══════════════════════════════════════════════════════════"
-      ]
-    },
-    proyecto: {
-      description: "Lista proyectos destacados",
-      execute: () => [
-        "═══════════════════════════════════════════════════════════",
-        "                    PROYECTOS DESTACADOS",
-        "═══════════════════════════════════════════════════════════",
-        "",
-        "🏗️ SmartColonia: Neighborhood Management Platform",
-        "   └─ Tech: FastAPI + React Native + Amazon S3 + Supabase",
-        "   └─ SaaS con 3 niveles de usuario (Beta: 200 users)",
-        "   └─ Control de acceso, pagos, anuncios y encuestas",
-        "   └─ Proyección: 1,000 usuarios en 6 meses",
-        "",
-        "🏗️ Topografía Cemex: Topographic Management System",
-        "   └─ Tech: React + FastAPI + PostgreSQL + Supabase",
-        "   └─ Control de calidad topográfico en construcción vial",
-        "   └─ Cálculos automáticos con cumplimiento SCT",
-        "   └─ Demo: topografia-two.vercel.app",
-        "",
-        "📚 Acervo Bibliográfico Digital LABNL",
-        "   └─ Tech: React + Axios + Google Sheets",
-        "   └─ Colección bibliográfica del Laboratorio Ciudadano NL",
-        "   └─ 20,000 usuarios mensuales, 19,900 visitas (Jun 2024)",
-        "   └─ Website: labnlacervo.web.app",
-        "",
-        "═══════════════════════════════════════════════════════════"
-      ]
-    },
-    contacto: {
-      description: "Información de contacto",
-      execute: () => [
-        "═══════════════════════════════════════════════════════════",
-        "                    INFORMACIÓN DE CONTACTO",
-        "═══════════════════════════════════════════════════════════",
-        "",
-        "📧 EMAIL:",
-        "   └─ garzahector1013@gmail.com",
-        "",
-        "🔗 LINKEDIN:",
-        "   └─ linkedin.com/in/héctor-garza-fraga-6b660723a/",
-        "",
-        "🐙 GITHUB:",
-        "   └─ github.com/Fraga9",
-        "",
-        "💼 DEVPOST:",
-        "   └─ devpost.com/garzahector1013",
-        "",
-        "🌐 PORTFOLIO:",
-        "   └─ osifraga.vercel.app",
-        "",
-        "📱 TELÉFONO:",
-        "   └─ +52 81 1299 5975",
-        "",
-        "📍 UBICACIÓN:",
-        "   └─ Monterrey, MX",
-        "",
-        "═══════════════════════════════════════════════════════════"
-      ]
-    },
-    sobre: {
-      description: "Información personal",
-      execute: () => [
-        "═══════════════════════════════════════════════════════════",
-        "                      SOBRE MÍ",
-        "═══════════════════════════════════════════════════════════",
-        "",
-        "👨‍💻 Héctor Eduardo Garza Fraga",
-        "",
-        "Computer Science student at Tecnológico de Monterrey with",
-        "a 4.0 GPA and 100% Academic Merit Scholarship.",
-        "Specializing in Advanced AI for Data Science.",
-        "",
-        "🎯 ÁREAS DE ESPECIALIZACIÓN:",
-        "   • Full Stack Development (React, FastAPI, Django)",
-        "   • Artificial Intelligence & Machine Learning",
-        "   • LangChain & LLM Applications",
-        "   • Cloud Infrastructure (AWS, Firebase, Supabase)",
-        "   • Mobile Development (React Native)",
-        "",
-        "🏆 LOGROS:",
-        "   • Xignux Challenge 2024 - Top 3 Finalist",
-        "   • 100% Academic Merit Scholarship",
-        "   • Built products serving 20,000+ monthly users",
-        "",
-        "═══════════════════════════════════════════════════════════"
-      ]
-    },
-    clear: {
-      description: "Limpia la terminal",
-      execute: () => null // Comando especial
-    }
-  }
 
   // Inicialización de la terminal
   useEffect(() => {
@@ -803,8 +805,8 @@ function AnimatedAsciiArt() {
       return
     }
 
-    if (commands[command]) {
-      const output = commands[command].execute()
+    if (TERMINAL_COMMANDS[command]) {
+      const output = TERMINAL_COMMANDS[command].execute()
       if (output) {
         newHistory.push(...output)
       }
@@ -938,7 +940,7 @@ function AnimatedAsciiArt() {
             <span className="text-green-400">USUARIO: osifraga</span>
             <span className="text-green-400">SESIÓN: {isInitialized ? 'ACTIVA' : 'INICIANDO...'}</span>
             <span className={`${errorFlash ? 'text-red-400' : 'text-green-400'}`}>
-              COMANDOS: {Object.keys(commands).length}
+              COMANDOS: {Object.keys(TERMINAL_COMMANDS).length}
             </span>
           </div>
         </div>
