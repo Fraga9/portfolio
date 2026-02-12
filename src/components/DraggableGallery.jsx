@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useRef } from "react"
+import { useState, useRef, useEffect } from "react"
 import { useTranslation } from 'react-i18next'
 import ImageLightbox from "./ImageLightbox"
 
@@ -12,6 +12,10 @@ export default function DraggableGallery({ images = [], title }) {
   const [dragOverIndex, setDragOverIndex] = useState(null)
   const dragStartPosRef = useRef(null)
   const dragNodeRef = useRef(null)
+
+  useEffect(() => {
+    setImageList(images)
+  }, [images])
 
   // Estado para la galería modal
   const [isModalOpen, setIsModalOpen] = useState(false)
@@ -47,22 +51,14 @@ export default function DraggableGallery({ images = [], title }) {
     e.dataTransfer.effectAllowed = "move"
     e.dataTransfer.setData("text/plain", index.toString())
 
-    // Crear una imagen fantasma personalizada para el arrastre
-    const ghostImage = e.target.cloneNode(true)
-    ghostImage.style.position = "absolute"
-    ghostImage.style.top = "-1000px"
-    ghostImage.style.opacity = "0.5"
-    document.body.appendChild(ghostImage)
-    e.dataTransfer.setDragImage(
-      ghostImage,
-      e.clientX - e.target.getBoundingClientRect().left,
-      e.clientY - e.target.getBoundingClientRect().top,
-    )
-
-    // Eliminar la imagen fantasma después
-    setTimeout(() => {
-      document.body.removeChild(ghostImage)
-    }, 0)
+    // OPTIMIZACIÓN: Removida manipulación directa del DOM
+    // Antes: Creábamos ghostImage manualmente con appendChild/removeChild
+    // Ahora: Usamos la imagen por defecto del navegador (más eficiente)
+    // Beneficios:
+    // - Sin memory leaks potenciales
+    // - Sin repaint/reflow adicional
+    // - React mantiene control del DOM
+    // - Código más simple y mantenible
   }
 
   const handleDragOver = (e, index) => {

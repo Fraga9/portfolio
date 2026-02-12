@@ -261,7 +261,7 @@ function LandingSection() {
                 {t('hero.description')}
               </p>
 
-              <div className="flex flex-col sm:flex-row items-center justify-center md:justify-start gap-4">
+              <div className="flex flex-row items-center justify-center md:justify-start gap-3 flex-wrap">
                 <button
                   ref={buttonRef}
                   onClick={handleLinkedInClick}
