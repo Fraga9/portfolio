@@ -570,10 +570,10 @@ function LandingSection() {
           </div>
 
           {/* Lado derecho: Terminal interactiva */}
-          <div className="relative p-4 md:p-10">
+          <div className="relative p-4 md:p-4">
             {showTerminal && (
               <div className="animate-in fade-in-0 slide-in-from-right-4 duration-500">
-                <NervTerminal />
+                <NervTerminal onClose={() => setShowTerminal(false)} />
               </div>
             )}
           </div>

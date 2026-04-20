@@ -1,361 +1,401 @@
 "use client"
 
-import { useState, useEffect, useRef, useCallback } from "react"
+import { useEffect, useMemo, useRef, useState } from "react"
 
-// Constantes hoisted a nivel de módulo (no se recrean por render)
-const CURRENT_PATH = "C:\\Users\\osifraga"
-
-const INIT_MESSAGES = [
-  `NERV Terminal v3.33 [Build 2024.07.16]`,
-  `Sistema operativo: MAGI OS`,
-  `Usuario: osifraga`,
-  `Directorio: ${CURRENT_PATH}`,
-  ``,
-  `Escribe 'help' para ver los comandos disponibles.`,
-  ``
-]
-
-const SYSTEM_STATUSES = ['ACTIVE', 'SYNCING', 'PATTERN BLUE', 'ERROR']
-
-const TERMINAL_COMMANDS = {
+const COMMANDS = {
   help: {
-    description: "Muestra todos los comandos disponibles",
+    description: "List available commands",
     execute: () => [
-      "═══════════════════════════════════════════════════════════",
-      "                    COMANDOS DISPONIBLES",
-      "═══════════════════════════════════════════════════════════",
-      "",
-      "help        - Muestra esta lista de comandos",
-      "experiencia - Educación, experiencia laboral y skills",
-      "proyecto    - Proyectos destacados (SmartColonia, LABNL...)",
-      "contacto    - Email, LinkedIn, GitHub, teléfono",
-      "sobre       - Información personal y logros",
-      "clear       - Limpia la terminal",
-      "",
-      "Tip: Usa las flechas ↑↓ para navegar por el historial",
-      "",
-      "═══════════════════════════════════════════════════════════"
+      "AVAILABLE COMMANDS",
+      "help        Show this help list",
+      "experience  Show professional experience",
+      "projects    Show highlighted projects",
+      "contact     Show contact information",
+      "about       Show profile summary",
+      "clear       Clear terminal output"
     ]
   },
-  experiencia: {
-    description: "Muestra experiencia profesional",
+  experience: {
+    description: "Show professional experience",
     execute: () => [
-      "═══════════════════════════════════════════════════════════",
-      "                  EXPERIENCIA PROFESIONAL",
-      "═══════════════════════════════════════════════════════════",
+      "EXPERIENCE",
+      "CEMEX - Full Stack Intern (Feb 2025 - Aug 2025)",
+      "Built 5 internal web apps for Promexma operations.",
+      "Implemented LLM-assisted customer support workflows.",
       "",
-      "🎓 EDUCACIÓN:",
-      "   • B.S. Computer Science and Technology - TEC",
-      "   • Aug 2022 - June 2026 (Expected)",
-      "   • GPA: 4.0",
-      "   • Concentración: Advanced AI for Data Science",
-      "   • 100% Academic Merit Scholarship",
-      "   • Xignux Challenge 2024 - Top 3 Finalist",
-      "",
-      "💼 EXPERIENCIA:",
-      "   • Full Stack Intern, Cemex (Feb 2025 - Aug 2025)",
-      "     └─ Desarrollé 5 aplicaciones web para operaciones Promexma",
-      "     └─ Sistema LLM para soporte al cliente",
-      "",
-      "   • InStep Internship, Infosys (Jun 2024 - Aug 2024)",
-      "     └─ Sistema de caché semántico con EdgeVerve chatbot",
-      "     └─ Reducción del 90% en tiempo de procesamiento",
-      "",
-      "🚀 SKILLS:",
-      "   • Languages: Python, JavaScript, C++, SQL, Java",
-      "   • Frameworks: React, FastAPI, Django, LangChain, Flask",
-      "   • Tools: Supabase, AWS, Firebase, OCI, GitHub",
-      "",
-      "═══════════════════════════════════════════════════════════"
+      "INFOSYS - InStep Internship (Jun 2024 - Aug 2024)",
+      "Developed semantic cache for chatbot PDF retrieval.",
+      "Reduced processing time by 90 percent."
     ]
   },
-  proyecto: {
-    description: "Lista proyectos destacados",
+  projects: {
+    description: "Show highlighted projects",
     execute: () => [
-      "═══════════════════════════════════════════════════════════",
-      "                    PROYECTOS DESTACADOS",
-      "═══════════════════════════════════════════════════════════",
-      "",
-      "🏗️ SmartColonia: Neighborhood Management Platform",
-      "   └─ Tech: FastAPI + React Native + Amazon S3 + Supabase",
-      "   └─ SaaS con 3 niveles de usuario (Beta: 200 users)",
-      "   └─ Control de acceso, pagos, anuncios y encuestas",
-      "   └─ Proyección: 1,000 usuarios en 6 meses",
-      "",
-      "🏗️ Topografía Cemex: Topographic Management System",
-      "   └─ Tech: React + FastAPI + PostgreSQL + Supabase",
-      "   └─ Control de calidad topográfico en construcción vial",
-      "   └─ Cálculos automáticos con cumplimiento SCT",
-      "   └─ Demo: topografia-two.vercel.app",
-      "",
-      "📚 Acervo Bibliográfico Digital LABNL",
-      "   └─ Tech: React + Axios + Google Sheets",
-      "   └─ Colección bibliográfica del Laboratorio Ciudadano NL",
-      "   └─ 20,000 usuarios mensuales, 19,900 visitas (Jun 2024)",
-      "   └─ Website: labnlacervo.web.app",
-      "",
-      "═══════════════════════════════════════════════════════════"
+      "PROJECTS",
+      "SmartColonia: SaaS neighborhood platform (beta users: 200).",
+      "Topografia CEMEX: quality-control system for road construction.",
+      "LABNL Digital Library: platform used by 20,000+ monthly users."
     ]
   },
-  contacto: {
-    description: "Información de contacto",
+  contact: {
+    description: "Show contact information",
     execute: () => [
-      "═══════════════════════════════════════════════════════════",
-      "                    INFORMACIÓN DE CONTACTO",
-      "═══════════════════════════════════════════════════════════",
-      "",
-      "📧 EMAIL:",
-      "   └─ garzahector1013@gmail.com",
-      "",
-      "🔗 LINKEDIN:",
-      "   └─ linkedin.com/in/héctor-garza-fraga-6b660723a/",
-      "",
-      "🐙 GITHUB:",
-      "   └─ github.com/Fraga9",
-      "",
-      "💼 DEVPOST:",
-      "   └─ devpost.com/garzahector1013",
-      "",
-      "🌐 PORTFOLIO:",
-      "   └─ osifraga.vercel.app",
-      "",
-      "📱 TELÉFONO:",
-      "   └─ +52 81 1299 5975",
-      "",
-      "📍 UBICACIÓN:",
-      "   └─ Monterrey, MX",
-      "",
-      "═══════════════════════════════════════════════════════════"
+      "CONTACT",
+      "Email: garzahector1013@gmail.com",
+      "LinkedIn: linkedin.com/in/osifraga",
+      "GitHub: github.com/Fraga9",
+      "Devpost: devpost.com/garzahector1013",
+      "Location: Monterrey, Mexico"
     ]
   },
-  sobre: {
-    description: "Información personal",
+  about: {
+    description: "Show profile summary",
     execute: () => [
-      "═══════════════════════════════════════════════════════════",
-      "                      SOBRE MÍ",
-      "═══════════════════════════════════════════════════════════",
-      "",
-      "👨‍💻 Héctor Eduardo Garza Fraga",
-      "",
-      "Computer Science student at Tecnológico de Monterrey with",
-      "a 4.0 GPA and 100% Academic Merit Scholarship.",
-      "Specializing in Advanced AI for Data Science.",
-      "",
-      "🎯 ÁREAS DE ESPECIALIZACIÓN:",
-      "   • Full Stack Development (React, FastAPI, Django)",
-      "   • Artificial Intelligence & Machine Learning",
-      "   • LangChain & LLM Applications",
-      "   • Cloud Infrastructure (AWS, Firebase, Supabase)",
-      "   • Mobile Development (React Native)",
-      "",
-      "🏆 LOGROS:",
-      "   • Xignux Challenge 2024 - Top 3 Finalist",
-      "   • 100% Academic Merit Scholarship",
-      "   • Built products serving 20,000+ monthly users",
-      "",
-      "═══════════════════════════════════════════════════════════"
+      "ABOUT",
+      "Computer Science student at Tecnologico de Monterrey.",
+      "Focus: Full Stack, AI systems, and developer tooling.",
+      "Built products serving 20,000+ monthly users.",
+      "Open to software engineering opportunities."
     ]
   },
   clear: {
-    description: "Limpia la terminal",
-    execute: () => null // Comando especial
+    description: "Clear terminal output",
+    execute: () => []
   }
 }
 
-const COMMAND_COUNT = Object.keys(TERMINAL_COMMANDS).length
+const ALIASES = {
+  experiencia: "experience",
+  proyecto: "projects",
+  contacto: "contact",
+  sobre: "about"
+}
 
-// Terminal funcional estilo NERV/Evangelion
-function NervTerminal() {
-  const [systemStatus, setSystemStatus] = useState('ACTIVE')
-  const [errorFlash, setErrorFlash] = useState(false)
-  const [currentInput, setCurrentInput] = useState('')
-  const [terminalHistory, setTerminalHistory] = useState([])
-  const [isInitialized, setIsInitialized] = useState(false)
-  const statusRef = useRef(null)
-  const errorTimerRef = useRef(null)
-  const inputRef = useRef(null)
+const COMMAND_NAMES = Object.keys(COMMANDS)
+const MAX_HISTORY_LINES = 220
+const PROMPT = "osifraga@cli:~$"
 
-  // Inicialización de la terminal
+const ASCII_LOGO = `   ____       _ ____                               ___
+  / __ \\_____(_) __/________ _____ _____ _   _____/ (_)
+ / / / / ___/ / /_/ ___/ __ \`/ __ \`/ __ \`/  / ___/ / /
+/ /_/ (__  ) / __/ /  / /_/ / /_/ / /_/ /  / /__/ / /
+\\____/____/_/_/ /_/   \\__,_/\\__, /\\__,_/   \\___/_/_/
+                            /____/                      `
+
+function normalizeCommand(input) {
+  const value = input.trim().toLowerCase()
+  if (!value) return ""
+  const [head, ...rest] = value.split(/\s+/)
+  const resolved = ALIASES[head] || head
+  return [resolved, ...rest].join(" ")
+}
+
+function getSuggestions(value) {
+  const query = value.trim().toLowerCase()
+  if (!query) return []
+
+  return COMMAND_NAMES
+    .map((name) => {
+      if (name === query) return { name, score: 3 }
+      if (name.startsWith(query)) return { name, score: 2 }
+      if (name.includes(query)) return { name, score: 1 }
+      return null
+    })
+    .filter(Boolean)
+    .sort((a, b) => b.score - a.score || a.name.localeCompare(b.name))
+    .map((item) => item.name)
+}
+
+function pushLines(prev, lines) {
+  const next = [...prev, ...lines]
+  if (next.length <= MAX_HISTORY_LINES) return next
+  return next.slice(next.length - MAX_HISTORY_LINES)
+}
+
+export default function NervTerminal({ onClose }) {
+  const [isReady, setIsReady] = useState(false)
+  const [status, setStatus] = useState("READY")
+  const [minimized, setMinimized] = useState(false)
+  const [fullscreen, setFullscreen] = useState(false)
+  const [input, setInput] = useState("")
+  const [output, setOutput] = useState([])
+  const [commandHistory, setCommandHistory] = useState([])
+  const [historyIndex, setHistoryIndex] = useState(-1)
+  const [suggestionIndex, setSuggestionIndex] = useState(0)
+  const outputRef = useRef(null)
+
+  const suggestions = useMemo(() => getSuggestions(input), [input])
+  const activeSuggestion = suggestions[suggestionIndex] || suggestions[0] || ""
+  const ghostText =
+    input.trim() &&
+      activeSuggestion &&
+      activeSuggestion.startsWith(input.trim().toLowerCase())
+      ? activeSuggestion.slice(input.trim().length)
+      : ""
+
   useEffect(() => {
     const initTimer = setTimeout(() => {
-      setIsInitialized(true)
-      setTerminalHistory(INIT_MESSAGES)
-    }, 1000)
+      setIsReady(true)
+      setOutput([
+        "OSIFRAGA CLI v1.0",
+        "Type 'help' to view available commands.",
+        ""
+      ])
+    }, 450)
 
-    // Estados del sistema
-    statusRef.current = setInterval(() => {
-      const randomStatus = SYSTEM_STATUSES[Math.floor(Math.random() * SYSTEM_STATUSES.length)]
-      setSystemStatus(randomStatus)
-
-      if (randomStatus === 'ERROR') {
-        setErrorFlash(true)
-        // Cleanup del timer anterior si existe
-        if (errorTimerRef.current) clearTimeout(errorTimerRef.current)
-        errorTimerRef.current = setTimeout(() => setErrorFlash(false), 300)
-      }
-    }, 5000)
+    const statusTimer = setInterval(() => {
+      setStatus((prev) => (prev === "READY" ? "ACTIVE" : "READY"))
+    }, 6000)
 
     return () => {
       clearTimeout(initTimer)
-      if (statusRef.current) clearInterval(statusRef.current)
-      if (errorTimerRef.current) clearTimeout(errorTimerRef.current)
+      clearInterval(statusTimer)
     }
   }, [])
 
-  // Manejar entrada de comandos — functional setState para evitar stale closures
-  const handleCommand = useCallback((input) => {
-    const command = input.toLowerCase().trim()
+  useEffect(() => {
+    if (!outputRef.current) return
+    outputRef.current.scrollTop = outputRef.current.scrollHeight
+  }, [output])
 
-    if (command === 'clear') {
-      setTerminalHistory([])
+  useEffect(() => {
+    setSuggestionIndex(0)
+  }, [input])
+
+  const runCommand = (rawInput) => {
+    const trimmed = rawInput.trim()
+    const resolved = normalizeCommand(trimmed)
+    const [command] = resolved.split(/\s+/)
+
+    if (!trimmed) {
+      setOutput((prev) => pushLines(prev, [""]))
       return
     }
 
-    setTerminalHistory(prev => {
-      const newHistory = [...prev]
-      // Agregar comando ejecutado
-      newHistory.push(`${CURRENT_PATH}> ${input}`)
+    setCommandHistory((prev) => [...prev, trimmed])
+    setHistoryIndex(-1)
 
-      if (TERMINAL_COMMANDS[command]) {
-        const output = TERMINAL_COMMANDS[command].execute()
-        if (output) {
-          newHistory.push(...output)
-        }
-      } else if (command !== '') {
-        newHistory.push(`ERROR: '${input}' no es un comando reconocido.`)
-        newHistory.push(`Escribe 'help' para ver los comandos disponibles.`)
+    if (command === "clear") {
+      setOutput([])
+      return
+    }
+
+    if (!COMMANDS[command]) {
+      const hint = getSuggestions(command)[0]
+      setOutput((prev) =>
+        pushLines(prev, [
+          `${PROMPT} ${trimmed}`,
+          hint
+            ? `Command not found: '${trimmed}'. Did you mean '${hint}'?`
+            : `Command not found: '${trimmed}'. Type 'help'.`,
+          ""
+        ])
+      )
+      return
+    }
+
+    const lines = COMMANDS[command].execute()
+    setOutput((prev) => pushLines(prev, [`${PROMPT} ${trimmed}`, ...lines, ""]))
+  }
+
+  const applySuggestion = () => {
+    if (!activeSuggestion) return false
+    setInput(activeSuggestion)
+    return true
+  }
+
+  const onKeyDown = (e) => {
+    if (e.key === "Tab") {
+      e.preventDefault()
+      applySuggestion()
+      return
+    }
+
+    if (e.key === "ArrowRight") {
+      if (ghostText) {
+        e.preventDefault()
+        applySuggestion()
+      }
+      return
+    }
+
+    if (e.key === "ArrowDown") {
+      if (suggestions.length > 0 && input.trim()) {
+        e.preventDefault()
+        setSuggestionIndex((prev) => (prev + 1) % suggestions.length)
+        return
       }
 
-      newHistory.push('') // Línea en blanco
-      return newHistory
-    })
-  }, [])
+      if (commandHistory.length > 0) {
+        e.preventDefault()
+        if (historyIndex <= 0) {
+          setHistoryIndex(-1)
+          setInput("")
+        } else {
+          const nextIndex = historyIndex - 1
+          setHistoryIndex(nextIndex)
+          setInput(commandHistory[nextIndex])
+        }
+      }
+      return
+    }
 
-  const handleKeyDown = (e) => {
-    if (e.key === 'Enter') {
-      handleCommand(currentInput)
-      setCurrentInput('')
+    if (e.key === "ArrowUp") {
+      if (commandHistory.length > 0) {
+        e.preventDefault()
+        const nextIndex =
+          historyIndex === -1
+            ? commandHistory.length - 1
+            : Math.min(commandHistory.length - 1, historyIndex + 1)
+        setHistoryIndex(nextIndex)
+        setInput(commandHistory[nextIndex])
+      }
+      return
+    }
+
+    if (e.key === "Enter") {
+      e.preventDefault()
+      runCommand(input)
+      setInput("")
     }
   }
 
-  return (
-    <div className="relative w-full max-w-full">
-      {/* NERV Terminal Header */}
-      <div className="bg-gradient-to-r from-blue-900/20 to-green-900/20 border border-green-500/30 rounded-t-lg p-2 mb-0">
-        <div className="flex items-center justify-between text-xs font-mono">
-          <div className="flex items-center gap-3">
-            <div className="flex gap-1">
-              <div className="w-2 h-2 bg-blue-500 rounded-full animate-pulse"></div>
-              <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse" style={{ animationDelay: '0.5s' }}></div>
-              <div className="w-2 h-2 bg-[#d0ff00] rounded-full animate-pulse" style={{ animationDelay: '1s' }}></div>
-            </div>
-            <span className="text-green-300 font-bold tracking-wider">MAGI-01</span>
-          </div>
-          <div className={`font-bold tracking-wider ${errorFlash ? 'text-red-400 animate-pulse' : 'text-green-400'}`}>
-            {systemStatus}
-          </div>
+  const shell = (
+    <div
+      className={
+        fullscreen
+          ? "fixed inset-4 md:inset-10 z-[200] rounded-xl border border-blue-500/30 bg-[#060b17] shadow-[0_0_80px_rgba(17,24,39,0.9)] overflow-hidden flex flex-col"
+          : "w-full rounded-xl border border-blue-500/30 bg-[#060b17] shadow-[0_0_40px_rgba(17,24,39,0.45)] overflow-hidden flex flex-col " +
+          (minimized ? "h-9" : "h-[380px] md:h-[320px]")
+      }
+    >
+      {/* Title bar */}
+      <div className="h-9 flex-shrink-0 px-3 border-b border-blue-500/25 bg-[#0d1117] flex items-center justify-center relative">
+        <div className="absolute left-3 flex items-center gap-1.5 group/btns">
+          {/* Red — close */}
+          <button
+            onClick={onClose}
+            title="Close"
+            aria-label="Close terminal"
+            className="w-3 h-3 rounded-full bg-red-500 hover:bg-red-400 transition-colors flex items-center justify-center"
+          >
+            <svg className="opacity-0 group-hover/btns:opacity-100 transition-opacity" width="6" height="6" viewBox="0 0 6 6" fill="none">
+              <line x1="1.2" y1="1.2" x2="5.2" y2="5.2" stroke="#7f0000" strokeWidth="1.4" strokeLinecap="round" />
+              <line x1="5.2" y1="1.2" x2="1.2" y2="5.2" stroke="#7f0000" strokeWidth="1.4" strokeLinecap="round" />
+            </svg>
+          </button>
+          {/* Yellow — minimize */}
+          <button
+            onClick={() => setMinimized(m => !m)}
+            title={minimized ? "Restore" : "Minimize"}
+            aria-label={minimized ? "Restore terminal" : "Minimize terminal"}
+            className="w-3 h-3 rounded-full bg-yellow-400 hover:bg-yellow-300 transition-colors flex items-center justify-center"
+          >
+            <svg className="opacity-0 group-hover/btns:opacity-100 transition-opacity" width="6" height="2" viewBox="0 0 6 2" fill="none">
+              <rect x="0.4" y="0.3" width="6" height="2" rx="0.5" fill="#78500a" />
+            </svg>
+          </button>
+          {/* Green — fullscreen */}
+          <button
+            onClick={() => { setFullscreen(f => !f); setMinimized(false) }}
+            title={fullscreen ? "Exit fullscreen" : "Fullscreen"}
+            aria-label={fullscreen ? "Exit fullscreen" : "Enter fullscreen"}
+            className="w-3 h-3 rounded-full bg-green-500 hover:bg-green-400 transition-colors flex items-center justify-center"
+          >
+            <svg className="opacity-0 group-hover/btns:opacity-100 transition-opacity" width="6" height="6" viewBox="0 0 8 8" fill="none">
+              <rect x="0" y="4" width="3.8" height="3.8" fill="#155228" />
+              <rect x="4.2" y="0.2" width="3.8" height="3.8" fill="#155228" />
+              <line x1="0.5" y1="7.5" x2="7.5" y2="0.5" stroke="#155228" strokeWidth="1.2" />
+            </svg>
+          </button>
         </div>
+        <span className="font-mono text-[11px] text-blue-200/70 tracking-wide">
+          osifraga@cli: ~/portfolio/{status.toLowerCase()}
+        </span>
       </div>
 
-      {/* Terminal principal */}
-      <div className="relative bg-black/40 backdrop-blur-sm border border-green-500/30 rounded-b-lg overflow-hidden">
-        {/* Efectos NERV */}
-        <div className="absolute inset-0 pointer-events-none">
-          {/* Escaneo vertical */}
+      {/* Body — hidden when minimized */}
+      {!minimized && (
+        <>
           <div
-            className={`absolute w-full h-0.5 ${errorFlash ? 'bg-red-500/60' : 'bg-green-500/40'} blur-sm`}
+            className="relative flex-1 overflow-hidden flex flex-col"
             style={{
-              animation: 'nervScan 3s linear infinite',
-              boxShadow: `0 0 20px ${errorFlash ? '#ef4444' : '#22c55e'}`
-            }}
-          />
-
-          {/* Grid pattern */}
-          <div
-            className="absolute inset-0 opacity-5"
-            style={{
-              backgroundImage: `
-                linear-gradient(90deg, ${errorFlash ? '#ef4444' : '#22c55e'} 1px, transparent 1px),
-                linear-gradient(${errorFlash ? '#ef4444' : '#22c55e'} 1px, transparent 1px)
-              `,
-              backgroundSize: '30px 30px'
-            }}
-          />
-
-          {/* Hexágonos flotantes reducidos */}
-          {[...Array(3)].map((_, i) => (
-            <div
-              key={i}
-              className={`absolute w-3 h-3 ${errorFlash ? 'text-red-400' : 'text-green-400'} opacity-10`}
-              style={{
-                left: `${20 + i * 30}%`,
-                top: `${10 + i * 20}%`,
-                animation: `float ${4 + i * 0.5}s ease-in-out infinite alternate`,
-                fontSize: '12px'
-              }}
-            >
-              ⬢
-            </div>
-          ))}
-        </div>
-
-        {/* Terminal Output */}
-        <div className="relative z-10 p-3 overflow-y-auto max-h-96">
-          <div
-            className={`font-mono text-xs leading-relaxed transition-colors duration-300 ${errorFlash ? 'text-red-300' : 'text-green-300'
-              }`}
-            style={{
-              fontFamily: '"Consolas", "Monaco", "Courier New", monospace',
-              fontSize: 'clamp(10px, 2vw, 14px)'
+              backgroundImage:
+                "linear-gradient(rgba(59,130,246,0.07) 1px, transparent 1px), linear-gradient(90deg, rgba(59,130,246,0.05) 1px, transparent 1px)",
+              backgroundSize: "24px 24px"
             }}
           >
-            {isInitialized && terminalHistory.map((line, index) => (
-              <div
-                key={index}
-                className="mb-1 whitespace-pre-wrap"
-                style={{ animation: `fadeIn 0.3s ease-out ${index * 0.1}s both` }}
-              >
-                {line}
-              </div>
-            ))}
+            <div className="flex-shrink-0 px-3 pt-3 pb-2 border-b border-blue-500/15 overflow-x-auto">
+              <pre
+                className="font-mono text-blue-300/90 leading-none select-none"
+                style={{ fontSize: fullscreen ? "clamp(7px, 1.6vw, 13px)" : "clamp(5px, 1.4vw, 9px)" }}
+                aria-hidden="true"
+              >{ASCII_LOGO}</pre>
+            </div>
 
-            {/* Input line */}
-            {isInitialized && (
-              <div className="flex items-center mt-2">
-                <span className={`mr-2 ${errorFlash ? 'text-red-400' : 'text-green-400'}`}>
-                  {CURRENT_PATH}&gt;
+            <div
+              ref={outputRef}
+              className="flex-1 overflow-y-auto px-4 py-3 font-mono text-[12px] leading-relaxed text-blue-100"
+              role="log"
+              aria-live="polite"
+            >
+              {!isReady && <div className="text-blue-200/80">Booting osifraga cli...</div>}
+              {isReady && output.map((line, idx) => (
+                <div key={`${idx}-${line}`} className="whitespace-pre-wrap" style={{ animation: `fadeIn 0.2s ease-out ${idx * 0.01}s both` }}>
+                  {line}
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div className="relative h-[42px] px-4 border-t border-blue-500/25 bg-[#0b1224] flex items-center font-mono text-sm">
+            <span className="text-green-300 mr-2 select-none">{PROMPT}</span>
+            <div className="relative flex-1">
+              <input
+                type="text"
+                value={input}
+                onChange={(e) => setInput(e.target.value)}
+                onKeyDown={onKeyDown}
+                className="w-full bg-transparent text-blue-100 outline-none"
+                placeholder="Type a command..."
+                autoFocus
+                spellCheck={false}
+              />
+              {ghostText && (
+                <span className="absolute left-0 top-0 pointer-events-none text-blue-300/40 select-none">
+                  {input}
+                  <span className="text-green-300/70">{ghostText}</span>
                 </span>
-                <input
-                  ref={inputRef}
-                  type="text"
-                  value={currentInput}
-                  onChange={(e) => setCurrentInput(e.target.value)}
-                  onKeyDown={handleKeyDown}
-                  className="bg-transparent outline-none flex-1 text-green-300 caret-green-400"
-                  style={{ fontSize: 'clamp(10px, 2vw, 14px)' }}
-                  placeholder="Escribe un comando..."
-                  autoFocus
-                />
-                <span className={`ml-1 w-2 h-4 ${errorFlash ? 'bg-red-400' : 'bg-green-400'} animate-pulse`}></span>
+              )}
+            </div>
+
+            {suggestions.length > 0 && input.trim() && (
+              <div className="absolute left-[145px] right-4 bottom-[44px] bg-[#0a1020] border border-blue-500/30 rounded-md shadow-lg overflow-hidden z-20">
+                {suggestions.slice(0, 5).map((item, idx) => (
+                  <div
+                    key={item}
+                    className={`px-3 py-1.5 text-xs font-mono ${idx === suggestionIndex ? "bg-blue-500/20 text-green-300" : "text-blue-100/90"}`}
+                  >
+                    {item}
+                  </div>
+                ))}
               </div>
             )}
           </div>
-        </div>
-
-        {/* Status bar inferior */}
-        <div className="bg-gradient-to-r from-green-900/30 to-blue-900/30 border-t border-green-500/30 p-2">
-          <div className="flex justify-between items-center text-xs font-mono">
-            <span className="text-green-400">USUARIO: osifraga</span>
-            <span className="text-green-400">SESIÓN: {isInitialized ? 'ACTIVA' : 'INICIANDO...'}</span>
-            <span className={`${errorFlash ? 'text-red-400' : 'text-green-400'}`}>
-              COMANDOS: {COMMAND_COUNT}
-            </span>
-          </div>
-        </div>
-      </div>
-
+        </>
+      )}
     </div>
   )
-}
 
-export default NervTerminal
+  return (
+    <>
+      {fullscreen && (
+        <div
+          className="fixed inset-0 z-[199] bg-black/70 backdrop-blur-sm"
+          onClick={() => setFullscreen(false)}
+        />
+      )}
+      {shell}
+    </>
+  )
+}

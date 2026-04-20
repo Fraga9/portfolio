@@ -1,5 +1,5 @@
 // components/sections/Header.jsx
-import { useState, useEffect, useRef } from "react"
+import { useState, useEffect, useRef, useMemo } from "react"
 import { useTranslation } from 'react-i18next'
 import Container from "../layout/Container"
 import LanguageSelector from "../LanguageSelector"
@@ -15,56 +15,51 @@ function Header({ scrollPos, activeSection }) {
 
   // Derivar isScrolled directamente del prop (no necesita estado)
   const isScrolled = scrollPos > 50
-  
-  // Cerrar el menú móvil solo cuando hay un cambio de scroll significativo
+
+  // Ref que refleja el valor actual de mobileMenuOpen sin re-suscribir listeners
+  const mobileMenuOpenRef = useRef(mobileMenuOpen)
+  useEffect(() => { mobileMenuOpenRef.current = mobileMenuOpen }, [mobileMenuOpen])
+
+  // Cerrar menú en scroll significativo
   useEffect(() => {
-    // Solo cerrar el menú si hay un cambio real en el scroll (no al hacer clic)
-    const hasScrolled = Math.abs(scrollPos - prevScrollPosRef.current) > 5;
-    
-    if (scrollPos > 10 && mobileMenuOpen && hasScrolled) {
-      setMobileMenuOpen(false);
+    const hasScrolled = Math.abs(scrollPos - prevScrollPosRef.current) > 5
+    if (scrollPos > 10 && mobileMenuOpenRef.current && hasScrolled) {
+      setMobileMenuOpen(false)
     }
-    
-    // Actualizar la referencia de la posición anterior
-    prevScrollPosRef.current = scrollPos;
-  }, [scrollPos, mobileMenuOpen])
-  
-  // Cerrar el menú al hacer clic fuera de él
+    prevScrollPosRef.current = scrollPos
+  }, [scrollPos])
+
+  // Outside-click + Escape unificados en un solo effect estable (deps vacías)
   useEffect(() => {
-    const handleClickOutside = (event) => {
+    const handleClickOutside = (e) => {
       if (
-        mobileMenuOpen && 
-        menuRef.current && 
-        !menuRef.current.contains(event.target) &&
-        !mobileButtonRef.current.contains(event.target)
+        mobileMenuOpenRef.current &&
+        menuRef.current &&
+        !menuRef.current.contains(e.target) &&
+        !mobileButtonRef.current.contains(e.target)
       ) {
         setMobileMenuOpen(false)
       }
     }
-    
-    document.addEventListener("mousedown", handleClickOutside)
-    return () => document.removeEventListener("mousedown", handleClickOutside)
-  }, [mobileMenuOpen])
-  
-  // Cerrar el menú al presionar Escape
-  useEffect(() => {
-    const handleEscapeKey = (e) => {
-      if (e.key === 'Escape' && mobileMenuOpen) {
-        setMobileMenuOpen(false)
-      }
+    const handleEscape = (e) => {
+      if (e.key === "Escape" && mobileMenuOpenRef.current) setMobileMenuOpen(false)
     }
-    
-    document.addEventListener('keydown', handleEscapeKey)
-    return () => document.removeEventListener('keydown', handleEscapeKey)
-  }, [mobileMenuOpen])
-  
-  // Lista de elementos de navegación para mantener DRY
-  const navItems = [
-    { href: "#home", label: t('nav.home'), section: "home" },
-    { href: "#features", label: t('nav.experience'), section: "features" },
-    { href: "#pricing", label: t('nav.projects'), section: "pricing" },
-    { href: "#support", label: t('nav.contact'), section: "support" }
-  ]
+
+    document.addEventListener("mousedown", handleClickOutside)
+    document.addEventListener("keydown", handleEscape)
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside)
+      document.removeEventListener("keydown", handleEscape)
+    }
+  }, [])
+
+  // navItems memoizado — solo se recalcula si cambia el idioma
+  const navItems = useMemo(() => [
+    { href: "#home",     label: t("nav.home"),       section: "home" },
+    { href: "#features", label: t("nav.experience"), section: "features" },
+    { href: "#pricing",  label: t("nav.projects"),   section: "pricing" },
+    { href: "#support",  label: t("nav.contact"),    section: "support" },
+  ], [t])
 
   return (
     <header
@@ -85,7 +80,7 @@ function Header({ scrollPos, activeSection }) {
               aria-label="Ir a inicio"
             >
               <img
-                src="images/logo.png"
+                src="/images/logo.png"
                 alt="Logo"
                 className="h-12 md:h-14 w-auto drop-shadow-lg"
                 height="56"
@@ -126,7 +121,7 @@ function Header({ scrollPos, activeSection }) {
             {/* Botón de menú móvil */}
             <button
               ref={mobileButtonRef}
-              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              onClick={() => setMobileMenuOpen((v) => !v)}
               className="flex items-center justify-center w-12 h-12 rounded-full bg-black/60 text-white border border-white/10 hover:bg-black/80 transition-all duration-300 transform hover:scale-105 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#d0ff00] shadow-lg"
               aria-expanded={mobileMenuOpen}
               aria-controls="mobile-menu"

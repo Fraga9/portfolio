@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useCallback, memo } from "react"
+import { useState, useCallback, useEffect, useLayoutEffect, useRef, memo } from "react"
 import { ChevronDown, ExternalLink } from "lucide-react"
 import { track } from '@vercel/analytics'
 import DraggableGallery from "./DraggableGallery"
@@ -21,19 +21,93 @@ const TechBadge = memo(({ tech, variant = 'default' }) => {
 function ProjectCard({ project, index, galleryTitle, t }) {
   const [isExpanded, setIsExpanded] = useState(false)
   const [isAnimating, setIsAnimating] = useState(false)
+  const cardRef = useRef(null)
+  const expandedTitleRef = useRef(null)
+  const interactionRef = useRef("pointer")
+  const collapseAnchorTopRef = useRef(null)
+  const animationTimeoutRef = useRef(null)
+
+  const markKeyboardInteraction = useCallback((e) => {
+    if (e.key === "Enter" || e.key === " ") {
+      interactionRef.current = "keyboard"
+    }
+  }, [])
+
+  const markPointerInteraction = useCallback(() => {
+    interactionRef.current = "pointer"
+  }, [])
+
+  const openDetails = useCallback((source = "pointer") => {
+    interactionRef.current = source
+    setIsExpanded(true)
+  }, [])
+
+  const closeDetails = useCallback((source = "pointer") => {
+    if (!isExpanded || isAnimating) return
+
+    interactionRef.current = source
+    collapseAnchorTopRef.current = cardRef.current?.getBoundingClientRect().top ?? null
+    setIsAnimating(true)
+
+    if (animationTimeoutRef.current) {
+      clearTimeout(animationTimeoutRef.current)
+    }
+
+    animationTimeoutRef.current = setTimeout(() => {
+      setIsExpanded(false)
+      setIsAnimating(false)
+      animationTimeoutRef.current = null
+    }, 300)
+  }, [isAnimating, isExpanded])
 
   const toggleExpanded = useCallback(() => {
-    setIsExpanded(prev => {
-      if (prev) {
-        setIsAnimating(true)
-        setTimeout(() => {
-          setIsExpanded(false)
-          setIsAnimating(false)
-        }, 300)
+    if (isExpanded) {
+      closeDetails(interactionRef.current)
+      return
+    }
+
+    openDetails(interactionRef.current)
+  }, [closeDetails, isExpanded, openDetails])
+
+  useEffect(() => {
+    return () => {
+      if (animationTimeoutRef.current) {
+        clearTimeout(animationTimeoutRef.current)
       }
-      return !prev
-    })
+    }
   }, [])
+
+  useLayoutEffect(() => {
+    if (!isExpanded || isAnimating || !cardRef.current) return
+
+    const rect = cardRef.current.getBoundingClientRect()
+    const viewportHeight = window.innerHeight || document.documentElement.clientHeight
+    const margin = 24
+    const isBelowViewport = rect.bottom > viewportHeight - margin
+    const isAboveViewport = rect.top < margin
+
+    if (isBelowViewport || isAboveViewport) {
+      cardRef.current.scrollIntoView({ behavior: "smooth", block: "nearest" })
+    }
+
+    if (interactionRef.current === "keyboard") {
+      expandedTitleRef.current?.focus()
+    }
+  }, [isAnimating, isExpanded])
+
+  useLayoutEffect(() => {
+    if (isExpanded || isAnimating || !cardRef.current) return
+    if (collapseAnchorTopRef.current == null) return
+
+    const newTop = cardRef.current.getBoundingClientRect().top
+    const delta = newTop - collapseAnchorTopRef.current
+
+    if (Math.abs(delta) > 16) {
+      window.scrollBy({ top: delta, behavior: "auto" })
+    }
+
+    collapseAnchorTopRef.current = null
+  }, [isAnimating, isExpanded])
 
   const heroImage = project.gallery?.[0]
 
@@ -44,6 +118,7 @@ function ProjectCard({ project, index, galleryTitle, t }) {
 
   return (
     <article
+      ref={cardRef}
       className="group relative overflow-hidden rounded-2xl bg-gradient-to-br from-white/[0.07] to-white/[0.02] border border-white/10 backdrop-blur-sm hover:border-white/20 transition-all duration-500 hover:shadow-2xl hover:shadow-white/5"
       style={{
         animationDelay: `${index * 100}ms`,
@@ -90,6 +165,8 @@ function ProjectCard({ project, index, galleryTitle, t }) {
               <div className="flex items-center gap-3 flex-wrap pt-4">
                 <button
                   onClick={toggleExpanded}
+                  onPointerDown={markPointerInteraction}
+                  onKeyDown={markKeyboardInteraction}
                   className="flex-1 min-w-[140px] flex items-center justify-center gap-2 px-6 py-3 bg-white/5 hover:bg-white/10 border border-white/10 rounded-xl text-white transition-all duration-300 backdrop-blur-sm"
                 >
                   <span className="font-medium">
@@ -130,7 +207,7 @@ function ProjectCard({ project, index, galleryTitle, t }) {
           <div className="p-6 md:p-8 pb-4">
             <div className="flex items-start justify-between gap-4">
               <div className="flex-1 min-w-0">
-                <h3 className="text-xl md:text-2xl font-bold text-white mb-3">
+                <h3 ref={expandedTitleRef} tabIndex={-1} className="text-xl md:text-2xl font-bold text-white mb-3">
                   {project.title}
                 </h3>
                 <div className="flex flex-wrap gap-2">
@@ -230,6 +307,8 @@ function ProjectCard({ project, index, galleryTitle, t }) {
             >
               <button
                 onClick={toggleExpanded}
+                onPointerDown={markPointerInteraction}
+                onKeyDown={markKeyboardInteraction}
                 disabled={isAnimating}
                 className="flex items-center gap-2 px-8 py-3 bg-white/5 hover:bg-white/10 border border-white/10 rounded-xl text-white transition-all duration-300 hover:scale-105 active:scale-95 disabled:opacity-50"
               >
