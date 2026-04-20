@@ -30,6 +30,6 @@ CLAUDE.md
 /docs
 
 # skills
-.agent
-.agents
-.claude
+/.agents
+.CLAUDE
+skills-lock.json

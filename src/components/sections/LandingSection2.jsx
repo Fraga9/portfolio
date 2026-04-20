@@ -1,12 +1,13 @@
 "use client"
 
-import { useState, useEffect, useRef } from "react"
+import { useState, useEffect, useRef, startTransition, lazy, Suspense } from "react"
 import { useTranslation } from 'react-i18next'
 import { track } from '@vercel/analytics'
 import { Analytics } from '../../hooks/useAnalytics'
 import Container from "../layout/Container"
 import Header from "./Header"
-import Dither from './Dither'
+import NervTerminal from "./NervTerminal"
+const Dither = lazy(() => import('./Dither'))
 
 
 function LandingSection() {
@@ -15,59 +16,53 @@ function LandingSection() {
   const [activeSection, setActiveSection] = useState("home")
   const [isAnimating, setIsAnimating] = useState(false)
   const [isHovering, setIsHovering] = useState(false)
-  const [_isGitHubHovering, setIsGitHubHovering] = useState(false)
-  const [_isTerminalHovering, setIsTerminalHovering] = useState(false)
-  const [_isCVHovering, setIsCVHovering] = useState(false)
   const [showTerminal, setShowTerminal] = useState(true)
   const [terminalGlow, setTerminalGlow] = useState(false)
   const bubbleRef = useRef(null)
   const buttonRef = useRef(null)
   const terminalGlowRef = useRef(null)
-  const sectionsRef = useRef([])
-  const rafRef = useRef(null)
 
   useEffect(() => {
-    sectionsRef.current = Array.from(
-      document.querySelectorAll("section[id], footer[id]")
-    ).map(el => ({
-      id: el.id,
-      top: el.offsetTop - 100,
-      height: el.offsetHeight
-    }))
-
+    let rafId = null
+    // Cache la consulta de secciones fuera del handler para evitar querySelectorAll por frame
+    const sections = document.querySelectorAll("section[id], footer[id]")
     const handleScroll = () => {
-      if (rafRef.current) return
+      if (rafId) return
+      rafId = requestAnimationFrame(() => {
+        const currentScrollY = window.scrollY
+        setScrollPos(currentScrollY)
 
-      rafRef.current = requestAnimationFrame(() => {
-        const scrollY = window.scrollY
-        const scrollPosition = scrollY + window.innerHeight * 0.5
-        const isNearBottom = window.innerHeight + scrollY >= document.body.offsetHeight - 200
+        const scrollPosition = currentScrollY + window.innerHeight * 0.5
+        const isNearBottom = window.innerHeight + currentScrollY >= document.body.offsetHeight - 200
 
-        setScrollPos(scrollY)
+        let newSection = "home"
+        if (isNearBottom) {
+          newSection = "support"
+        } else if (currentScrollY >= 100) {
+          sections.forEach((section) => {
+            const sectionTop = section.offsetTop - 100
+            const sectionHeight = section.offsetHeight
+            const sectionId = section.getAttribute("id")
 
-        if (scrollY < 100) {
-          setActiveSection("home")
-        } else if (isNearBottom) {
-          setActiveSection("support")
-        } else {
-          for (const section of sectionsRef.current) {
-            if (scrollPosition >= section.top && scrollPosition < section.top + section.height) {
-              setActiveSection(section.id)
-              break
+            if (scrollPosition >= sectionTop && scrollPosition < sectionTop + sectionHeight) {
+              newSection = sectionId
             }
-          }
+          })
         }
 
-        rafRef.current = null
+        startTransition(() => setActiveSection(newSection))
+        rafId = null
       })
     }
 
     window.addEventListener("scroll", handleScroll, { passive: true })
+
+    // Ejecutar una vez al cargar para establecer la sección inicial
     handleScroll()
 
     return () => {
       window.removeEventListener("scroll", handleScroll)
-      if (rafRef.current) cancelAnimationFrame(rafRef.current)
+      if (rafId) cancelAnimationFrame(rafId)
     }
   }, [])
 
@@ -95,6 +90,8 @@ function LandingSection() {
     setIsAnimating(true)
 
     // Get the click position for animation centering
+    // Guard: verificar que el ref existe antes de acceder al DOM
+    if (!buttonRef.current) return
     const buttonRect = buttonRef.current.getBoundingClientRect()
     const buttonCenterX = buttonRect.left + buttonRect.width / 2
     const buttonCenterY = buttonRect.top + buttonRect.height / 2
@@ -216,23 +213,25 @@ function LandingSection() {
       />
 
       {/* Dither Effect Background */}
-      <div
-        className="fixed inset-0 z-[-1]"
-        style={{
-          opacity: Math.max(1 - scrollPos / 800, 0.5),
-        }}
-      >
-        <Dither
-          waveColor={[0, 0.1, 0.4]}
-          disableAnimation={false}
-          enableMouseInteraction={true}
-          mouseRadius={0.2}
-          colorNum={4}
-          waveAmplitude={0.4}
-          waveFrequency={3}
-          waveSpeed={0.05}
-        />
-      </div>
+      <Suspense fallback={<div className="fixed inset-0 z-[-1] bg-black" />}>
+        <div
+          className="fixed inset-0 z-[-1]"
+          style={{
+            opacity: Math.max(1 - scrollPos / 800, 0.5),
+          }}
+        >
+          <Dither
+            waveColor={[0, 0.1, 0.4]}
+            disableAnimation={false}
+            enableMouseInteraction={true}
+            mouseRadius={0.2}
+            colorNum={4}
+            waveAmplitude={0.4}
+            waveFrequency={3}
+            waveSpeed={0.05}
+          />
+        </div>
+      </Suspense>
 
       {/* Elemento de burbuja para la animación */}
       <div
@@ -263,7 +262,7 @@ function LandingSection() {
                 {t('hero.description')}
               </p>
 
-              <div className="flex flex-row items-center justify-center md:justify-start gap-3 flex-wrap">
+              <div className="flex flex-col sm:flex-row items-center justify-center md:justify-start gap-4">
                 <button
                   ref={buttonRef}
                   onClick={handleLinkedInClick}
@@ -348,8 +347,6 @@ function LandingSection() {
                 {/* GitHub button con estilo liquid glass */}
                 <button
                   onClick={handleGitHubClick}
-                  onMouseEnter={() => setIsGitHubHovering(true)}
-                  onMouseLeave={() => setIsGitHubHovering(false)}
                   aria-label="View GitHub profile"
                   className="
                     group relative w-14 h-14 sm:w-16 sm:h-16
@@ -407,8 +404,6 @@ function LandingSection() {
                 {/* Terminal button con estilo liquid glass */}
                 <button
                   onClick={handleTerminalClick}
-                  onMouseEnter={() => setIsTerminalHovering(true)}
-                  onMouseLeave={() => setIsTerminalHovering(false)}
                   aria-label={showTerminal ? "Close interactive terminal" : "Open interactive terminal"}
                   className={`
                     group relative w-14 h-14 sm:w-16 sm:h-16
@@ -497,8 +492,6 @@ function LandingSection() {
                 {/* CV Download button con estilo liquid glass */}
                 <button
                   onClick={handleCVClick}
-                  onMouseEnter={() => setIsCVHovering(true)}
-                  onMouseLeave={() => setIsCVHovering(false)}
                   className="
                     group relative w-14 h-14 sm:w-16 sm:h-16
                     bg-white/10 backdrop-blur-xl
@@ -580,7 +573,7 @@ function LandingSection() {
           <div className="relative p-4 md:p-10">
             {showTerminal && (
               <div className="animate-in fade-in-0 slide-in-from-right-4 duration-500">
-                <AnimatedAsciiArt />
+                <NervTerminal />
               </div>
             )}
           </div>
@@ -598,391 +591,6 @@ function LandingSection() {
         </div>
       </div>
     </section>
-  )
-}
-
-const TERMINAL_COMMANDS = {
-  help: {
-    description: "Muestra todos los comandos disponibles",
-    execute: () => [
-      "═══════════════════════════════════════════════════════════",
-      "                    COMANDOS DISPONIBLES",
-      "═══════════════════════════════════════════════════════════",
-      "",
-      "help        - Muestra esta lista de comandos",
-      "experiencia - Educación, experiencia laboral y skills",
-      "proyecto    - Proyectos destacados (SmartColonia, LABNL...)",
-      "contacto    - Email, LinkedIn, GitHub, teléfono",
-      "sobre       - Información personal y logros",
-      "clear       - Limpia la terminal",
-      "",
-      "Tip: Usa las flechas ↑↓ para navegar por el historial",
-      "",
-      "═══════════════════════════════════════════════════════════"
-    ]
-  },
-  experiencia: {
-    description: "Muestra experiencia profesional",
-    execute: () => [
-      "═══════════════════════════════════════════════════════════",
-      "                  EXPERIENCIA PROFESIONAL",
-      "═══════════════════════════════════════════════════════════",
-      "",
-      "🎓 EDUCACIÓN:",
-      "   • B.S. Computer Science and Technology - TEC",
-      "   • Aug 2022 - June 2026 (Expected)",
-      "   • GPA: 4.0",
-      "   • Concentración: Advanced AI for Data Science",
-      "   • 100% Academic Merit Scholarship",
-      "   • Xignux Challenge 2024 - Top 3 Finalist",
-      "",
-      "💼 EXPERIENCIA:",
-      "   • Full Stack Intern, Cemex (Feb 2025 - Aug 2025)",
-      "     └─ Desarrollé 5 aplicaciones web para operaciones Promexma",
-      "     └─ Sistema LLM para soporte al cliente",
-      "",
-      "   • InStep Internship, Infosys (Jun 2024 - Aug 2024)",
-      "     └─ Sistema de caché semántico con EdgeVerge chatbot",
-      "     └─ Reducción del 90% en tiempo de procesamiento",
-      "",
-      "🚀 SKILLS:",
-      "   • Languages: Python, JavaScript, C++, SQL, Java",
-      "   • Frameworks: React, FastAPI, Django, LangChain, Flask",
-      "   • Tools: Supabase, AWS, Firebase, OCI, GitHub",
-      "",
-      "═══════════════════════════════════════════════════════════"
-    ]
-  },
-  proyecto: {
-    description: "Lista proyectos destacados",
-    execute: () => [
-      "═══════════════════════════════════════════════════════════",
-      "                    PROYECTOS DESTACADOS",
-      "═══════════════════════════════════════════════════════════",
-      "",
-      "🏗️ SmartColonia: Neighborhood Management Platform",
-      "   └─ Tech: FastAPI + React Native + Amazon S3 + Supabase",
-      "   └─ SaaS con 3 niveles de usuario (Beta: 200 users)",
-      "   └─ Control de acceso, pagos, anuncios y encuestas",
-      "   └─ Proyección: 1,000 usuarios en 6 meses",
-      "",
-      "🏗️ Topografía Cemex: Topographic Management System",
-      "   └─ Tech: React + FastAPI + PostgreSQL + Supabase",
-      "   └─ Control de calidad topográfico en construcción vial",
-      "   └─ Cálculos automáticos con cumplimiento SCT",
-      "   └─ Demo: topografia-two.vercel.app",
-      "",
-      "📚 Acervo Bibliográfico Digital LABNL",
-      "   └─ Tech: React + Axios + Google Sheets",
-      "   └─ Colección bibliográfica del Laboratorio Ciudadano NL",
-      "   └─ 20,000 usuarios mensuales, 19,900 visitas (Jun 2024)",
-      "   └─ Website: labnlacervo.web.app",
-      "",
-      "═══════════════════════════════════════════════════════════"
-    ]
-  },
-  contacto: {
-    description: "Información de contacto",
-    execute: () => [
-      "═══════════════════════════════════════════════════════════",
-      "                    INFORMACIÓN DE CONTACTO",
-      "═══════════════════════════════════════════════════════════",
-      "",
-      "📧 EMAIL:",
-      "   └─ garzahector1013@gmail.com",
-      "",
-      "🔗 LINKEDIN:",
-      "   └─ linkedin.com/in/héctor-garza-fraga-6b660723a/",
-      "",
-      "🐙 GITHUB:",
-      "   └─ github.com/Fraga9",
-      "",
-      "💼 DEVPOST:",
-      "   └─ devpost.com/garzahector1013",
-      "",
-      "🌐 PORTFOLIO:",
-      "   └─ osifraga.vercel.app",
-      "",
-      "📱 TELÉFONO:",
-      "   └─ +52 81 1299 5975",
-      "",
-      "📍 UBICACIÓN:",
-      "   └─ Monterrey, MX",
-      "",
-      "═══════════════════════════════════════════════════════════"
-    ]
-  },
-  sobre: {
-    description: "Información personal",
-    execute: () => [
-      "═══════════════════════════════════════════════════════════",
-      "                      SOBRE MÍ",
-      "═══════════════════════════════════════════════════════════",
-      "",
-      "👨‍💻 Héctor Eduardo Garza Fraga",
-      "",
-      "Computer Science student at Tecnológico de Monterrey with",
-      "a 4.0 GPA and 100% Academic Merit Scholarship.",
-      "Specializing in Advanced AI for Data Science.",
-      "",
-      "🎯 ÁREAS DE ESPECIALIZACIÓN:",
-      "   • Full Stack Development (React, FastAPI, Django)",
-      "   • Artificial Intelligence & Machine Learning",
-      "   • LangChain & LLM Applications",
-      "   • Cloud Infrastructure (AWS, Firebase, Supabase)",
-      "   • Mobile Development (React Native)",
-      "",
-      "🏆 LOGROS:",
-      "   • Xignux Challenge 2024 - Top 3 Finalist",
-      "   • 100% Academic Merit Scholarship",
-      "   • Built products serving 20,000+ monthly users",
-      "",
-      "═══════════════════════════════════════════════════════════"
-    ]
-  },
-  clear: {
-    description: "Limpia la terminal",
-    execute: () => null
-  }
-}
-
-// Terminal funcional estilo NERV/Evangelion
-function AnimatedAsciiArt() {
-  const [systemStatus, setSystemStatus] = useState('ACTIVE')
-  const [errorFlash, setErrorFlash] = useState(false)
-  const [currentInput, setCurrentInput] = useState('')
-  const [terminalHistory, setTerminalHistory] = useState([])
-  const [isInitialized, setIsInitialized] = useState(false)
-  const statusRef = useRef(null)
-  const inputRef = useRef(null)
-
-  const currentPath = "C:\\Users\\osifraga"
-
-
-  // Inicialización de la terminal
-  useEffect(() => {
-    const initTimer = setTimeout(() => {
-      setIsInitialized(true)
-      setTerminalHistory([
-        `NERV Terminal v3.33 [Build 2024.07.16]`,
-        `Sistema operativo: MAGI OS`,
-        `Usuario: osifraga`,
-        `Directorio: ${currentPath}`,
-        ``,
-        `Escribe 'help' para ver los comandos disponibles.`,
-        ``
-      ])
-    }, 1000)
-
-    // Estados del sistema
-    statusRef.current = setInterval(() => {
-      const statuses = ['ACTIVE', 'SYNCING', 'PATTERN BLUE', 'ERROR']
-      const randomStatus = statuses[Math.floor(Math.random() * statuses.length)]
-      setSystemStatus(randomStatus)
-
-      if (randomStatus === 'ERROR') {
-        setErrorFlash(true)
-        setTimeout(() => setErrorFlash(false), 300)
-      }
-    }, 5000)
-
-    return () => {
-      clearTimeout(initTimer)
-      if (statusRef.current) clearInterval(statusRef.current)
-    }
-  }, [])
-
-  // Manejar entrada de comandos
-  const handleCommand = (input) => {
-    const command = input.toLowerCase().trim()
-    const newHistory = [...terminalHistory]
-
-    // Agregar comando ejecutado
-    newHistory.push(`${currentPath}> ${input}`)
-
-    if (command === 'clear') {
-      setTerminalHistory([])
-      return
-    }
-
-    if (TERMINAL_COMMANDS[command]) {
-      const output = TERMINAL_COMMANDS[command].execute()
-      if (output) {
-        newHistory.push(...output)
-      }
-    } else if (command === '') {
-      // No hacer nada con comando vacío
-    } else {
-      newHistory.push(`ERROR: '${input}' no es un comando reconocido.`)
-      newHistory.push(`Escribe 'help' para ver los comandos disponibles.`)
-    }
-
-    newHistory.push('') // Línea en blanco
-    setTerminalHistory(newHistory)
-  }
-
-  const handleKeyPress = (e) => {
-    if (e.key === 'Enter') {
-      handleCommand(currentInput)
-      setCurrentInput('')
-    }
-  }
-
-  return (
-    <div className="relative w-full max-w-full">
-      {/* NERV Terminal Header */}
-      <div className="bg-gradient-to-r from-blue-900/20 to-green-900/20 border border-green-500/30 rounded-t-lg p-2 mb-0">
-        <div className="flex items-center justify-between text-xs font-mono">
-          <div className="flex items-center gap-3">
-            <div className="flex gap-1">
-              <div className="w-2 h-2 bg-blue-500 rounded-full animate-pulse"></div>
-              <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse" style={{ animationDelay: '0.5s' }}></div>
-              <div className="w-2 h-2 bg-[#d0ff00] rounded-full animate-pulse" style={{ animationDelay: '1s' }}></div>
-            </div>
-            <span className="text-green-300 font-bold tracking-wider">MAGI-01</span>
-          </div>
-          <div className={`font-bold tracking-wider ${errorFlash ? 'text-red-400 animate-pulse' : 'text-green-400'}`}>
-            {systemStatus}
-          </div>
-        </div>
-      </div>
-
-      {/* Terminal principal */}
-      <div className="relative bg-black/40 backdrop-blur-sm border border-green-500/30 rounded-b-lg overflow-hidden">
-        {/* Efectos NERV */}
-        <div className="absolute inset-0 pointer-events-none">
-          {/* Escaneo vertical */}
-          <div
-            className={`absolute w-full h-0.5 ${errorFlash ? 'bg-red-500/60' : 'bg-green-500/40'} blur-sm`}
-            style={{
-              animation: 'nervScan 3s linear infinite',
-              boxShadow: `0 0 20px ${errorFlash ? '#ef4444' : '#22c55e'}`
-            }}
-          />
-
-          {/* Grid pattern */}
-          <div
-            className="absolute inset-0 opacity-5"
-            style={{
-              backgroundImage: `
-                linear-gradient(90deg, ${errorFlash ? '#ef4444' : '#22c55e'} 1px, transparent 1px),
-                linear-gradient(${errorFlash ? '#ef4444' : '#22c55e'} 1px, transparent 1px)
-              `,
-              backgroundSize: '30px 30px'
-            }}
-          />
-
-          {/* Hexágonos flotantes reducidos */}
-          {[...Array(3)].map((_, i) => (
-            <div
-              key={i}
-              className={`absolute w-3 h-3 ${errorFlash ? 'text-red-400' : 'text-green-400'} opacity-10`}
-              style={{
-                left: `${20 + i * 30}%`,
-                top: `${10 + i * 20}%`,
-                animation: `float ${4 + i * 0.5}s ease-in-out infinite alternate`,
-                fontSize: '12px'
-              }}
-            >
-              ⬢
-            </div>
-          ))}
-        </div>
-
-        {/* Terminal Output */}
-        <div className="relative z-10 p-3 overflow-y-auto max-h-96">
-          <div
-            className={`font-mono text-xs leading-relaxed transition-colors duration-300 ${errorFlash ? 'text-red-300' : 'text-green-300'
-              }`}
-            style={{
-              fontFamily: '"Consolas", "Monaco", "Courier New", monospace',
-              fontSize: 'clamp(10px, 2vw, 14px)'
-            }}
-          >
-            {isInitialized && terminalHistory.map((line, index) => (
-              <div
-                key={index}
-                className="mb-1 whitespace-pre-wrap"
-                style={{
-                  animation: `fadeIn 0.3s ease-out ${index * 0.1}s both`
-                }}
-              >
-                {line}
-              </div>
-            ))}
-
-            {/* Input line */}
-            {isInitialized && (
-              <div className="flex items-center mt-2">
-                <span className={`mr-2 ${errorFlash ? 'text-red-400' : 'text-green-400'}`}>
-                  {currentPath}&gt;
-                </span>
-                <input
-                  ref={inputRef}
-                  type="text"
-                  value={currentInput}
-                  onChange={(e) => setCurrentInput(e.target.value)}
-                  onKeyPress={handleKeyPress}
-                  className="bg-transparent outline-none flex-1 text-green-300 caret-green-400"
-                  style={{ fontSize: 'clamp(10px, 2vw, 14px)' }}
-                  placeholder="Escribe un comando..."
-                  autoFocus
-                />
-                <span className={`ml-1 w-2 h-4 ${errorFlash ? 'bg-red-400' : 'bg-green-400'} animate-pulse`}></span>
-              </div>
-            )}
-          </div>
-        </div>
-
-        {/* Status bar inferior */}
-        <div className="bg-gradient-to-r from-green-900/30 to-blue-900/30 border-t border-green-500/30 p-2">
-          <div className="flex justify-between items-center text-xs font-mono">
-            <span className="text-green-400">USUARIO: osifraga</span>
-            <span className="text-green-400">SESIÓN: {isInitialized ? 'ACTIVA' : 'INICIANDO...'}</span>
-            <span className={`${errorFlash ? 'text-red-400' : 'text-green-400'}`}>
-              COMANDOS: {Object.keys(TERMINAL_COMMANDS).length}
-            </span>
-          </div>
-        </div>
-      </div>
-
-      <style jsx>{`
-        @keyframes nervScan {
-          0% { transform: translateY(-100%); opacity: 0; }
-          10% { opacity: 1; }
-          90% { opacity: 1; }
-          100% { transform: translateY(100%); opacity: 0; }
-        }
-        
-        @keyframes float {
-          0% { transform: translateY(0) rotate(0deg); }
-          100% { transform: translateY(-8px) rotate(180deg); }
-        }
-        
-        @keyframes fadeIn {
-          from { opacity: 0; transform: translateX(-10px); }
-          to { opacity: 1; transform: translateX(0); }
-        }
-        
-        /* Scrollbar personalizado */
-        .overflow-y-auto::-webkit-scrollbar {
-          width: 6px;
-        }
-        
-        .overflow-y-auto::-webkit-scrollbar-track {
-          background: rgba(0, 0, 0, 0.2);
-        }
-        
-        .overflow-y-auto::-webkit-scrollbar-thumb {
-          background: rgba(34, 197, 94, 0.5);
-          border-radius: 3px;
-        }
-        
-        .overflow-y-auto::-webkit-scrollbar-thumb:hover {
-          background: rgba(34, 197, 94, 0.8);
-        }
-      `}</style>
-    </div>
   )
 }
 

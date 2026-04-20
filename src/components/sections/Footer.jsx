@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect, useRef } from "react"
+import { useEffect, useRef } from "react"
 import { useTranslation } from 'react-i18next'
 import { track } from '@vercel/analytics'
 import Container from "../layout/Container"
@@ -9,52 +9,29 @@ import LastFmLink from "../LastFmLink"
 
 function Footer({ id }) {
   const { t } = useTranslation()
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
-  const [_scrollY, setScrollY] = useState(0)
   const footerRef = useRef(null)
-  const lastMouseUpdateRef = useRef(0)
 
+  // Tracking de visibilidad del footer con IntersectionObserver (una sola vez)
   useEffect(() => {
-    let footerViewTracked = false
-
-    const handleMouseMove = (e) => {
-      const now = Date.now()
-      if (now - lastMouseUpdateRef.current < 100) return
-      lastMouseUpdateRef.current = now
-      setMousePosition({ x: e.clientX, y: e.clientY })
-    }
-
-    const handleScroll = () => {
-      setScrollY(window.scrollY)
-
-      if (!footerViewTracked && footerRef.current) {
-        const footerRect = footerRef.current.getBoundingClientRect()
-        const isFooterVisible = footerRect.top < window.innerHeight && footerRect.bottom > 0
-
-        if (isFooterVisible) {
-          footerViewTracked = true
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting) {
           track('Deep Scroll', {
             section: 'footer',
             scrolled_to_bottom: true
           })
+          observer.disconnect()
         }
-      }
+      },
+      { threshold: 0.1 }
+    )
+
+    if (footerRef.current) {
+      observer.observe(footerRef.current)
     }
 
-    window.addEventListener("mousemove", handleMouseMove, { passive: true })
-    window.addEventListener("scroll", handleScroll, { passive: true })
-
-    return () => {
-      window.removeEventListener("mousemove", handleMouseMove)
-      window.removeEventListener("scroll", handleScroll)
-    }
+    return () => observer.disconnect()
   }, [])
-
-  // Calcular ángulos para efectos basados en el mouse
-  const _calcRotation = (idx) => {
-    const baseAngle = (mousePosition.x / window.innerWidth) * 5 - 2.5
-    return baseAngle + idx * 0.2
-  }
 
   const socialLinks = [
     {

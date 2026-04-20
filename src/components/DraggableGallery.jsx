@@ -128,7 +128,7 @@ export default function DraggableGallery({ images = [], title }) {
       <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
         {imageList.map((image, index) => (
           <div
-            key={index}
+            key={image.url || index}
             className={`relative rounded-lg overflow-hidden border ${
               draggingIndex === index
                 ? "border-[#d0ff00] opacity-50 scale-95"

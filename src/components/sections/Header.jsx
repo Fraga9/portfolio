@@ -7,12 +7,14 @@ import LanguageSelector from "../LanguageSelector"
 function Header({ scrollPos, activeSection }) {
   const { t } = useTranslation()
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
-  const [isScrolled, setIsScrolled] = useState(scrollPos > 50)
   const menuRef = useRef(null)
   const mobileButtonRef = useRef(null)
   
   // Variables para rastrear el scroll previo
   const prevScrollPosRef = useRef(scrollPos);
+
+  // Derivar isScrolled directamente del prop (no necesita estado)
+  const isScrolled = scrollPos > 50
   
   // Cerrar el menú móvil solo cuando hay un cambio de scroll significativo
   useEffect(() => {
@@ -22,9 +24,6 @@ function Header({ scrollPos, activeSection }) {
     if (scrollPos > 10 && mobileMenuOpen && hasScrolled) {
       setMobileMenuOpen(false);
     }
-    
-    // Actualizar estado de scroll para animaciones
-    setIsScrolled(scrollPos > 50);
     
     // Actualizar la referencia de la posición anterior
     prevScrollPosRef.current = scrollPos;
@@ -89,7 +88,6 @@ function Header({ scrollPos, activeSection }) {
                 src="images/logo.png"
                 alt="Logo"
                 className="h-12 md:h-14 w-auto drop-shadow-lg"
-                width="auto"
                 height="56"
               />
             </a>

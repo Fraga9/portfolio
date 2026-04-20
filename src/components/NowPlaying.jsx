@@ -13,7 +13,6 @@ export default function NowPlaying() {
         setLoading(true)
 
         const response = await fetch('/api/lastfm')
-
         if (!response.ok) {
           throw new Error("Error al obtener datos de Last.fm")
         }
